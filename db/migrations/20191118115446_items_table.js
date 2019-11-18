@@ -1,6 +1,6 @@
 exports.up = function(connection) {
   return connection.schema.createTable("items", itemsTable => {
-    itemsTable.increment("item_id").primary();
+    itemsTable.increments("item_id").primary();
     itemsTable.string("owner").references("users.username");
     itemsTable.string("category").references("categories.slug");
     itemsTable.text("body").notNullable();

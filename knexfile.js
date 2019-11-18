@@ -7,18 +7,19 @@ const baseConfig = {
   },
   seeds: {
     directory: "./db/seeds"
-  }
+  },
+  useNullAsDefault: true
 };
 
 const customConfig = {
   development: {
     connection: {
-      database: "./db/kitlet_project.db"
+      filename: "./db/kitlet_project.db"
     }
   },
   test: {
     connection: {
-      database: "./db/kitlet_project_test.db"
+      filename: "./db/kitlet_project_test.db"
     }
   }
 };
