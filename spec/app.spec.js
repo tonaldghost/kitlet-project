@@ -34,6 +34,27 @@ describe("/api", () => {
           });
       });
     });
+    // potential errors for this post request are rife.
+    // passed false for is_available? invalid owner?
+    // think we need price in items table?
+    // error when sending image off to firebase?
+    describe.only("POST RESOLVED", () => {
+      it("Status: 200, adds new item and returns the object just added in full. (returned on key of item)", () => {
+        return request(app)
+          .post("/api/items")
+          .send({
+            owner: "umayrs95",
+            body: "my new music thing up for grabs guys - only $10!",
+            category: "Music",
+            img_url: "hhtp:fakeimg",
+            is_available: true
+          })
+          .expect(200)
+          .then(({ body }) => {
+            console.log(body);
+          });
+      });
+    });
   });
   describe("/items/:item_id", () => {
     describe("GET RESOLVED", () => {

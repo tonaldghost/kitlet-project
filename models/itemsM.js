@@ -10,3 +10,7 @@ exports.selectItemById = item_id => {
     .from("items")
     .where("items.item_id", "=", item_id);
 };
+
+exports.postItem = newItem => {
+  return connection("items").insert(newItem);
+};
