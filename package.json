@@ -4,7 +4,10 @@
   "description": "Group project (inc Umayr, Aaron and Tony)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "create-test-db": "sqlite3 ./db/kitlet_project_test.db",
+    "create-dev-db": "sqlite3 ./db/kitlet_project.db",
+    "migrate-make": "knex migrate:make"
   },
   "repository": {
     "type": "git",
