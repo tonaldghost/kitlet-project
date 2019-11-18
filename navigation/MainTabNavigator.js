@@ -1,78 +1,120 @@
-import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import React from "react";
+import { Platform } from "react-native";
+import {
+  createStackNavigator,
+  createBottomTabNavigator
+} from "react-navigation";
 
-import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import tintColor from "../constants/Colors";
+import TabBarIcon from "../components/TabBarIcon";
+import DiscoverScreen from "../screens/DiscoverScreen";
+import LinksScreen from "../screens/LinksScreen";
+import LetScreen from "../screens/LetScreen";
+import SettingsScreen from "../screens/SettingsScreen";
 
 const config = Platform.select({
-  web: { headerMode: 'screen' },
-  default: {},
+  web: { headerMode: "screen" },
+  default: {}
 });
 
-const HomeStack = createStackNavigator(
+const DiscoverStack = createStackNavigator(
   {
-    Home: HomeScreen,
+    Discover: DiscoverScreen
   },
   config
 );
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+DiscoverStack.navigationOptions = {
+  tabBarLabel: "Discover",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
       name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+        Platform.OS === "ios"
+          ? `ios-home${focused ? "" : "-outline"}`
+          : "md-home"
       }
     />
-  ),
+  )
 };
 
-HomeStack.path = '';
+DiscoverStack.path = "";
+
+const LetStack = createStackNavigator(
+  {
+    Let: LetScreen
+  },
+  config
+);
+
+LetStack.navigationOptions = {
+  tabBarLabel: "Let",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === "ios"
+          ? `ios-cash${focused ? "" : "-outline"}`
+          : "md-cash"
+      }
+    />
+  )
+};
+
+LetStack.path = "";
 
 const LinksStack = createStackNavigator(
   {
-    Links: LinksScreen,
+    Links: LinksScreen
   },
   config
 );
 
 LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+  tabBarLabel: "Profile",
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
-  ),
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-person" : "md-person"}
+    />
+  )
 };
 
-LinksStack.path = '';
+LinksStack.path = "";
 
 const SettingsStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    Settings: SettingsScreen
   },
   config
 );
 
 SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+  tabBarLabel: "Notifications",
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
-  ),
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-notifications" : "md-notifications"}
+    />
+  )
 };
 
-SettingsStack.path = '';
+SettingsStack.path = "";
 
-const tabNavigator = createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
-});
+const tabNavigator = createBottomTabNavigator(
+  {
+    DiscoverStack,
+    LetStack,
+    LinksStack,
+    SettingsStack
+  },
+  {
+    tabBarOptions: {
+      activeTintColor: tintColor
+    }
+  }
+);
 
-tabNavigator.path = '';
+tabNavigator.path = "";
 
 export default tabNavigator;

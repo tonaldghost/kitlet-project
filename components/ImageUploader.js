@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, Button, Text, View, Alert } from "react-native";
+import { StyleSheet, Button, View, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as firebase from "firebase";
 import ApiKeys from "../constants/ApiKeys";
@@ -7,8 +7,9 @@ import ApiKeys from "../constants/ApiKeys";
 if (!firebase.apps.length) {
   firebase.initializeApp(ApiKeys.FirebaseConfig);
 }
+const username = 'aaroniousbosch';
 
-export default class HomeScreen extends React.Component {
+export default class ImageUploader extends React.Component {
   static navigationOptions = {
     header: null,
     takePicture: false
@@ -19,7 +20,7 @@ export default class HomeScreen extends React.Component {
     let result = await ImagePicker.launchImageLibraryAsync();
 
     if (!result.cancelled) {
-      this.uploadImage(result.uri, Date.now())
+      this.uploadImage(result.uri, `${username}-${Date.now()}`)
         .then(res => {
           console.log(res);
           Alert.alert("Success");
@@ -67,6 +68,8 @@ export default class HomeScreen extends React.Component {
   }
 }
 
+
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingTop: 50, alignItems: "center" }
-});
+    container: { flex: 1, paddingTop: 50, alignItems: "center" }
+  });
+  
