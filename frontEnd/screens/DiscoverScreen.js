@@ -102,7 +102,7 @@ export default class DiscoverScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Welcome to Kitlet</Text>
+        <Text style={styles.header}>Kitlet</Text>
         <SearchBar
           orderByPrice={this.orderByPrice}
           filterResults={this.filterResults}
@@ -120,5 +120,5 @@ export default class DiscoverScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: { paddingTop: 50, paddingBottom: 84 },
-  header: { fontSize: 22 }
+  header: { fontSize: 22, textAlign: "center", borderWidth: 1 }
 });
