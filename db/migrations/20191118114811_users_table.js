@@ -7,5 +7,5 @@ exports.up = function (connection) {
 };
 
 exports.down = function (connection) {
-	connection.schema.dropTable('users');
+	return connection.schema.dropTable('users');
 };

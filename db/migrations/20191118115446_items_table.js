@@ -6,9 +6,10 @@ exports.up = function (connection) {
 		itemsTable.text('body').notNullable();
 		itemsTable.string('img_url').notNullable();
 		itemsTable.boolean('is_available').notNullable();
+		itemsTable.integer('price').notNullable();
 	});
 };
 
 exports.down = function (connection) {
-	connection.schema.dropTable('items');
+	return connection.schema.dropTable('items');
 };
