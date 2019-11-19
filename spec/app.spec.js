@@ -32,24 +32,24 @@ describe('/api', () => {
 		// passed false for is_available? invalid owner?
 		// think we need price in items table?
 		// error when sending image off to firebase?
-		// describe('POST RESOLVED', () => {
-		// 	it('Status: 200, adds new item and returns the object just added in full. (returned on key of item)', () => {
-		// 		return request(app)
-		// 			.post('/api/items')
-		// 			.send({
-		// 				owner: 'umayrs95',
-		// 				body: 'my new music thing up for grabs guys - only $10!',
-		// 				category: 'Music',
-		// 				img_url: 'hhtp:fakeimg',
-		// 				is_available: true,
-		// 				price: 10
-		// 			})
-		// 			.expect(200)
-		// 			.then(({ body }) => {
-		// 				console.log(body);
-		// 			});
-		// 	});
-		// });
+		describe('POST RESOLVED', () => {
+			it('Status: 200, adds new item and returns the object just added in full. (returned on key of item)', () => {
+				return request(app)
+					.post('/api/items')
+					.send({
+						owner: 'umayrs95',
+						body: 'my new music thing up for grabs guys - only $10!',
+						category: 'Music',
+						img_url: 'hhtp:fakeimg',
+						is_available: true,
+						price: 10
+					})
+					.expect(200)
+					.then(({ body: { item } }) => {
+						expect(item).to.contain.keys('item_id', 'owner', 'category', 'body', 'img_url', 'is_available', 'price');
+					});
+			});
+		});
 	});
 	describe('/items/:item_id', () => {
 		describe('GET RESOLVED', () => {

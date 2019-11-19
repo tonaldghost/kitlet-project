@@ -3,6 +3,7 @@ exports.up = function (connection) {
 		usersTable.string('img');
 		usersTable.string('fullname').notNullable();
 		usersTable.string('username').unique().primary().notNullable();
+		usersTable.string('location');
 	});
 };
 

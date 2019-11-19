@@ -7,6 +7,7 @@ exports.up = function (connection) {
 		itemsTable.string('img_url').notNullable();
 		itemsTable.boolean('is_available').notNullable();
 		itemsTable.integer('price').notNullable();
+		itemsTable.string('location').references('users.location');
 	});
 };
 
