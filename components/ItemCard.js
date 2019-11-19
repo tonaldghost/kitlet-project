@@ -12,6 +12,10 @@ const ItemCard = ({ props }) => {
         )}
         <Text style={styles.title}>{props.title}</Text>
         <Text style={styles.location}>{props.location}</Text>
+        <Text style={styles.price}>
+          £{props.price}
+          <Text style={styles.perDay}>/day</Text>
+        </Text>
       </View>
     </View>
   );
@@ -28,7 +32,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
     width: "auto",
     flexDirection: "row",
-    marginBottom: 32,
+    marginBottom: 8,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 4,
@@ -39,10 +43,19 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -32,
     right: 12,
-    color: mainGreen.mainGreen
+    color: mainGreen.mainGreen,
+    padding: 10
   },
   innerContent: { flex: 2, paddingLeft: 16 },
-  itemCardImage: { flex: 1, width: 64, height: 64, margin: "auto" }
+  itemCardImage: { flex: 1, width: 64, height: 64, margin: "auto" },
+  price: {
+    fontWeight: "800",
+    color: mainGreen.mainGreen
+  },
+  perDay: {
+    fontWeight: "400",
+    color: "black"
+  }
 });
 
 export default ItemCard;
