@@ -97,4 +97,11 @@ describe('/api', () => {
 			});
 		});
 	});
+	describe('/requests/:item_id', () => {
+		it('Status:200 and returns all requested items by id', () => {
+			return request(app).get('/api/requests?username=umayrs95').expect(200).then(({ body: { requests } }) => {
+				expect(requests[0].owner).to.equal('umayrs95');
+			});
+		});
+	});
 });
