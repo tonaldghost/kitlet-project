@@ -97,10 +97,33 @@ describe('/api', () => {
 			});
 		});
 	});
-	describe('/requests/:item_id', () => {
-		it('Status:200 and returns all requested items by id', () => {
-			return request(app).get('/api/requests?username=umayrs95').expect(200).then(({ body: { requests } }) => {
-				expect(requests[0].owner).to.equal('umayrs95');
+	describe.only('/requests', () => {
+		describe('/incoming', () => {
+			it('Status:200 and returns all requested items by username query', () => {
+				return request(app)
+					.get('/api/requests/incoming?username=umayrs95')
+					.expect(200)
+					.then(({ body: { incoming } }) => {
+						expect(incoming[0].owner).to.equal('umayrs95');
+					});
+			});
+			it('Status:200 and returns all requestees requests by query', () => {
+				return request(app)
+					.get('/api/requests/incoming?username=aaroniousbosch')
+					.expect(200)
+					.then(({ body: { incoming } }) => {
+						expect(incoming[0].owner).to.equal('aaroniousbosch');
+					});
+			});
+		});
+		describe('/outgoing', () => {
+			it('Status:200 and returns all outgoing requests by username query', () => {
+				return request(app)
+					.get('/api/requests/outgoing?username=umayrs95')
+					.expect(200)
+					.then(({ body: { outgoing } }) => {
+						expect(outgoing[0].request_user).to.equal('umayrs95');
+					});
 			});
 		});
 	});

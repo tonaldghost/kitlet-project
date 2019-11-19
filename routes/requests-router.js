@@ -1,6 +1,7 @@
 const requestsRouter = require('express').Router();
-const { getOwnerRequests } = require('../controllers/requestsC');
+const { getOwnerRequests, getRequesteeRequests } = require('../controllers/requestsC');
 
-requestsRouter.route('/').get(getOwnerRequests);
+requestsRouter.route('/incoming').get(getOwnerRequests);
+requestsRouter.route('/outgoing').get(getRequesteeRequests);
 
 module.exports = requestsRouter;
