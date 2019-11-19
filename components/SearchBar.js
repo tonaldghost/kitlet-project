@@ -11,7 +11,8 @@ export default class SearchBar extends Component {
   handleInput = e => {
     if (this.state.searchInput.length > 2) {
       // passed refefernere as prop
-      console.log("woof");
+      this.props.filterResults(e.nativeEvent.text);
+      // console.log("woof");
     }
     this.setState({ searchInput: e.nativeEvent.text });
   };

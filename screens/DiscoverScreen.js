@@ -61,11 +61,18 @@ export default class DiscoverScreen extends React.Component {
       }
     ]
   };
+  filterResults = searchTerm => {
+    const itemsClone = [...this.state.items];
+    const filteredItems = itemsClone.filter(item => {
+      return item.title.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+    this.setState({ items: filteredItems });
+  };
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.header}>Welcome to Kitlet</Text>
-        <SearchBar />
+        <SearchBar filterResults={this.filterResults} />
         <ScrollView>
           {this.state.items.map((item, index) => {
             return <ItemCard key={index} props={item} />;
