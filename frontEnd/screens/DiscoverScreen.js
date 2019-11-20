@@ -19,7 +19,6 @@ import tintColor from "../constants/Colors";
 import Icon from "react-native-vector-icons/EvilIcons";
 const myIcon = <Icon name="location" size={30} color={tintColor.tintColor} />;
 
-
 const dummyData = [
   {
     title: "1984 Minimoog",
@@ -92,7 +91,6 @@ class DiscoverScreen extends React.Component {
     items: dummyData
   };
   orderByPrice = ascending => {
-    console.log("ordering by price function", ascending);
     this.setState(currentState => {
       const itemsClone = [...currentState.items];
       const sortedItems = itemsClone.sort((a, b) => {
@@ -118,7 +116,6 @@ class DiscoverScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Welcome to Kitlet</Text>
         <SearchBar
           orderByPrice={this.orderByPrice}
           filterResults={this.filterResults}
@@ -133,7 +130,7 @@ class DiscoverScreen extends React.Component {
                   this.props.navigation.navigate("IndividualItem", item)
                 }
               >
-                <ItemCard key={index} props={item} onPress={this.consoleTest} />
+                <ItemCard key={index} props={item} />
               </TouchableOpacity>
             );
           })}
@@ -144,11 +141,10 @@ class DiscoverScreen extends React.Component {
 }
 
 class IndividualItemScreen extends React.Component {
-  
   render() {
     const width = Dimensions.get("window").width;
     const styles = StyleSheet.create({
-      container: { paddingTop: 50, paddingBottom: 84 },
+      container: { paddingTop: 50, paddingBottom: 62 },
       itemCardImage: { flex: 1, width, height: 64, margin: 32 },
       innerContent: { flex: 2, width, paddingLeft: 16, paddingRight: 16 },
       fixedIsAvailable: {
@@ -235,18 +231,18 @@ const DiscoverScreenNavigation = createStackNavigator(
     IndividualItem: IndividualItemScreen
   },
   {
-    initialRouteName: "Discover",
+    initialRouteName: "Discover"
   }
 );
 
 IndividualItemScreen.navigationOptions = {
-  title: "Back To More Items",
+  title: "Back To More Items"
 };
 
 const DicoverContainer = createAppContainer(DiscoverScreenNavigation);
 
 const styles = StyleSheet.create({
-  container: { paddingTop: 50, paddingBottom: 84 },
+  container: { paddingTop: 50, paddingBottom: 64 },
   header: { fontSize: 22 }
 });
 
