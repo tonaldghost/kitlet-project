@@ -29,7 +29,6 @@ export default class SearchBar extends Component {
   };
 
   sortByPrice = () => {
-    // console.log("sorting by price");
     this.setState({ priceAsc: !this.state.priceAsc }, () => {
       this.state.priceAsc
         ? this.props.orderByPrice(true)

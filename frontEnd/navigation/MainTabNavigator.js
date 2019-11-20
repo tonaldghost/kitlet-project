@@ -65,7 +65,7 @@ LetStack.path = "";
 
 const LinksStack = createStackNavigator(
   {
-    Links: LinksScreen
+    Links: ProfileScreen
   },
   config
 );
