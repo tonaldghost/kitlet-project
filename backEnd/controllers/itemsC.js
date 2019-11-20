@@ -1,7 +1,10 @@
-const { selectItems, selectItemById, postItem, selectItemsByUsername } = require('../models/itemsM');
+const { selectItems, selectItemById, postItem } = require('../models/itemsM');
 
 getItems = (req, res, next) => {
-	selectItems().then((items) => {
+	const { sort_by, order } = req.query;
+	console.log(sort_by, order);
+
+	selectItems(sort_by, order).then((items) => {
 		res.status(200).send({ items });
 	});
 };

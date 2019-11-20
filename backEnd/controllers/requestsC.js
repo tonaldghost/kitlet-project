@@ -1,4 +1,9 @@
-const { fetchOwnerRequests, fetchRequesteeRequests } = require('../models/requestsM');
+const {
+	fetchOwnerRequests,
+	fetchRequesteeRequests,
+	insertNewRequest,
+	fetchRequestById
+} = require('../models/requestsM');
 
 getOwnerRequests = (req, res, next) => {
 	const { username } = req.query;
@@ -14,4 +19,17 @@ getRequesteeRequests = (req, res, next) => {
 	});
 };
 
-module.exports = { getOwnerRequests, getRequesteeRequests };
+getRequestById = (req, res, next) => {
+	const { request_id } = req.params;
+	fetchRequestById(request_id).then((request) => {
+		res.status(200).send({ request });
+	});
+};
+
+postNewRequest = (req, res, next) => {
+	insertNewRequest(req.body).then((request) => {
+		res.status(201).send({ request });
+	});
+};
+
+module.exports = { getOwnerRequests, getRequesteeRequests, postNewRequest, getRequestById };

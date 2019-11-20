@@ -20,6 +20,11 @@ describe('/api', () => {
 					expect(items[0]).contains.keys('price', 'item_id', 'owner', 'category', 'body', 'img_url', 'is_available');
 				});
 			});
+			it('can accept order and sort by queries by a valid column', () => {
+				return request(app).get('/api/items?sort_by=price&&order=asc').expect(200).then(({ body: { items } }) => {
+					expect(items).to.be.sortedBy('price', { ascending: true });
+				});
+			});
 		});
 		describe('GET REJECTED', () => {
 			it('catches any anomalous urls passed --> WILDCARD', () => {
@@ -87,7 +92,7 @@ describe('/api', () => {
 			});
 		});
 	});
-	describe('/users', () => {
+	describe.only('/users', () => {
 		describe('GET RESOLVED', () => {
 			it('Status: 200 and returns all users', () => {
 				return request(app).get('/api/users').expect(200).then(({ body: { users } }) => {
@@ -123,23 +128,50 @@ describe('/api', () => {
 	});
 	describe('/requests', () => {
 		describe('/incoming', () => {
-			it('Status:200 and returns all requested items by username query', () => {
-				return request(app)
-					.get('/api/requests/incoming?username=umayrs95')
-					.expect(200)
-					.then(({ body: { incoming } }) => {
-						expect(incoming[0].owner).to.equal('umayrs95');
-					});
+			describe('GET RESOLVED', () => {
+				it('Status:200 and returns all requested items by username query', () => {
+					return request(app)
+						.get('/api/requests/incoming?username=umayrs95')
+						.expect(200)
+						.then(({ body: { incoming } }) => {
+							expect(incoming[0].owner).to.equal('umayrs95');
+						});
+				});
 			});
 		});
 		describe('/outgoing', () => {
-			it('Status:200 and returns all outgoing requests by username query', () => {
+			describe('GET RESOLVED', () => {
+				it('Status:200 and returns all outgoing requests by username query', () => {
+					return request(app)
+						.get('/api/requests/outgoing?username=umayrs95')
+						.expect(200)
+						.then(({ body: { outgoing } }) => {
+							expect(outgoing[0].request_user).to.equal('umayrs95');
+						});
+				});
+			});
+		});
+		describe('POST RESOLVED', () => {
+			it('Status:201 and returns the posted request', () => {
 				return request(app)
-					.get('/api/requests/outgoing?username=umayrs95')
-					.expect(200)
-					.then(({ body: { outgoing } }) => {
-						expect(outgoing[0].request_user).to.equal('umayrs95');
+					.post('/api/requests')
+					.send({ request_user: 'tonyboi', item_id: 6, body: 'Hey, can I rent this off you for a couple of days?' })
+					.expect(201)
+					.then(({ body: { request } }) => {
+						expect(request).to.contain.keys('request_owner', 'body', 'item_id');
 					});
+			});
+		});
+	});
+	describe('/requests/:request_id', () => {
+		describe('GET RESOLVED', () => {
+			it('Status:200 and returns request by request id', () => {
+				return request(app).get('/api/requests/1').expect(200).then(({ body: { request } }) => {
+					expect(request).to.contain.keys('request_owner', 'item_id', 'body');
+					/**
+					 * *Add request ids
+					 */
+				});
 			});
 		});
 	});

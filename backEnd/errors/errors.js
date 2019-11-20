@@ -10,3 +10,7 @@ exports.handleCustoms = (err, req, res, next) => {
 	if (err.status) res.status(err.status).send(err.send);
 	else next(err);
 };
+
+exports.handle500s = (err, res, req, next) => {
+	res.status(500).send({ msg: 'internal server error' });
+};
