@@ -10,7 +10,7 @@ import TabBarIcon from "../components/TabBarIcon";
 import DiscoverScreen from "../screens/DiscoverScreen";
 import LinksScreen from "../screens/LinksScreen";
 import LetScreen from "../screens/LetScreen";
-import SettingsScreen from "../screens/SettingsScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -84,7 +84,7 @@ LinksStack.path = "";
 
 const SettingsStack = createStackNavigator(
   {
-    Settings: SettingsScreen
+    Settings: ProfileScreen
   },
   config
 );

@@ -116,6 +116,7 @@ class DiscoverScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+
         <SearchBar
           orderByPrice={this.orderByPrice}
           filterResults={this.filterResults}
@@ -242,6 +243,7 @@ IndividualItemScreen.navigationOptions = {
 const DicoverContainer = createAppContainer(DiscoverScreenNavigation);
 
 const styles = StyleSheet.create({
+
   container: { paddingTop: 50, paddingBottom: 64 },
   header: { fontSize: 22 }
 });
