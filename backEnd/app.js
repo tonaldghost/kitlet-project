@@ -14,6 +14,4 @@ app.all('*', (req, res, next) => {
 
 app.use(handleCustom404);
 
-//post merge commit
-
 module.exports = app;

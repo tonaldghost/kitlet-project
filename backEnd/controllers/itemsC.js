@@ -1,4 +1,4 @@
-const { selectItems, selectItemById, postItem } = require('../models/itemsM');
+const { selectItems, selectItemById, postItem, selectItemsByUsername } = require('../models/itemsM');
 
 getItems = (req, res, next) => {
 	selectItems().then((items) => {
@@ -22,17 +22,22 @@ getItemByItemId = (req, res, next) => {
 		.catch(next);
 };
 
-// current returns row in which inserted.
-// cant use returning
-// find way to return previous. knex docs...
 addItem = (req, res, next) => {
-	postItem(req.body)
-		.then(([ newItemIdx ]) => {
-			selectItemById(newItemIdx.toString()).then(([ item ]) => {
-				res.status(200).send({ item });
-			});
-		})
-		.catch(next);
+	if (req.body.hasOwnProperty('owner', 'body', 'category', 'img_url', 'is_available', 'price')) {
+		postItem(req.body)
+			.then(([ newItemIdx ]) => {
+				selectItemById(newItemIdx.toString()).then(([ item ]) => {
+					res.status(201).send({ item });
+				});
+			})
+			.catch(next);
+	} else {
+		next({
+			msg: '400 bad request',
+			send: 'Invalid request',
+			status: 400
+		});
+	}
 };
 
 module.exports = { getItems, getItemByItemId, addItem };

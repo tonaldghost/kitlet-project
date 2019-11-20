@@ -44,10 +44,17 @@ describe('/api', () => {
 						is_available: true,
 						price: 10
 					})
-					.expect(200)
+					.expect(201)
 					.then(({ body: { item } }) => {
 						expect(item).to.contain.keys('item_id', 'owner', 'category', 'body', 'img_url', 'is_available', 'price');
 					});
+			});
+		});
+		describe('POST REJECTED', () => {
+			it('Status:400 if bad request is made', () => {
+				return request(app).post('/api/items').send({}).expect(400).then(({ res: { statusMessage } }) => {
+					expect(statusMessage).to.equal('Bad Request');
+				});
 			});
 		});
 	});
@@ -61,7 +68,7 @@ describe('/api', () => {
 		});
 		describe('GET REJECTED', () => {
 			it('returns 404 if passed non-existent author', () => {
-				return request(app).get('/api/items/99').expect(404).then(({ text }) => {
+				return request(app).get('/api/items/99').expect(404).then(({ error: { text } }) => {
 					expect(text).to.equal('Item not found');
 				});
 			});
@@ -70,6 +77,7 @@ describe('/api', () => {
 			});
 		});
 	});
+
 	describe('/categories', () => {
 		describe('GET RESOLVED', () => {
 			it('Status: 200 and returns all items', () => {
@@ -96,6 +104,22 @@ describe('/api', () => {
 				});
 			});
 		});
+		describe('GET REJECTED', () => {
+			it('Status:404 if user does not exist', () => {
+				return request(app).get('/api/users/benny').expect(404).then(({ error: { text } }) => {
+					expect(text).to.equal('User not found');
+				});
+			});
+		});
+		describe('/users/:username/items', () => {
+			describe('GET RESOLVED', () => {
+				it('Status:200 and returns all items associated with the current user', () => {
+					return request(app).get('/api/users/umayrs95/items').expect(200).then(({ body: { items } }) => {
+						expect(items[0].owner).to.equal('umayrs95');
+					});
+				});
+			});
+		});
 	});
 	describe('/requests', () => {
 		describe('/incoming', () => {
@@ -105,14 +129,6 @@ describe('/api', () => {
 					.expect(200)
 					.then(({ body: { incoming } }) => {
 						expect(incoming[0].owner).to.equal('umayrs95');
-					});
-			});
-			it('Status:200 and returns all requestees requests by query', () => {
-				return request(app)
-					.get('/api/requests/incoming?username=aaroniousbosch')
-					.expect(200)
-					.then(({ body: { incoming } }) => {
-						expect(incoming[0].owner).to.equal('aaroniousbosch');
 					});
 			});
 		});
