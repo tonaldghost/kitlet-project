@@ -7,12 +7,18 @@ export default class SearchBar extends Component {
   state = {
     searchInput: "",
     isSorting: false,
-    priceAsc: false
+    priceAsc: false,
+    isLoading: true
   };
   toggleSortBy = () => {
-    this.setState(currentState => {
-      return { isSorting: !currentState.isSorting };
-    });
+    this.setState(
+      currentState => {
+        return { isSorting: !currentState.isSorting };
+      },
+      () => {
+        this.props.bottomBorder(this.state.isSorting);
+      }
+    );
   };
   handleInput = e => {
     if (e.nativeEvent.text.length < this.state.searchInput.length) {
@@ -35,7 +41,9 @@ export default class SearchBar extends Component {
         : this.props.orderByPrice(false);
     });
   };
-
+  componentDidUpdate = () => {
+    // this.state.isLoading && this.props.bottomBorder(this.state.isSorting);
+  };
   render() {
     return (
       <>
@@ -101,8 +109,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     width: width - 32,
     borderWidth: 1,
-    paddingBottom: 16,
-    paddingTop: 16,
     borderColor: "#eee",
     marginLeft: 16,
     marginRight: 16
@@ -129,6 +135,10 @@ const styles = StyleSheet.create({
     color: "#333"
   },
   sortButtons: {
+    paddingBottom: 16,
+    paddingTop: 16,
+    paddingRight: 32,
+    paddingLeft: 32,
     textAlign: "center"
   }
 });

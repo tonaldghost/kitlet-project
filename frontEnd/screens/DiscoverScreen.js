@@ -54,7 +54,7 @@ const dummyData = [
     title: "1984 Minimoog",
     img:
       "https://firebasestorage.googleapis.com/v0/b/kitlet-784db.appspot.com/o/images%2Faaroniousbosch-1574072891959?alt=media&token=834bfaae-9f63-4cd9-af1d-47e506cf630b",
-    isAvailable: true,
+    isAvailable: false,
     location: "Guiseley",
     price: 20,
     body:
@@ -64,7 +64,7 @@ const dummyData = [
     title: "1984 Minimoog",
     img:
       "https://firebasestorage.googleapis.com/v0/b/kitlet-784db.appspot.com/o/images%2Faaroniousbosch-1574072891959?alt=media&token=834bfaae-9f63-4cd9-af1d-47e506cf630b",
-    isAvailable: true,
+    isAvailable: false,
     location: "Guiseley",
     price: 10,
     body:
@@ -74,7 +74,7 @@ const dummyData = [
     title: "1984 Minimoog",
     img:
       "https://firebasestorage.googleapis.com/v0/b/kitlet-784db.appspot.com/o/images%2Faaroniousbosch-1574072891959?alt=media&token=834bfaae-9f63-4cd9-af1d-47e506cf630b",
-    isAvailable: true,
+    isAvailable: false,
     location: "Guiseley",
     price: 20,
     body:
@@ -88,7 +88,8 @@ class DiscoverScreen extends React.Component {
   };
   state = {
     takePicture: false,
-    items: dummyData
+    items: dummyData,
+    bottomBorder: false
   };
   orderByPrice = ascending => {
     this.setState(currentState => {
@@ -98,6 +99,9 @@ class DiscoverScreen extends React.Component {
       });
       return { items: sortedItems };
     });
+  };
+  bottomBorder = needed => {
+    this.setState({ bottomBorder: needed });
   };
   resetResults = () => {
     this.setState({ items: dummyData });
@@ -116,8 +120,8 @@ class DiscoverScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-
         <SearchBar
+          bottomBorder={this.bottomBorder}
           orderByPrice={this.orderByPrice}
           filterResults={this.filterResults}
           resetResults={this.resetResults}
@@ -135,6 +139,9 @@ class DiscoverScreen extends React.Component {
               </TouchableOpacity>
             );
           })}
+          {this.state.bottomBorder && (
+            <View style={styles.bottomPadding}></View>
+          )}
         </ScrollView>
       </View>
     );
@@ -243,9 +250,9 @@ IndividualItemScreen.navigationOptions = {
 const DicoverContainer = createAppContainer(DiscoverScreenNavigation);
 
 const styles = StyleSheet.create({
-
   container: { paddingTop: 50, paddingBottom: 64 },
-  header: { fontSize: 22 }
+  header: { fontSize: 22 },
+  bottomPadding: { height: 36, paddingBottom: 48, marginBottom: 16 }
 });
 
 export default class Discover extends React.Component {

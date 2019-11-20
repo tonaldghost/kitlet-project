@@ -30,7 +30,7 @@ export default class ProfileScreen extends React.Component {
         title: "1984 Minimoog",
         img:
           "https://firebasestorage.googleapis.com/v0/b/kitlet-784db.appspot.com/o/images%2Faaroniousbosch-1574072891959?alt=media&token=834bfaae-9f63-4cd9-af1d-47e506cf630b",
-        isAvailable: true,
+        isAvailable: false,
         location: "Woof",
         price: 20,
         body:
