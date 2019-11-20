@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, TextInput, StyleSheet, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
 const width = Dimensions.get("window").width;
 
 export default class SearchBar extends Component {
@@ -52,7 +51,7 @@ export default class SearchBar extends Component {
             ></TextInput>
           </View>
           <Ionicons
-            name="ios-funnel"
+            name="md-options"
             size={26}
             onPress={this.toggleSortBy}
             style={styles.toggleSorting}
