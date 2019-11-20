@@ -6,7 +6,7 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; 
 import AppNavigator from './navigation/AppNavigator';
 
-// begining front-end post init merge
+// creating new branch
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
