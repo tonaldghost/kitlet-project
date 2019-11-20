@@ -19,6 +19,7 @@ import tintColor from "../constants/Colors";
 import Icon from "react-native-vector-icons/EvilIcons";
 const myIcon = <Icon name="location" size={30} color={tintColor.tintColor} />;
 
+
 const dummyData = [
   {
     title: "1984 Minimoog",
@@ -143,6 +144,7 @@ class DiscoverScreen extends React.Component {
 }
 
 class IndividualItemScreen extends React.Component {
+  
   render() {
     const width = Dimensions.get("window").width;
     const styles = StyleSheet.create({
@@ -233,12 +235,12 @@ const DiscoverScreenNavigation = createStackNavigator(
     IndividualItem: IndividualItemScreen
   },
   {
-    initialRouteName: "Discover"
+    initialRouteName: "Discover",
   }
 );
 
 IndividualItemScreen.navigationOptions = {
-  title: "Back To More Items"
+  title: "Back To More Items",
 };
 
 const DicoverContainer = createAppContainer(DiscoverScreenNavigation);
@@ -249,6 +251,9 @@ const styles = StyleSheet.create({
 });
 
 export default class Discover extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
   render() {
     return <DicoverContainer />;
   }
