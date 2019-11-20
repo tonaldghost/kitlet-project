@@ -8,6 +8,7 @@ export default class SearchBar extends Component {
     searchInput: "",
     isSorting: false,
     priceAsc: false,
+    locationAsc: false,
     isLoading: true
   };
   toggleSortBy = () => {
@@ -41,6 +42,13 @@ export default class SearchBar extends Component {
         : this.props.orderByPrice(false);
     });
   };
+  sortByLocation = () => {
+    this.setState({ locationAsc: !this.state.locationAsc }, () => {
+      this.state.locationAsc
+        ? this.props.orderByLocation(true)
+        : this.props.orderByLocation(false);
+    });
+  };
   componentDidUpdate = () => {
     // this.state.isLoading && this.props.bottomBorder(this.state.isSorting);
   };
@@ -69,7 +77,9 @@ export default class SearchBar extends Component {
             <Text style={styles.sortButtons} onPress={this.sortByPrice}>
               Price
             </Text>
-            <Text style={styles.sortButtons}>Location</Text>
+            <Text style={styles.sortButtons} onPress={this.sortByLocation}>
+              Location
+            </Text>
             <Text style={styles.sortButtons}>Availablity</Text>
           </View>
         )}

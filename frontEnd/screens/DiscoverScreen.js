@@ -100,6 +100,17 @@ class DiscoverScreen extends React.Component {
       return { items: sortedItems };
     });
   };
+  orderByLocation = ascending => {
+    this.setState(currentState => {
+      const itemsClone = [...currentState.items];
+      const sortedItems = itemsClone.sort((a, b) => {
+        return ascending
+          ? a.location[0].charCodeAt() - b.location[0].charCodeAt()
+          : b.location[0].charCodeAt() - a.location[0].charCodeAt();
+      });
+      return { items: sortedItems };
+    });
+  };
   bottomBorder = needed => {
     this.setState({ bottomBorder: needed });
   };
@@ -123,6 +134,7 @@ class DiscoverScreen extends React.Component {
         <SearchBar
           bottomBorder={this.bottomBorder}
           orderByPrice={this.orderByPrice}
+          orderByLocation={this.orderByLocation}
           filterResults={this.filterResults}
           resetResults={this.resetResults}
         />
