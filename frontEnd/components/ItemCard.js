@@ -1,15 +1,18 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import mainGreen from "../constants/Colors";
+import mainRed from "../constants/Colors";
 
 const ItemCard = ({ props }) => {
   return (
     <View style={styles.itemCardContainer}>
       <Image style={styles.itemCardImage} source={{ uri: props.img }} />
       <View style={styles.innerContent}>
-        {props.isAvailable && (
+        {props.isAvailable ? (
           <Text style={styles.fixedIsAvailable}>Available</Text>
-        )}
+        ):
+        <Text style={styles.fixedIsNotAvailable}>Not Available</Text> }
+        
         <Text style={styles.title}>{props.title}</Text>
         <Text style={styles.location}>{props.location}</Text>
         <Text style={styles.price}>
@@ -20,8 +23,6 @@ const ItemCard = ({ props }) => {
     </View>
   );
 };
-
-// rerender
 
 const styles = StyleSheet.create({
   title: { fontSize: 22 },
@@ -44,6 +45,12 @@ const styles = StyleSheet.create({
     top: -32,
     right: 12,
     color: mainGreen.mainGreen,
+    padding: 10
+  },  fixedIsNotAvailable: {
+    position: "absolute",
+    top: -32,
+    right: 12,
+    color: mainRed.mainRed,
     padding: 10
   },
   innerContent: { flex: 2, paddingLeft: 16 },
