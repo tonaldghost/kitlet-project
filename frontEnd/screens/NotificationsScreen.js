@@ -7,7 +7,6 @@ import {
   Button,
   Dimensions
 } from "react-native";
-import SearchBar from "../components/SearchBar";
 import RequestCard from "../components/RequestCard";
 import tintColor from "../constants/Colors";
 
@@ -52,19 +51,7 @@ export default class NotificationsScreen extends React.Component {
   bottomBorder = needed => {
     this.setState({ bottomBorder: needed });
   };
-  resetResults = () => {
-    this.setState({ items: dummyData });
-  };
-  filterResults = searchTerm => {
-    const itemsClone = [...this.state.items];
-    const filteredItems = itemsClone.filter(item => {
-      return (
-        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.body.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    });
-    this.setState({ items: filteredItems });
-  };
+
   flipIncoming = () => {
     this.setState({ showIncoming: true });
   };
@@ -77,12 +64,6 @@ export default class NotificationsScreen extends React.Component {
     console.log(outgoing, "outgoing");
     return (
       <View style={styles.container}>
-        <SearchBar
-          bottomBorder={this.bottomBorder}
-          orderByPrice={this.orderByPrice}
-          filterResults={this.filterResults}
-          resetResults={this.resetResults}
-        />
         <View style={styles.switchRequests}>
           <View style={styles.buttonFlex}>
             <View style={styles.buttonWrapper}>
