@@ -8,7 +8,7 @@ import {
 import tintColor from "../constants/Colors";
 import TabBarIcon from "../components/TabBarIcon";
 import DiscoverScreen from "../screens/DiscoverScreen";
-import LinksScreen from "../screens/LinksScreen";
+import NotificationsScreen from "../screens/NotificationsScreen";
 import LetScreen from "../screens/LetScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
@@ -63,14 +63,14 @@ LetStack.navigationOptions = {
 
 LetStack.path = "";
 
-const LinksStack = createStackNavigator(
+const ProfileStack = createStackNavigator(
   {
-    Links: ProfileScreen
+    Profile: ProfileScreen
   },
   config
 );
 
-LinksStack.navigationOptions = {
+ProfileStack.navigationOptions = {
   tabBarLabel: "Profile",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -80,16 +80,16 @@ LinksStack.navigationOptions = {
   )
 };
 
-LinksStack.path = "";
+ProfileStack.path = "";
 
-const SettingsStack = createStackNavigator(
+const NotificationsStack = createStackNavigator(
   {
-    Settings: ProfileScreen
+    Notifications: NotificationsScreen
   },
   config
 );
 
-SettingsStack.navigationOptions = {
+NotificationsStack.navigationOptions = {
   tabBarLabel: "Notifications",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -99,14 +99,14 @@ SettingsStack.navigationOptions = {
   )
 };
 
-SettingsStack.path = "";
+NotificationsStack.path = "";
 
 const tabNavigator = createBottomTabNavigator(
   {
     DiscoverStack,
     LetStack,
-    LinksStack,
-    SettingsStack
+    ProfileStack,
+    NotificationsStack
   },
   {
     tabBarOptions: {
