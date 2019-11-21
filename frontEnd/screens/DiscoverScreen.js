@@ -108,7 +108,6 @@ class DiscoverScreen extends React.Component {
     });
   };
   orderByAvailability = ascending => {
-    console.log("gitWoof");
     this.setState(currentState => {
       const itemsClone = [...currentState.items];
       const sortedItems = itemsClone.sort((a, b) => {

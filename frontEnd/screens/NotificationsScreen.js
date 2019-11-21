@@ -60,8 +60,7 @@ export default class NotificationsScreen extends React.Component {
   };
   render() {
     const { showIncoming, incoming, outgoing } = this.state;
-    console.log(incoming, "incoming");
-    console.log(outgoing, "outgoing");
+
     return (
       <View style={styles.container}>
         <View style={styles.switchRequests}>
@@ -86,12 +85,7 @@ export default class NotificationsScreen extends React.Component {
           <ScrollView style={styles.scrollRequests}>
             {incoming.map((item, index) => {
               return (
-                <TouchableOpacity
-                  key={`${index}-view`}
-                  // onPress={() =>
-                  //   this.props.navigation.navigate("message / messaging socket oooooooooh", item)
-                  // }
-                >
+                <TouchableOpacity key={`${index}-view`}>
                   <RequestCard item={item} showIncoming={showIncoming} />
                 </TouchableOpacity>
               );
@@ -101,12 +95,7 @@ export default class NotificationsScreen extends React.Component {
           <ScrollView style={styles.scrollRequests}>
             {outgoing.map((item, index) => {
               return (
-                <TouchableOpacity
-                  key={`${index}-view`}
-                  // onPress={() =>
-                  //   this.props.navigation.navigate("IndividualItem", item)
-                  // }
-                >
+                <TouchableOpacity key={`${index}-view`}>
                   <RequestCard item={item} showIncoming={showIncoming} />
                 </TouchableOpacity>
               );
