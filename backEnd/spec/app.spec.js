@@ -17,7 +17,16 @@ describe('/api', () => {
 		describe('GET RESOLVED', () => {
 			it('Status: 200 and returns all items', () => {
 				return request(app).get('/api/items').expect(200).then(({ body: { items } }) => {
-					expect(items[0]).contains.keys('price', 'item_id', 'owner', 'category', 'body', 'img_url', 'is_available');
+					expect(items[0]).contains.keys(
+						'price',
+						'title',
+						'item_id',
+						'owner',
+						'category',
+						'body',
+						'img_url',
+						'is_available'
+					);
 				});
 			});
 			it('can accept order and sort by queries by a valid column', () => {
@@ -33,18 +42,19 @@ describe('/api', () => {
 				});
 			});
 		});
-
 		describe('POST RESOLVED', () => {
 			it('Status: 200, adds new item and returns the object just added in full. (returned on key of item)', () => {
 				return request(app)
 					.post('/api/items')
 					.send({
+						title: 'Drumpad',
 						owner: 'umayrs95',
 						body: 'my new music thing up for grabs guys - only $10!',
 						category: 'Music',
 						img_url: 'hhtp:fakeimg',
 						is_available: true,
-						price: 10
+						price: 10,
+						location: 'Bradford'
 					})
 					.expect(201)
 					.then(({ body: { item } }) => {
@@ -57,6 +67,24 @@ describe('/api', () => {
 				return request(app).post('/api/items').send({}).expect(400).then(({ res: { statusMessage } }) => {
 					expect(statusMessage).to.equal('Bad Request');
 				});
+			});
+			it('Status:400 if invalid info is sent', () => {
+				return request(app)
+					.post('/api/items')
+					.send({
+						title: 32,
+						owner: 'umayrs95',
+						body: 'Item',
+						category: 'Music',
+						img_url: 2,
+						is_available: true,
+						price: 10,
+						location: 'Bradford'
+					})
+					.expect(400)
+					.then(({ res: { statusMessage } }) => {
+						expect(statusMessage).to.equal('Bad Request');
+					});
 			});
 		});
 		describe('INVALID METHODS', () => {
@@ -76,7 +104,7 @@ describe('/api', () => {
 			});
 		});
 		describe('GET REJECTED', () => {
-			it('returns 404 if passed non-existent author', () => {
+			it('returns 404 if passed non-existent item', () => {
 				return request(app).get('/api/items/99').expect(404).then(({ error: { text } }) => {
 					expect(text).to.equal('Item not found');
 				});
@@ -155,6 +183,13 @@ describe('/api', () => {
 					});
 				});
 			});
+			describe('GET REJECTED', () => {
+				it('Status:404 if incorrect endpoint after users parametric', () => {
+					return request(app).get('/api/users/umayrs95/nfirf').expect(404).then(({ body }) => {
+						expect(body.msg).to.equal('Path not found');
+					});
+				});
+			});
 			describe('INVALID METHODS', () => {
 				it('Status:405 when invalid methods are used on this endpoint', () => {
 					return request(app).put('/api/users/tonyboi/items').expect(405).then(({ body }) => {
@@ -169,6 +204,18 @@ describe('/api', () => {
 			it('Status:200 and returns request by request id', () => {
 				return request(app).get('/api/requests/1').expect(200).then(({ body: { request } }) => {
 					expect(request[0]).to.contain.keys('request_user', 'item_id', 'body');
+				});
+			});
+		});
+		describe('GET REJECTED', () => {
+			it('Status:404 if request id does not exist', () => {
+				return request(app).get('/api/requests/1000').expect(404).then(({ error: { text } }) => {
+					expect(text).to.equal('Request not found');
+				});
+			});
+			it('Status:404 if non-numeric character is used after request by id endpoint', () => {
+				return request(app).get('/api/requests/a').expect(404).then(({ error: { text } }) => {
+					expect(text).to.equal('Request not found');
 				});
 			});
 		});
@@ -238,6 +285,22 @@ describe('/api', () => {
 							'location'
 						);
 						expect(request[0].request_user).to.equal('tonyboi');
+					});
+			});
+		});
+		describe('POST REJECTED', () => {
+			it('Status:400 if no info is sent', () => {
+				return request(app).post('/api/requests').send({}).expect(400).then(({ res: { statusMessage } }) => {
+					expect(statusMessage).to.equal('Bad Request');
+				});
+			});
+			it('Status:400 if invalid info is sent', () => {
+				return request(app)
+					.post('/api/requests')
+					.send({ request_user: 2, item_id: 2, body: 'Hello' })
+					.expect(400)
+					.then(({ res: { statusMessage } }) => {
+						expect(statusMessage).to.equal('Bad Request');
 					});
 			});
 		});

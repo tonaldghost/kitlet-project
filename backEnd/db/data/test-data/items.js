@@ -1,5 +1,6 @@
 module.exports = [
 	{
+		title: 'MIDI Keyboard',
 		owner: 'umayrs95',
 		body: 'MIDI keyboard for music production',
 		category: 'Music',
@@ -10,6 +11,7 @@ module.exports = [
 		location: 'Bradford'
 	},
 	{
+		title: 'Art Drawing Tablet',
 		owner: 'umayrs95',
 		body: 'Drawing tablet in good condtition, slight ding in corner',
 		category: 'Art',
@@ -20,6 +22,7 @@ module.exports = [
 		location: 'Bradford'
 	},
 	{
+		title: 'Boom Mic',
 		owner: 'aaroniousbosch',
 		body: 'Boom microphone in good condition, slight wear on the boom pole',
 		category: 'Music',
@@ -30,6 +33,7 @@ module.exports = [
 		location: 'Guiseley'
 	},
 	{
+		title: 'Minimoog Synth',
 		owner: 'aaroniousbosch',
 		body: 'Minimoog synth, in great condition and sounds amazing',
 		category: 'Music',
@@ -40,6 +44,7 @@ module.exports = [
 		location: 'Guiseley'
 	},
 	{
+		title: 'Wireless Mic and Receiver',
 		owner: 'tonyboi',
 		body: 'Wireless mic with receiver, batteries not included',
 		category: 'Audio',
@@ -50,6 +55,7 @@ module.exports = [
 		location: 'Pontefract'
 	},
 	{
+		title: 'GoPro Camera',
 		owner: 'tonyboi',
 		body: 'GoPro camera, dont my nails look great in the pic',
 		category: 'Audio',

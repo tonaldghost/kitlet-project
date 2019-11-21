@@ -2,9 +2,11 @@ const { selectItems, selectItemById, postItem } = require('../models/itemsM');
 
 getItems = (req, res, next) => {
 	const { sort_by, order } = req.query;
-	selectItems(sort_by, order).then((items) => {
-		res.status(200).send({ items });
-	});
+	selectItems(sort_by, order)
+		.then((items) => {
+			res.status(200).send({ items });
+		})
+		.catch(next);
 };
 
 getItemByItemId = (req, res, next) => {
@@ -24,7 +26,17 @@ getItemByItemId = (req, res, next) => {
 };
 
 addItem = (req, res, next) => {
-	if (req.body.hasOwnProperty('owner', 'body', 'category', 'img_url', 'is_available', 'price')) {
+	if (
+		req.body.hasOwnProperty('title', 'owner', 'body', 'category', 'img_url', 'is_available', 'price') &&
+		typeof req.body.title === 'string' &&
+		typeof req.body.owner === 'string' &&
+		typeof req.body.body === 'string' &&
+		typeof req.body.category === 'string' &&
+		typeof req.body.img_url === 'string' &&
+		typeof req.body.is_available === 'boolean' &&
+		typeof req.body.price === 'number' &&
+		typeof req.body.location === 'string'
+	) {
 		postItem(req.body)
 			.then(([ newItemIdx ]) => {
 				selectItemById(newItemIdx.toString()).then(([ item ]) => {

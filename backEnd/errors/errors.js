@@ -15,8 +15,12 @@ exports.handle500s = (err, res, req, next) => {
 	res.status(500).send({ msg: 'internal server error' });
 };
 
-//-------------------ERROR CONTROLLERS------------------//
+//-------------------ERROR CONTROLLERS----------------------//
 
 exports.handle405s = (req, res, next) => {
 	res.status(405).send({ msg: 'invalid method' });
+};
+
+exports.handle404s = (re, res, next) => {
+	res.status(404).send({ msg: 'Path not found' });
 };
