@@ -33,8 +33,8 @@ export default class LetScreen extends React.Component {
   componentDidMount = () => {
     //update allCategories upon mounting this page for scroll
   };
-  handleInput = key => {
-    console.log(key);
+  handleInput = (key, e) => {
+    this.setState({ [key]: e });
   };
   render() {
     const { whatItem, describeItem, allCategories, price } = this.state;
@@ -46,13 +46,13 @@ export default class LetScreen extends React.Component {
         <View style={styles.middle}>
           <TextInput
             style={styles.addListing}
-            onChangeText={e => this.handleInput("whatItem")}
+            onChangeText={e => this.handleInput("whatItem", e)}
             placeholder="What are you letting?"
             value={whatItem}
           />
           <TextInput
             style={styles.describeListing}
-            onChangeText={text => onChangeText(text)}
+            onChangeText={e => this.handleInput("describeItem", e)}
             placeholder="Describe it best you can..."
             value={describeItem}
           />
@@ -74,7 +74,7 @@ export default class LetScreen extends React.Component {
           <TextInput
             style={styles.addPrice}
             keyboardType="numeric"
-            onChangeText={e => this.handleInput("price")}
+            onChangeText={e => this.handleInput("price", e)}
             placeholder="Add Price?"
             number={price}
             maxLength={6}
