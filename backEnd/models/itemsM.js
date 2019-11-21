@@ -1,7 +1,11 @@
 const connection = require('../db/connection');
 
-exports.selectItems = () => {
-	return connection.select('*').from('items');
+exports.selectItems = (sort_by = 'price', order = 'asc') => {
+	let orderDecide = order;
+	if (order !== 'asc' && order !== 'desc') {
+		orderDecide = 'asc';
+	}
+	return connection.select('*').from('items').orderBy(sort_by, orderDecide);
 };
 
 exports.selectItemById = (item_id) => {

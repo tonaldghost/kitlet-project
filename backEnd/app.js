@@ -14,6 +14,4 @@ app.all('*', (req, res, next) => {
 
 app.use(handleCustom404);
 
-//pre merge backup
-
 module.exports = app;
