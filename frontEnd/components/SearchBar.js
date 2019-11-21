@@ -1,19 +1,25 @@
 import React, { Component } from "react";
 import { View, Text, TextInput, StyleSheet, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
 const width = Dimensions.get("window").width;
 
 export default class SearchBar extends Component {
   state = {
     searchInput: "",
     isSorting: false,
-    priceAsc: false
+    priceAsc: false,
+    locationAsc: false,
+    isLoading: true
   };
   toggleSortBy = () => {
-    this.setState(currentState => {
-      return { isSorting: !currentState.isSorting };
-    });
+    this.setState(
+      currentState => {
+        return { isSorting: !currentState.isSorting };
+      },
+      () => {
+        this.props.bottomBorder(this.state.isSorting);
+      }
+    );
   };
   handleInput = e => {
     if (e.nativeEvent.text.length < this.state.searchInput.length) {
@@ -30,14 +36,22 @@ export default class SearchBar extends Component {
   };
 
   sortByPrice = () => {
-    // console.log("sorting by price");
     this.setState({ priceAsc: !this.state.priceAsc }, () => {
       this.state.priceAsc
         ? this.props.orderByPrice(true)
         : this.props.orderByPrice(false);
     });
   };
-
+  sortByLocation = () => {
+    this.setState({ locationAsc: !this.state.locationAsc }, () => {
+      this.state.locationAsc
+        ? this.props.orderByLocation(true)
+        : this.props.orderByLocation(false);
+    });
+  };
+  componentDidUpdate = () => {
+    // this.state.isLoading && this.props.bottomBorder(this.state.isSorting);
+  };
   render() {
     return (
       <>
@@ -52,7 +66,7 @@ export default class SearchBar extends Component {
             ></TextInput>
           </View>
           <Ionicons
-            name="ios-funnel"
+            name="md-options"
             size={26}
             onPress={this.toggleSortBy}
             style={styles.toggleSorting}
@@ -63,7 +77,9 @@ export default class SearchBar extends Component {
             <Text style={styles.sortButtons} onPress={this.sortByPrice}>
               Price
             </Text>
-            <Text style={styles.sortButtons}>Location</Text>
+            <Text style={styles.sortButtons} onPress={this.sortByLocation}>
+              Location
+            </Text>
             <Text style={styles.sortButtons}>Availablity</Text>
           </View>
         )}
@@ -103,8 +119,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     width: width - 32,
     borderWidth: 1,
-    paddingBottom: 16,
-    paddingTop: 16,
     borderColor: "#eee",
     marginLeft: 16,
     marginRight: 16
@@ -131,6 +145,10 @@ const styles = StyleSheet.create({
     color: "#333"
   },
   sortButtons: {
+    paddingBottom: 16,
+    paddingTop: 16,
+    paddingRight: 32,
+    paddingLeft: 32,
     textAlign: "center"
   }
 });
