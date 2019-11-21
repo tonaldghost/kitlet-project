@@ -27,8 +27,10 @@ getRequestById = (req, res, next) => {
 };
 
 postNewRequest = (req, res, next) => {
-	insertNewRequest(req.body).then((request) => {
-		res.status(201).send({ request });
+	insertNewRequest(req.body).then(([ newRequestIdx ]) => {
+		fetchRequestById(newRequestIdx).then((request) => {
+			res.status(201).send({ request });
+		});
 	});
 };
 

@@ -14,3 +14,9 @@ exports.handleCustoms = (err, req, res, next) => {
 exports.handle500s = (err, res, req, next) => {
 	res.status(500).send({ msg: 'internal server error' });
 };
+
+//-------------------ERROR CONTROLLERS------------------//
+
+exports.handle405s = (req, res, next) => {
+	res.status(405).send({ msg: 'invalid method' });
+};

@@ -19,5 +19,8 @@ exports.insertNewRequest = (request) => {
 };
 
 exports.fetchRequestById = (request_id) => {
-	return connection('requests').select().where('requests.request_id', '=', request_id);
+	return connection
+		.from('requests')
+		.innerJoin('items', 'requests.item_id', 'items.item_id')
+		.where('requests.oid', '=', request_id);
 };
