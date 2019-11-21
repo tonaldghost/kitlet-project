@@ -12,6 +12,8 @@ app.all('*', (req, res, next) => {
 	res.status(404).send({ wildcard: 'Page not found!' });
 });
 
+//heroku staging
+
 app.use(handleCustom404);
 
 module.exports = app;
