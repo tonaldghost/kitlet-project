@@ -49,6 +49,13 @@ export default class SearchBar extends Component {
         : this.props.orderByLocation(false);
     });
   };
+  sortByAvailabilty = () => {
+    this.setState({ availableAsc: !this.state.availableAsc }, () => {
+      this.state.availableAsc
+        ? this.props.orderByAvailability(true)
+        : this.props.orderByAvailability(false);
+    });
+  };
   componentDidUpdate = () => {
     // this.state.isLoading && this.props.bottomBorder(this.state.isSorting);
   };
@@ -80,7 +87,9 @@ export default class SearchBar extends Component {
             <Text style={styles.sortButtons} onPress={this.sortByLocation}>
               Location
             </Text>
-            <Text style={styles.sortButtons}>Availablity</Text>
+            <Text style={styles.sortButtons} onPress={this.sortByLocation}>
+              Availablity
+            </Text>
           </View>
         )}
       </>
