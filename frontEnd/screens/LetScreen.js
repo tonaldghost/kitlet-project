@@ -15,6 +15,8 @@ import tintColor from "../constants/Colors";
 
 const width = Dimensions.get("window").width;
 
+// tony branch
+
 export default class LetScreen extends React.Component {
   state = {
     whatItem: "",
