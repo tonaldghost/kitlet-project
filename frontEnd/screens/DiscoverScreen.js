@@ -7,6 +7,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import IndividualItemScreen from "../components/IndividualItemScreen";
+import GetLocation from "../components/GetLocation";
+import { getLocationFromName } from "../components/GetLocationFromName";
 
 const dummyData = [
   {
@@ -47,7 +49,7 @@ const dummyData = [
     img:
       "https://firebasestorage.googleapis.com/v0/b/kitlet-784db.appspot.com/o/images%2Ftonyboi-1574072799672?alt=media&token=8a0b4342-4b9e-4a16-aba4-530694468006",
     isAvailable: false,
-    location: "Ponetfract",
+    location: "Leeds",
     category: "video",
     price: 20,
     body:
@@ -84,7 +86,17 @@ class DiscoverScreen extends React.Component {
   state = {
     takePicture: false,
     items: dummyData,
-    bottomBorder: false
+    bottomBorder: false,
+    refObjDistance: {}
+  };
+  componentDidMount = () => {
+    // query to get all items.then()
+    const justLocations = [];
+    this.state.items.map(item => justLocations.push(item.location));
+    const singleLocations = new Set(justLocations);
+    getLocationFromName(singleLocations).then(data => {
+      this.setState({ refObjDistance: data });
+    });
   };
   orderByPrice = ascending => {
     this.setState(currentState => {
@@ -144,6 +156,7 @@ class DiscoverScreen extends React.Component {
     this.setState({ items: filteredItems });
   };
   render() {
+    console.log(this.state.refObjDistance);
     return (
       <View style={styles.container}>
         <SearchBar

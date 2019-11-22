@@ -1,9 +1,9 @@
 import React from "react";
+import { StyleSheet, View, Text, Image } from "react-native";
 import { getDistance } from "geolib";
+const ApiKeys = require("../constants/ApiKeys");
 
 // tony aaron out to solve a problem
-
-// location spike
 
 /*
   when button to sort by location clicked triggers 
@@ -19,8 +19,6 @@ import { getDistance } from "geolib";
   longitudes and latitudes into func similar to below (possibly creating a refObj not as too forget who they belong too)
   -> sort by descending numbers and blam.
 */
-
-import React from "react";
 
 export default function GetLocation() {
   navigator.geolocation.getCurrentPosition(
@@ -42,5 +40,5 @@ export default function GetLocation() {
       alert("Position could not be determined.");
     }
   );
-  return <div></div>;
+  return <View></View>;
 }

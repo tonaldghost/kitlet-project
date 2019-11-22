@@ -6,5 +6,8 @@ export default {
     projectId: "kitlet-784db",
     storageBucket: "kitlet-784db.appspot.com",
     messagingSenderId: ""
+  },
+  MapsApiGeoCode: {
+    key: "AIzaSyAXZlZtqYY3-Z7dPPe63lf7ad8X-kvC5W8"
   }
 };
