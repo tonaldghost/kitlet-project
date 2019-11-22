@@ -1,12 +1,10 @@
-exports.up = function(connection) {
-  return connection.schema
-    .dropTableIfExists("categories")
-    .createTable("categories", categoriesTable => {
-      categoriesTable.string("slug").primary();
-      categoriesTable.string("description").notNullable();
-    });
+exports.up = function (connection) {
+	return connection.schema.createTable('categories', (categoriesTable) => {
+		categoriesTable.string('slug').primary();
+		categoriesTable.string('description').notNullable();
+	});
 };
 
-exports.down = function(connection) {
-  return connection.schema.dropTable("categories");
+exports.down = function (connection) {
+	return connection.schema.dropTable('categories');
 };

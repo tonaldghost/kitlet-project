@@ -8,7 +8,8 @@ module.exports = [
 			'https://firebasestorage.googleapis.com/v0/b/kitlet-784db.appspot.com/o/images%2Fumayrs95-1574072432159?alt=media&token=d304da10-8271-4c7b-803c-bee8307a254b',
 		is_available: true,
 		price: 10,
-		location: 'Bradford'
+		location: 'Bradford',
+		requested: 2
 	},
 	{
 		title: 'Art Drawing Tablet',
@@ -19,7 +20,8 @@ module.exports = [
 			'https://firebasestorage.googleapis.com/v0/b/kitlet-784db.appspot.com/o/images%2Fumayrs95-1574072424794?alt=media&token=94a065e2-bfbb-41c3-add4-0e2a9fbc82b2',
 		is_available: true,
 		price: 20,
-		location: 'Bradford'
+		location: 'Bradford',
+		requested: 1
 	},
 	{
 		title: 'Boom Mic',
@@ -30,7 +32,8 @@ module.exports = [
 			'https://firebasestorage.googleapis.com/v0/b/kitlet-784db.appspot.com/o/images%2Faaroniousbosch-1574072895305?alt=media&token=165216b8-eaeb-4415-81b9-af0b2264d028',
 		is_available: true,
 		price: 15,
-		location: 'Guiseley'
+		location: 'Guiseley',
+		requested: 1
 	},
 	{
 		title: 'Minimoog Synth',
@@ -52,7 +55,8 @@ module.exports = [
 			'https://firebasestorage.googleapis.com/v0/b/kitlet-784db.appspot.com/o/images%2Ftonyboi-1574072795955?alt=media&token=e9a9ce56-7ed2-444f-a081-dcd6ffe617dc',
 		is_available: true,
 		price: 1,
-		location: 'Pontefract'
+		location: 'Pontefract',
+		requested: 1
 	},
 	{
 		title: 'GoPro Camera',

@@ -110,7 +110,36 @@ describe('/api', () => {
 				});
 			});
 			it('returns 404 if passed invalid item end point (not numeric)', () => {
-				return request(app).get('/api/items/apples').expect(404);
+				return request(app).get('/api/items/apples').expect(404).then(({ body }) => {
+					expect(body.msg).to.equal('Path not found');
+				});
+			});
+		});
+		describe('PATCH RESOLVED', () => {
+			it('Status:202 on item by item_id', () => {
+				return request(app)
+					.patch('/api/items/4')
+					.send({
+						title: 'Moog'
+					})
+					.expect(202)
+					.then(({ body: { item } }) => {
+						expect(item).to.contain.keys('owner', 'category', 'body', 'img_url', 'is_available', 'requested');
+						expect(item.title).to.equal('Moog');
+					});
+			});
+		});
+		describe('PATCH REJECTED', () => {
+			it('Status:401 if invalid request body is sent', () => {
+				return request(app)
+					.patch('/api/items/3')
+					.send({
+						title: 'Mic'
+					})
+					.expect(401)
+					.then(({ body }) => {
+						expect(body.msg).to.equal('Cannot edit item while item is requested');
+					});
 			});
 		});
 		describe('INVALID METHODS', () => {
@@ -213,8 +242,22 @@ describe('/api', () => {
 					expect(text).to.equal('Request not found');
 				});
 			});
-			it('Status:404 if non-numeric character is used after request by id endpoint', () => {
-				return request(app).get('/api/requests/a').expect(404).then(({ error: { text } }) => {
+			it('Status:404 if non-numeric character is used at parametric endpoint', () => {
+				return request(app).get('/api/requests/a').expect(404).then(({ body }) => {
+					expect(body.msg).to.equal('Path not found');
+				});
+			});
+		});
+		describe('DELETE RESOLVED', () => {
+			it('Status:204 for successful delete of request', () => {
+				return request(app).del('/api/requests/1').expect(204).then((response) => {
+					expect(response.res.statusMessage).to.equal('No Content');
+				});
+			});
+		});
+		describe('DELETE REJECTED', () => {
+			it('Status:404 if request does not exist', () => {
+				return request(app).del('/api/requests/1000').expect(404).then(({ error: { text } }) => {
 					expect(text).to.equal('Request not found');
 				});
 			});
@@ -273,18 +316,8 @@ describe('/api', () => {
 					.send({ request_user: 'tonyboi', item_id: 1, body: 'Hey, can I rent this off you for a couple of days?' })
 					.expect(201)
 					.then(({ body: { request } }) => {
-						expect(request[0]).to.contain.keys(
-							'request_user',
-							'body',
-							'item_id',
-							'owner',
-							'category',
-							'img_url',
-							'is_available',
-							'price',
-							'location'
-						);
-						expect(request[0].request_user).to.equal('tonyboi');
+						expect(request).to.contain.keys('request_id', 'request_user', 'body', 'item_id');
+						expect(request.request_user).to.equal('tonyboi');
 					});
 			});
 		});
