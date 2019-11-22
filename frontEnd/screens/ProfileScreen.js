@@ -1,12 +1,15 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, Dimensions } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import tintColor from "../constants/Colors";
 import ItemCard from "../components/ItemCard";
+import IndividualItemScreen from "../components/IndividualItemScreen";
 
 const width = Dimensions.get("window").width;
 
-export default class ProfileScreen extends React.Component {
+class ProfileScreen extends React.Component {
   state = {
     exampleProfile: {
       username: "tonyboi",
@@ -101,13 +104,24 @@ export default class ProfileScreen extends React.Component {
         </View>
         <ScrollView style={styles.profileItems}>
           {this.state.userItems.map((item, index) => {
-            return <ItemCard key={index} props={item} />;
+            return (
+              <TouchableOpacity
+                key={`${index}-view`}
+                onPress={() =>
+                  this.props.navigation.navigate("IndividualItem", item)
+                }
+              >
+                <ItemCard key={index} props={item} />
+              </TouchableOpacity>
+            );
           })}
         </ScrollView>
       </View>
     );
   }
 }
+
+<IndividualItemScreen />;
 
 const styles = StyleSheet.create({
   container: {
@@ -174,3 +188,28 @@ ProfileScreen.navigationOptions = {
   title: "KITLET",
   header: null
 };
+
+const ProfileScreenNavigation = createStackNavigator(
+  {
+    Profile: ProfileScreen,
+    IndividualItem: IndividualItemScreen
+  },
+  {
+    initialRouteName: "Profile"
+  }
+);
+
+IndividualItemScreen.navigationOptions = {
+  title: "Back To More Items"
+};
+
+const ProfileContainer = createAppContainer(ProfileScreenNavigation);
+
+export default class Profile extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
+  render() {
+    return <ProfileContainer />;
+  }
+}

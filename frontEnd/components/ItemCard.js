@@ -10,9 +10,10 @@ const ItemCard = ({ props }) => {
       <View style={styles.innerContent}>
         {props.isAvailable ? (
           <Text style={styles.fixedIsAvailable}>Available</Text>
-        ):
-        <Text style={styles.fixedIsNotAvailable}>Not Available</Text> }
-        
+        ) : (
+          <Text style={styles.fixedIsNotAvailable}>Not Available</Text>
+        )}
+
         <Text style={styles.title}>{props.title}</Text>
         <Text style={styles.location}>{props.location}</Text>
         <Text style={styles.price}>
@@ -46,7 +47,8 @@ const styles = StyleSheet.create({
     right: 12,
     color: mainGreen.mainGreen,
     padding: 10
-  },  fixedIsNotAvailable: {
+  },
+  fixedIsNotAvailable: {
     position: "absolute",
     top: -32,
     right: 12,
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   innerContent: { flex: 2, paddingLeft: 16 },
-  itemCardImage: { flex: 1, width: 64, height: 64, margin: "auto" },
+  itemCardImage: { flex: 1, width: 64, height: 128, margin: "auto" },
   price: {
     fontWeight: "800",
     color: mainGreen.mainGreen
