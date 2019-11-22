@@ -16,10 +16,8 @@ import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import mainGreen from "../constants/Colors";
 import tintColor from "../constants/Colors";
-
 import Icon from "react-native-vector-icons/EvilIcons";
 const myIcon = <Icon name="location" size={30} color={tintColor.tintColor} />;
-
 const dummyData = [
   {
     title: "1984 Minimoog",

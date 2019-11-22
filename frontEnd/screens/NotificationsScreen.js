@@ -49,7 +49,7 @@ export default class NotificationsScreen extends React.Component {
       }
     ],
     bottomBorder: false,
-    showIncoming: false
+    showIncoming: true
   };
   bottomBorder = needed => {
     this.setState({ bottomBorder: needed });
@@ -75,8 +75,6 @@ export default class NotificationsScreen extends React.Component {
   };
   render() {
     const { showIncoming, incoming, outgoing } = this.state;
-    console.log(incoming, "incoming");
-    console.log(outgoing, "outgoing");
     return (
       <View style={styles.container}>
         <SearchBar
