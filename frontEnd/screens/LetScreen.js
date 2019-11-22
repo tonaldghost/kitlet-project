@@ -193,23 +193,28 @@ export default class LetScreen extends React.Component {
           })} */}
         </ScrollView>
         <View style={styles.bottom}>
-          <TextInput
-            style={styles.addPrice}
-            onFocus={() => this.focusOnPrice(true)}
-            onBlur={() => this.focusOnPrice(false)}
-            keyboardType="numeric"
-            onChangeText={e => this.handleInput("price", e)}
-            placeholder="Add Price"
-            number={price}
-            maxLength={6}
-          />
-          <Button
-            title="Submit Listing"
-            style={styles.submit}
-            color={tintColor.tintColor}
-          >
-            <Text>Submit</Text>
-          </Button>
+          <View style={styles.addPrice}>
+            <Text style={styles.currencyPrefix}>£</Text>
+            <TextInput
+              onFocus={() => this.focusOnPrice(true)}
+              onBlur={() => this.focusOnPrice(false)}
+              keyboardType="numeric"
+              onChangeText={e => this.handleInput("price", e)}
+              placeholder="Per Day"
+              number={price}
+              maxLength={6}
+              style={styles.priceInput}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Submit Listing"
+              style={styles.submit}
+              color={tintColor.tintColor}
+            >
+              <Text>Submit</Text>
+            </Button>
+          </View>
         </View>
       </KeyboardAvoidingView>
     );
@@ -265,7 +270,7 @@ const styles = StyleSheet.create({
     margin: 8
   },
   addPrice: {
-    width: width - 32,
+    width: 128,
     margin: "auto",
     borderWidth: 1,
     borderColor: "#eee",
@@ -277,7 +282,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingBottom: 8,
     display: "flex",
-    alignItems: "flex-end"
+    alignItems: "center",
+    flexDirection: "row"
   },
   outerContainer: {
     display: "flex",
@@ -332,5 +338,18 @@ const styles = StyleSheet.create({
   faIconActive: {
     marginBottom: 4,
     color: "white"
+  },
+  buttonContainer: {
+    width: 128
+  },
+  currencyPrefix: {
+    marginRight: 8,
+    flex: 1,
+    marginLeft: 8,
+    textAlign: "center"
+  },
+  priceInput: {
+    flex: 3,
+    marginLeft: 8
   }
 });
