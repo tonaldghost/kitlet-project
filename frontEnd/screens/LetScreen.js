@@ -180,17 +180,6 @@ export default class LetScreen extends React.Component {
               </TouchableOpacity>
             </View>
           </>
-          {/* {allCategories.map((cat, idx) => {
-            return (
-              <TouchableOpacity
-                key={cat}
-                onPress={() => this.setState({ selectedCat: cat })}
-                style={styles.catButton}
-              >
-                <Text>{cat}</Text>
-              </TouchableOpacity>
-            );
-          })} */}
         </ScrollView>
         <View style={styles.bottom}>
           <View style={styles.addPrice}>
