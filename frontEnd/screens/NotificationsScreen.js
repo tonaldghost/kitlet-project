@@ -10,6 +10,8 @@ import {
 import RequestCard from "../components/RequestCard";
 import tintColor from "../constants/Colors";
 
+// tony dev branch
+
 const width = Dimensions.get("window").width;
 
 export default class NotificationsScreen extends React.Component {
@@ -46,7 +48,7 @@ export default class NotificationsScreen extends React.Component {
       }
     ],
     bottomBorder: false,
-    showIncoming: false
+    showIncoming: true
   };
   bottomBorder = needed => {
     this.setState({ bottomBorder: needed });
