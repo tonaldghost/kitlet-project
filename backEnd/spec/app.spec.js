@@ -345,4 +345,100 @@ describe('/api', () => {
 			});
 		});
 	});
+	describe('/messages', () => {
+		describe('/sent/:username', () => {
+			describe('GET RESOLVED', () => {
+				it('Status:200 and returns all messages linked to passed user', () => {
+					return request(app).get('/api/messages/sent/umayrs95').expect(200).then(({ body: { messages } }) => {
+						expect(messages[0]).to.contain.keys('message_id', 'title', 'body', 'sent_from', 'sent_to', 'created_at');
+						expect(messages[0].sent_from).to.equal('umayrs95');
+					});
+				});
+			});
+			describe('GET REJECTED', () => {
+				it('Status:404 if user is not found', () => {
+					return request(app).get('/api/messages/sent/benny').expect(404).then(({ error: { text } }) => {
+						expect(text).to.equal('User not found');
+					});
+				});
+			});
+			describe('POST RESOLVED', () => {
+				it('Status:201 and returns the posted message', () => {
+					return request(app)
+						.post('/api/messages')
+						.send({
+							title: 'test title',
+							body: 'test body',
+							sent_from: 'umayrs95',
+							sent_to: 'aaroniousbosch'
+						})
+						.expect(201)
+						.then(({ body: { message } }) => {
+							expect(message[0]).to.contain.keys('message_id', 'title', 'body', 'sent_from', 'sent_to', 'created_at');
+						});
+				});
+			});
+			describe('INVALID METHODS', () => {
+				it('Status:405 if invalid method is used on this endpoint', () => {
+					return request(app).put('/api/messages/sent/umayrs95').expect(405).then(({ body }) => {
+						expect(body.msg).to.equal('invalid method');
+					});
+				});
+			});
+		});
+		describe('/received/:username', () => {
+			describe('GET RESOLVED', () => {
+				it('Status:200 and returns messages received by user', () => {
+					return request(app).get('/api/messages/received/umayrs95').expect(200).then(({ body: { messages } }) => {
+						expect(messages[0]).to.contain.keys('message_id', 'title', 'body', 'sent_from', 'sent_to', 'created_at');
+						expect(messages[0].sent_to).to.equal('umayrs95');
+					});
+				});
+			});
+			describe('GET REJECTED', () => {
+				it('Status:404 if user is not found', () => {
+					return request(app).get('/api/messages/received/benny').expect(404).then(({ error: { text } }) => {
+						expect(text).to.equal('User not found');
+					});
+				});
+			});
+			describe('INVALID METHODS', () => {
+				it('Status:405 if invalid method is used on this endpoint', () => {
+					return request(app).put('/api/messages/received/umayrs95').expect(405).then(({ body }) => {
+						expect(body.msg).to.equal('invalid method');
+					});
+				});
+			});
+		});
+		describe('INVALID METHODS', () => {
+			it('Status:405 if invalid method is used on this endpoint', () => {
+				return request(app).put('/api/messages').expect(405).then(({ body }) => {
+					expect(body.msg).to.equal('invalid method');
+				});
+			});
+		});
+	});
+	describe('/messages/:message_id', () => {
+		describe('GET RESOLVED', () => {
+			it('Status:200 and returns message by id', () => {
+				return request(app).get('/api/messages/1').expect(200).then(({ body: { message } }) => {
+					expect(message).to.contain.keys('message_id', 'title', 'body', 'sent_from', 'sent_to', 'created_at');
+				});
+			});
+		});
+		describe('GET REJECTED', () => {
+			it('Status:404 is message does not exist', () => {
+				return request(app).get('/api/messages/10000').expect(404).then(({ error: { text } }) => {
+					expect(text).to.equal('Message not found');
+				});
+			});
+		});
+		describe('INVALID METHODS', () => {
+			it('Status:405 if invalid method is used on this endpoint', () => {
+				return request(app).put('/api/messages/1').expect(405).then(({ body }) => {
+					expect(body.msg).to.equal('invalid method');
+				});
+			});
+		});
+	});
 });
