@@ -5,7 +5,6 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "mocha spec/app.spec.js",
-		"create-test-db": "sqlite3 ./db/kitlet_project_test.db",
 		"seed": "knex seed:run",
 		"create-dev-db": "sqlite3 ./db/kitlet_project.db",
 		"migrate-make": "knex migrate:make",

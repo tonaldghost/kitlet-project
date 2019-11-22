@@ -53,4 +53,6 @@ addItem = (req, res, next) => {
 	}
 };
 
+// checking
+
 module.exports = { getItems, getItemByItemId, addItem };
