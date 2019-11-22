@@ -3,7 +3,7 @@ import { Text } from "react-native";
 import { getDistance } from "geolib";
 
 export default function GetLocation(props) {
-  // console.log(props.refObjDistance.lat);
+  // brilliant
   const distance = new Promise((resolve, reject) => {
     resolve(
       navigator.geolocation.getCurrentPosition(
@@ -29,6 +29,5 @@ export default function GetLocation(props) {
     console.log("in promise");
     console.log(data, "promise");
   });
-
   return <Text>data</Text>;
 }
