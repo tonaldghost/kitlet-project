@@ -7,6 +7,8 @@ import tintColor from "../constants/Colors";
 import ItemCard from "../components/ItemCard";
 import IndividualItemScreen from "../components/IndividualItemScreen";
 
+// backup
+
 const width = Dimensions.get("window").width;
 
 class ProfileScreen extends React.Component {
