@@ -7,7 +7,6 @@ import { ScrollView } from "react-native-gesture-handler";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import IndividualItemScreen from "../components/IndividualItemScreen";
-import GetLocation from "../components/GetLocation";
 import { getLocationFromName } from "../components/GetLocationFromName";
 
 const dummyData = [
@@ -95,7 +94,9 @@ class DiscoverScreen extends React.Component {
     this.state.items.map(item => justLocations.push(item.location));
     const singleLocations = new Set(justLocations);
     getLocationFromName(singleLocations).then(data => {
-      this.setState({ refObjDistance: data });
+      this.setState({ refObjDistance: data }, () => {
+        // console.log(this.state.refObjDistance, "after");
+      });
     });
   };
   orderByPrice = ascending => {
@@ -156,7 +157,7 @@ class DiscoverScreen extends React.Component {
     this.setState({ items: filteredItems });
   };
   render() {
-    console.log(this.state.refObjDistance);
+    // console.log(this.state.refObjDistance);
     return (
       <View style={styles.container}>
         <SearchBar
@@ -180,7 +181,11 @@ class DiscoverScreen extends React.Component {
                   this.props.navigation.navigate("IndividualItem", item)
                 }
               >
-                <ItemCard key={index} props={item} />
+                <ItemCard
+                  key={index}
+                  props={item}
+                  refObjDistance={this.state.refObjDistance[item.location]}
+                />
               </TouchableOpacity>
             );
           })}
