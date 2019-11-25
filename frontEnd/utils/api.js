@@ -1,12 +1,15 @@
-const axios = require('axios');
-const baseURL = 'https://be-kitlet.herokuapp.com/api';
+const axios = require("axios");
+const baseURL = "https://be-kitlet.herokuapp.com/api";
 
-export const fetchUserItems = (username) => {
-	return axios.get(`${baseURL}/users/${username}/items`).then(({ data: { items } }) => {
-		return items;
-	});
-  
-export const postNewListing = (
+const fetchUserItems = username => {
+  return axios
+    .get(`${baseURL}/users/${username}/items`)
+    .then(({ data: { items } }) => {
+      return items;
+    });
+};
+
+const postNewListing = (
   whatItem,
   loggedInUser,
   selectedCat,
@@ -28,11 +31,15 @@ export const postNewListing = (
     })
     .then(({ data: { item } }) => {
       return item;
+    });
+};
 
-export const getAllItems = () => {
+const getAllItems = () => {
   return axios
     .get(`https://be-kitlet.herokuapp.com/api/items`)
     .then(({ data }) => {
       return data;
     });
 };
+
+module.exports = { getAllItems, postNewListing, fetchUserItems };

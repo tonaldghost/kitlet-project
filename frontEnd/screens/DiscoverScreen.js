@@ -82,14 +82,9 @@ class DiscoverScreen extends React.Component {
   };
   getItemsFromApi = (filtered = false, category = null) => {
     if (filtered) {
-      api
-        .getAllItems()
-        .then(({ items }) => {
-          this.setState({ items });
-        })
-        .then(() => {
-          this.sortByCategory(category);
-        });
+      api.getAllItems().then(({ items }) => {
+        this.setState({ items });
+      });
     } else {
       api.getAllItems().then(({ items }) => {
         this.setState({ items });
