@@ -1,14 +1,18 @@
 module.exports = [
 	{
-		slug: 'Music',
+		slug: 'music',
 		description: 'Musical kit'
 	},
 	{
-		slug: 'Art',
+		slug: 'art',
 		description: 'Art kit'
 	},
 	{
-		slug: 'Audio',
+		slug: 'audio',
 		description: 'Audio kit'
+	},
+	{
+		slug: 'tech',
+		description: 'Various tech kit'
 	}
 ];
