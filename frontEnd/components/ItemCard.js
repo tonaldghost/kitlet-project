@@ -6,9 +6,9 @@ import mainRed from "../constants/Colors";
 const ItemCard = ({ props }) => {
   return (
     <View style={styles.itemCardContainer}>
-      <Image style={styles.itemCardImage} source={{ uri: props.img }} />
+      <Image style={styles.itemCardImage} source={{ uri: props.img_url }} />
       <View style={styles.innerContent}>
-        {props.isAvailable ? (
+        {props.is_available ? (
           <Text style={styles.fixedIsAvailable}>Available</Text>
         ) : (
           <Text style={styles.fixedIsNotAvailable}>Not Available</Text>
