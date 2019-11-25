@@ -8,6 +8,10 @@ exports.selectItems = (sort_by = 'price', order = 'asc') => {
 	return connection.select('*').from('items').orderBy(sort_by, orderDecide);
 };
 
+// exports.selectItemsByUsername = (username) => {
+// 	return connection.select('*').from('items').where('items.owner', '=', username);
+// };
+
 exports.selectItemById = (item_id) => {
 	return connection.select('*').from('items').where('items.item_id', '=', item_id);
 };
