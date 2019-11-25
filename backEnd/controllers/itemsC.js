@@ -51,7 +51,6 @@ addItem = (req, res, next) => {
 	}
 };
 
-
 editItemById = (req, res, next) => {
 	const { item_id } = req.params;
 	selectItemById(item_id)
@@ -68,5 +67,3 @@ editItemById = (req, res, next) => {
 };
 
 module.exports = { getItems, getItemByItemId, addItem, editItemById };
-
-
