@@ -18,7 +18,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import * as api from "../utils/api";
 
-// about to connect to api
+// adding nicer response when data inputted and o success
 
 const width = Dimensions.get("window").width;
 
