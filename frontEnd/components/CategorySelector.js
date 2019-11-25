@@ -5,26 +5,23 @@ import tintColor from "../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-// postMerge commit
-
 const width = Dimensions.get("window").width;
 export default class SearchBar extends Component {
   state = { activeCategory: "" };
-  toggleCategory(category) {
+  toggleCategory = category => {
     this.setState({ activeCategory: category }, () => {
-      this.props.resetResults();
-      this.props.sortByCategory(category);
+      this.props.resetResults(true, category);
     });
-  }
+  };
 
   render() {
     return (
       <>
         <View style={styles.outerContainer}>
           <TouchableOpacity
-            onPress={() => this.toggleCategory("audio")}
+            onPress={() => this.toggleCategory("Audio")}
             style={
-              this.state.activeCategory === "audio"
+              this.state.activeCategory === "Audio"
                 ? styles.categoryButtonActive
                 : styles.categoryButton
             }
@@ -33,14 +30,14 @@ export default class SearchBar extends Component {
               name="ios-microphone"
               size={30}
               style={
-                this.state.activeCategory === "audio"
+                this.state.activeCategory === "Audio"
                   ? styles.iconActive
                   : styles.icon
               }
             />
             <Text
               style={
-                this.state.activeCategory === "audio"
+                this.state.activeCategory === "Audio"
                   ? styles.buttonTextActive
                   : styles.buttonText
               }
@@ -49,9 +46,9 @@ export default class SearchBar extends Component {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.toggleCategory("video")}
+            onPress={() => this.toggleCategory("Video")}
             style={
-              this.state.activeCategory === "video"
+              this.state.activeCategory === "Video"
                 ? styles.categoryButtonActive
                 : styles.categoryButton
             }
@@ -60,14 +57,14 @@ export default class SearchBar extends Component {
               name="ios-videocam"
               size={30}
               style={
-                this.state.activeCategory === "video"
+                this.state.activeCategory === "Video"
                   ? styles.iconActive
                   : styles.icon
               }
             />
             <Text
               style={
-                this.state.activeCategory === "video"
+                this.state.activeCategory === "Video"
                   ? styles.buttonTextActive
                   : styles.buttonText
               }
@@ -76,9 +73,9 @@ export default class SearchBar extends Component {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.toggleCategory("art")}
+            onPress={() => this.toggleCategory("Art")}
             style={
-              this.state.activeCategory === "art"
+              this.state.activeCategory === "Art"
                 ? styles.categoryButtonActive
                 : styles.categoryButton
             }
@@ -87,7 +84,7 @@ export default class SearchBar extends Component {
               name="paint-brush"
               size={26}
               style={
-                this.state.activeCategory === "art"
+                this.state.activeCategory === "Art"
                   ? styles.faIconActive
                   : styles.faIcon
               }
@@ -95,7 +92,7 @@ export default class SearchBar extends Component {
 
             <Text
               style={
-                this.state.activeCategory === "art"
+                this.state.activeCategory === "Art"
                   ? styles.buttonTextActive
                   : styles.buttonText
               }
@@ -104,9 +101,9 @@ export default class SearchBar extends Component {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.toggleCategory("tech")}
+            onPress={() => this.toggleCategory("Tech")}
             style={
-              this.state.activeCategory === "tech"
+              this.state.activeCategory === "Tech"
                 ? styles.categoryButtonActive
                 : styles.categoryButton
             }
@@ -115,7 +112,7 @@ export default class SearchBar extends Component {
               name="network-wired"
               size={26}
               style={
-                this.state.activeCategory === "tech"
+                this.state.activeCategory === "Tech"
                   ? styles.faIconActive
                   : styles.faIcon
               }
@@ -123,7 +120,7 @@ export default class SearchBar extends Component {
 
             <Text
               style={
-                this.state.activeCategory === "tech"
+                this.state.activeCategory === "Tech"
                   ? styles.buttonTextActive
                   : styles.buttonText
               }

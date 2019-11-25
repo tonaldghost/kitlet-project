@@ -9,6 +9,7 @@ export default class SearchBar extends Component {
     isSorting: false,
     priceAsc: false,
     locationAsc: false,
+    availabilityAsc: false,
     isLoading: true
   };
   toggleSortBy = () => {
@@ -49,16 +50,16 @@ export default class SearchBar extends Component {
         : this.props.orderByLocation(false);
     });
   };
-  sortByAvailabilty = () => {
-    this.setState({ availableAsc: !this.state.availableAsc }, () => {
-      this.state.availableAsc
+
+  sortByAvailability = () => {
+    this.setState({ availabilityAsc: !this.state.availabilityAsc }, () => {
+      this.state.availabilityAsc
         ? this.props.orderByAvailability(true)
         : this.props.orderByAvailability(false);
     });
+
   };
-  componentDidUpdate = () => {
-    // this.state.isLoading && this.props.bottomBorder(this.state.isSorting);
-  };
+
   render() {
     return (
       <>
@@ -87,7 +88,8 @@ export default class SearchBar extends Component {
             <Text style={styles.sortButtons} onPress={this.sortByLocation}>
               Location
             </Text>
-            <Text style={styles.sortButtons} onPress={this.sortByLocation}>
+            <Text style={styles.sortButtons} onPress={this.sortByAvailability}>
+
               Availablity
             </Text>
           </View>
@@ -150,7 +152,7 @@ const styles = StyleSheet.create({
   },
   toggleSorting: {
     backgroundColor: "white",
-    paddingBottom: 12,
+    paddingBottom: 14,
     color: "#333"
   },
   sortButtons: {
