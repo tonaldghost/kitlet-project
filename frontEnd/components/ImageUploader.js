@@ -15,7 +15,7 @@ const cameraIcon = (
 if (!firebase.apps.length) {
   firebase.initializeApp(ApiKeys.FirebaseConfig);
 }
-const username = "aaroniousbosch";
+const username = "tonyboi";
 
 export default class ImageUploader extends React.Component {
   static navigationOptions = {
@@ -29,9 +29,9 @@ export default class ImageUploader extends React.Component {
 
     if (!result.cancelled) {
       this.uploadImage(result.uri, `${username}-${Date.now()}`)
-        .then(res => {
-          console.log(res);
-          Alert.alert("Success");
+        .then(({ metadata: { fullPath } }) => {
+          this.props.updateFirebaseUrl(fullPath);
+          Alert.alert("Image Added");
         })
         .catch(error => {
           Alert.alert("Error: ", error.message);
@@ -44,10 +44,10 @@ export default class ImageUploader extends React.Component {
     // let result = await ImagePicker.launchImageLibraryAsync();
 
     if (!result.cancelled) {
-      this.uploadImage(result.uri, Date.now())
-        .then(res => {
-          console.log(res);
-          Alert.alert("Success");
+      this.uploadImage(result.uri, `${username}-${Date.now()}`)
+        .then(({ metadata: { fullPath } }) => {
+          this.props.updateFirebaseUrl(fullPath);
+          Alert.alert("Image Added");
         })
         .catch(error => {
           Alert.alert("Error: ", error.message);
