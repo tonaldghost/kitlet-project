@@ -7,13 +7,18 @@ import {
   TouchableOpacity,
   StyleSheet,
   Button,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Alert
 } from "react-native";
 import ImageUploader from "../components/ImageUploader";
 import { ScrollView } from "react-native-gesture-handler";
 import tintColor from "../constants/Colors";
+import mainRed from "../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import * as api from "../utils/api";
+
+// about to connect to api
 
 const width = Dimensions.get("window").width;
 
@@ -23,7 +28,11 @@ export default class LetScreen extends React.Component {
     describeItem: "",
     priceInFocus: false,
     selectedCat: "",
-    price: 0
+    price: 0,
+    loggedInUser: "tonyboi",
+    fireBaseUrl: "",
+    userLocation: "Pontefract",
+    nullPrompt: false
   };
 
   focusOnPrice = bool => {
@@ -31,7 +40,10 @@ export default class LetScreen extends React.Component {
   };
 
   toggleCategory(category) {
-    this.setState({ activeCategory: category });
+    this.setState({
+      selectedCat: category,
+      activeCategory: category
+    });
   }
 
   componentDidMount = () => {
@@ -40,8 +52,69 @@ export default class LetScreen extends React.Component {
   handleInput = (key, e) => {
     this.setState({ [key]: e });
   };
+  updateFirebaseUrl = url => {
+    const formatUrl = url.replace(/(\/)/, "%2F");
+    const formatHttp = formatUrl.replace(":", "&colon;");
+    const urlBasic = `https://firebasestorage.googleapis.com/v0/b/kitlet-784db.appspot.com/o/${formatHttp}?alt=media&token=4b845296-f44e-4ad8-8c35-e999319770fd`;
+    this.setState({ fireBaseUrl: urlBasic });
+  };
+  sendListing = e => {
+    e.preventDefault();
+    const {
+      whatItem,
+      loggedInUser,
+      selectedCat,
+      describeItem,
+      price,
+      fireBaseUrl,
+      userLocation
+    } = this.state;
+    if (
+      whatItem === "" ||
+      loggedInUser === "" ||
+      selectedCat === "" ||
+      describeItem === "" ||
+      price === 0 ||
+      fireBaseUrl === "" ||
+      userLocation === ""
+    ) {
+      this.setState({ nullPrompt: true });
+    } else {
+      api
+        .postNewListing(
+          whatItem,
+          loggedInUser,
+          selectedCat,
+          describeItem,
+          price,
+          fireBaseUrl,
+          userLocation
+        )
+        .then(() => {
+          Alert.alert("Successfully Added Listing");
+        })
+        .then(() => {
+          this.setState({
+            whatItem: "",
+            describeItem: "",
+            selectedCat: "",
+            price: 0,
+            fireBaseUrl: "",
+            nullPrompt: false
+          });
+        });
+    }
+  };
   render() {
-    const { whatItem, describeItem, allCategories, price } = this.state;
+    const {
+      whatItem,
+      describeItem,
+      price,
+      selectedCat,
+      loggedInUser,
+      fireBaseUrl,
+      nullPrompt
+    } = this.state;
     return (
       <KeyboardAvoidingView
         style={styles.container}
@@ -49,7 +122,7 @@ export default class LetScreen extends React.Component {
         enabled={this.state.priceInFocus}
       >
         <View style={styles.top}>
-          <ImageUploader />
+          <ImageUploader updateFirebaseUrl={this.updateFirebaseUrl} />
         </View>
         <View style={styles.middle}>
           <TextInput
@@ -69,9 +142,9 @@ export default class LetScreen extends React.Component {
           <>
             <View style={styles.outerContainer}>
               <TouchableOpacity
-                onPress={() => this.toggleCategory("audio")}
+                onPress={() => this.toggleCategory("Audio")}
                 style={
-                  this.state.activeCategory === "audio"
+                  this.state.activeCategory === "Audio"
                     ? styles.categoryButtonActive
                     : styles.categoryButton
                 }
@@ -80,14 +153,14 @@ export default class LetScreen extends React.Component {
                   name="ios-microphone"
                   size={30}
                   style={
-                    this.state.activeCategory === "audio"
+                    this.state.activeCategory === "Audio"
                       ? styles.iconActive
                       : styles.icon
                   }
                 />
                 <Text
                   style={
-                    this.state.activeCategory === "audio"
+                    this.state.activeCategory === "Audio"
                       ? styles.buttonTextActive
                       : styles.buttonText
                   }
@@ -96,9 +169,9 @@ export default class LetScreen extends React.Component {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.toggleCategory("video")}
+                onPress={() => this.toggleCategory("Video")}
                 style={
-                  this.state.activeCategory === "video"
+                  this.state.activeCategory === "Video"
                     ? styles.categoryButtonActive
                     : styles.categoryButton
                 }
@@ -107,14 +180,14 @@ export default class LetScreen extends React.Component {
                   name="ios-videocam"
                   size={30}
                   style={
-                    this.state.activeCategory === "video"
+                    this.state.activeCategory === "Video"
                       ? styles.iconActive
                       : styles.icon
                   }
                 />
                 <Text
                   style={
-                    this.state.activeCategory === "video"
+                    this.state.activeCategory === "Video"
                       ? styles.buttonTextActive
                       : styles.buttonText
                   }
@@ -123,9 +196,9 @@ export default class LetScreen extends React.Component {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.toggleCategory("art")}
+                onPress={() => this.toggleCategory("Art")}
                 style={
-                  this.state.activeCategory === "art"
+                  this.state.activeCategory === "Art"
                     ? styles.categoryButtonActive
                     : styles.categoryButton
                 }
@@ -134,7 +207,7 @@ export default class LetScreen extends React.Component {
                   name="paint-brush"
                   size={26}
                   style={
-                    this.state.activeCategory === "art"
+                    this.state.activeCategory === "Art"
                       ? styles.faIconActive
                       : styles.faIcon
                   }
@@ -142,7 +215,7 @@ export default class LetScreen extends React.Component {
 
                 <Text
                   style={
-                    this.state.activeCategory === "art"
+                    this.state.activeCategory === "Art"
                       ? styles.buttonTextActive
                       : styles.buttonText
                   }
@@ -151,9 +224,9 @@ export default class LetScreen extends React.Component {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.toggleCategory("tech")}
+                onPress={() => this.toggleCategory("Tech")}
                 style={
-                  this.state.activeCategory === "tech"
+                  this.state.activeCategory === "Tech"
                     ? styles.categoryButtonActive
                     : styles.categoryButton
                 }
@@ -162,7 +235,7 @@ export default class LetScreen extends React.Component {
                   name="network-wired"
                   size={26}
                   style={
-                    this.state.activeCategory === "tech"
+                    this.state.activeCategory === "Tech"
                       ? styles.faIconActive
                       : styles.faIcon
                   }
@@ -170,7 +243,7 @@ export default class LetScreen extends React.Component {
 
                 <Text
                   style={
-                    this.state.activeCategory === "tech"
+                    this.state.activeCategory === "Tech"
                       ? styles.buttonTextActive
                       : styles.buttonText
                   }
@@ -200,9 +273,13 @@ export default class LetScreen extends React.Component {
               title="Submit Listing"
               style={styles.submit}
               color={tintColor.tintColor}
-            >
-              <Text>Submit</Text>
-            </Button>
+              onPress={this.sendListing}
+            />
+            {nullPrompt && (
+              <Text style={styles.prompt}>
+                Make sure no fields are empty...
+              </Text>
+            )}
           </View>
         </View>
       </KeyboardAvoidingView>
@@ -340,5 +417,9 @@ const styles = StyleSheet.create({
   priceInput: {
     flex: 3,
     marginLeft: 8
+  },
+  prompt: {
+    textAlign: "center",
+    color: mainRed.mainRed
   }
 });
