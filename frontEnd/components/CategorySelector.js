@@ -19,9 +19,9 @@ export default class SearchBar extends Component {
       <>
         <View style={styles.outerContainer}>
           <TouchableOpacity
-            onPress={() => this.toggleCategory("Audio")}
+            onPress={() => this.toggleCategory("audio")}
             style={
-              this.state.activeCategory === "Audio"
+              this.state.activeCategory === "audio"
                 ? styles.categoryButtonActive
                 : styles.categoryButton
             }
@@ -30,14 +30,14 @@ export default class SearchBar extends Component {
               name="ios-microphone"
               size={30}
               style={
-                this.state.activeCategory === "Audio"
+                this.state.activeCategory === "audio"
                   ? styles.iconActive
                   : styles.icon
               }
             />
             <Text
               style={
-                this.state.activeCategory === "Audio"
+                this.state.activeCategory === "audio"
                   ? styles.buttonTextActive
                   : styles.buttonText
               }
@@ -46,9 +46,9 @@ export default class SearchBar extends Component {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.toggleCategory("Video")}
+            onPress={() => this.toggleCategory("video")}
             style={
-              this.state.activeCategory === "Video"
+              this.state.activeCategory === "video"
                 ? styles.categoryButtonActive
                 : styles.categoryButton
             }
@@ -57,14 +57,14 @@ export default class SearchBar extends Component {
               name="ios-videocam"
               size={30}
               style={
-                this.state.activeCategory === "Video"
+                this.state.activeCategory === "video"
                   ? styles.iconActive
                   : styles.icon
               }
             />
             <Text
               style={
-                this.state.activeCategory === "Video"
+                this.state.activeCategory === "video"
                   ? styles.buttonTextActive
                   : styles.buttonText
               }
@@ -73,9 +73,9 @@ export default class SearchBar extends Component {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.toggleCategory("Art")}
+            onPress={() => this.toggleCategory("art")}
             style={
-              this.state.activeCategory === "Art"
+              this.state.activeCategory === "art"
                 ? styles.categoryButtonActive
                 : styles.categoryButton
             }
@@ -84,7 +84,7 @@ export default class SearchBar extends Component {
               name="paint-brush"
               size={26}
               style={
-                this.state.activeCategory === "Art"
+                this.state.activeCategory === "art"
                   ? styles.faIconActive
                   : styles.faIcon
               }
@@ -92,7 +92,7 @@ export default class SearchBar extends Component {
 
             <Text
               style={
-                this.state.activeCategory === "Art"
+                this.state.activeCategory === "art"
                   ? styles.buttonTextActive
                   : styles.buttonText
               }
@@ -101,9 +101,9 @@ export default class SearchBar extends Component {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.toggleCategory("Tech")}
+            onPress={() => this.toggleCategory("tech")}
             style={
-              this.state.activeCategory === "Tech"
+              this.state.activeCategory === "tech"
                 ? styles.categoryButtonActive
                 : styles.categoryButton
             }
@@ -112,7 +112,7 @@ export default class SearchBar extends Component {
               name="network-wired"
               size={26}
               style={
-                this.state.activeCategory === "Tech"
+                this.state.activeCategory === "tech"
                   ? styles.faIconActive
                   : styles.faIcon
               }
@@ -120,7 +120,7 @@ export default class SearchBar extends Component {
 
             <Text
               style={
-                this.state.activeCategory === "Tech"
+                this.state.activeCategory === "tech"
                   ? styles.buttonTextActive
                   : styles.buttonText
               }
