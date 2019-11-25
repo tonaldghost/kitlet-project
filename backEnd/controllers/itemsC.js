@@ -1,4 +1,4 @@
-const { selectItems, selectItemById, postItem } = require('../models/itemsM');
+const { selectItems, selectItemById, postItem, patchItemById } = require('../models/itemsM');
 
 getItems = (req, res, next) => {
 	const { sort_by, order } = req.query;
@@ -38,10 +38,8 @@ addItem = (req, res, next) => {
 		typeof req.body.location === 'string'
 	) {
 		postItem(req.body)
-			.then(([ newItemIdx ]) => {
-				selectItemById(newItemIdx.toString()).then(([ item ]) => {
-					res.status(201).send({ item });
-				});
+			.then(([ item ]) => {
+				res.status(201).send({ item });
 			})
 			.catch(next);
 	} else {
@@ -53,6 +51,22 @@ addItem = (req, res, next) => {
 	}
 };
 
-// checking
 
-module.exports = { getItems, getItemByItemId, addItem };
+editItemById = (req, res, next) => {
+	const { item_id } = req.params;
+	selectItemById(item_id)
+		.then(([ item ]) => {
+			if (item.requested === 0) {
+				patchItemById(item.item_id, req.body).then(([ item ]) => {
+					res.status(202).send({ item });
+				});
+			} else {
+				res.status(401).send({ msg: 'Cannot edit item while item is requested' });
+			}
+		})
+		.catch(next);
+};
+
+module.exports = { getItems, getItemByItemId, addItem, editItemById };
+
+

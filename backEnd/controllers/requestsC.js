@@ -2,8 +2,10 @@ const {
 	fetchOwnerRequests,
 	fetchRequesteeRequests,
 	insertNewRequest,
-	fetchRequestById
+	fetchRequestById,
+	deleteRequestById
 } = require('../models/requestsM');
+const { updateItemRequestStatus } = require('../models/itemsM');
 
 getOwnerRequests = (req, res, next) => {
 	const { username } = req.query;
@@ -48,8 +50,8 @@ postNewRequest = (req, res, next) => {
 		typeof req.body.body === 'string'
 	) {
 		insertNewRequest(req.body)
-			.then(([ newRequestIdx ]) => {
-				fetchRequestById(newRequestIdx).then((request) => {
+			.then(([ request ]) => {
+				updateItemRequestStatus(request.item_id, 1).then(([ item ]) => {
 					res.status(201).send({ request });
 				});
 			})
@@ -63,4 +65,27 @@ postNewRequest = (req, res, next) => {
 	}
 };
 
-module.exports = { getOwnerRequests, getRequesteeRequests, postNewRequest, getRequestById };
+removeRequestById = (req, res, next) => {
+	const { request_id } = req.params;
+	fetchRequestById(request_id)
+		.then(([ request ]) => {
+			if (!request) {
+				return Promise.reject({
+					msg: '404 custom',
+					send: 'Request not found',
+					status: 404
+				});
+			}
+			const { item_id } = request;
+			deleteRequestById(request_id)
+				.then(() => {
+					return updateItemRequestStatus(item_id, -1);
+				})
+				.then(([ item ]) => {
+					res.status(204).send({ msg: 'Request successfully deleted' });
+				});
+		})
+		.catch(next);
+};
+
+module.exports = { getOwnerRequests, getRequesteeRequests, postNewRequest, getRequestById, removeRequestById };

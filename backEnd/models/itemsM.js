@@ -9,9 +9,17 @@ exports.selectItems = (sort_by = 'price', order = 'asc') => {
 };
 
 exports.selectItemById = (item_id) => {
-	return connection.select().from('items').where('items.item_id', '=', item_id);
+	return connection.select('*').from('items').where('items.item_id', '=', item_id);
 };
 
 exports.postItem = (newItem) => {
-	return connection('items').insert(newItem);
+	return connection('items').insert(newItem).returning('*');
+};
+
+exports.patchItemById = (item_id, body) => {
+	return connection('items').where('items.item_id', '=', item_id).update(body).returning('*');
+};
+
+exports.updateItemRequestStatus = (item_id, inc_req) => {
+	return connection('items').where('items.item_id', '=', item_id).increment('requested', inc_req).returning('*');
 };
