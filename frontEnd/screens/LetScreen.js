@@ -34,21 +34,15 @@ export default class LetScreen extends React.Component {
     userLocation: "Pontefract",
     nullPrompt: false
   };
-
   focusOnPrice = bool => {
     this.setState({ priceInFocus: bool });
   };
-
   toggleCategory(category) {
     this.setState({
       selectedCat: category,
       activeCategory: category
     });
   }
-
-  componentDidMount = () => {
-    //update allCategories upon mounting this page for scroll
-  };
   handleInput = (key, e) => {
     this.setState({ [key]: e });
   };
@@ -91,7 +85,7 @@ export default class LetScreen extends React.Component {
           userLocation
         )
         .then(() => {
-          Alert.alert("Successfully Added Listing");
+          Alert.alert("Successfully added your lsiting on KitLet");
         })
         .then(() => {
           this.setState({
@@ -122,7 +116,10 @@ export default class LetScreen extends React.Component {
         enabled={this.state.priceInFocus}
       >
         <View style={styles.top}>
-          <ImageUploader updateFirebaseUrl={this.updateFirebaseUrl} />
+          <ImageUploader
+            updateFirebaseUrl={this.updateFirebaseUrl}
+            fireBaseUrl={fireBaseUrl}
+          />
         </View>
         <View style={styles.middle}>
           <TextInput
