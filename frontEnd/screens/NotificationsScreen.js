@@ -7,9 +7,10 @@ import {
   Button,
   Dimensions
 } from "react-native";
-import SearchBar from "../components/SearchBar";
 import RequestCard from "../components/RequestCard";
 import tintColor from "../constants/Colors";
+
+// tony dev branch
 
 const width = Dimensions.get("window").width;
 
@@ -47,24 +48,12 @@ export default class NotificationsScreen extends React.Component {
       }
     ],
     bottomBorder: false,
-    showIncoming: false
+    showIncoming: true
   };
   bottomBorder = needed => {
     this.setState({ bottomBorder: needed });
   };
-  resetResults = () => {
-    this.setState({ items: dummyData });
-  };
-  filterResults = searchTerm => {
-    const itemsClone = [...this.state.items];
-    const filteredItems = itemsClone.filter(item => {
-      return (
-        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.body.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    });
-    this.setState({ items: filteredItems });
-  };
+
   flipIncoming = () => {
     this.setState({ showIncoming: true });
   };
@@ -73,16 +62,9 @@ export default class NotificationsScreen extends React.Component {
   };
   render() {
     const { showIncoming, incoming, outgoing } = this.state;
-    console.log(incoming, "incoming");
-    console.log(outgoing, "outgoing");
+
     return (
       <View style={styles.container}>
-        <SearchBar
-          bottomBorder={this.bottomBorder}
-          orderByPrice={this.orderByPrice}
-          filterResults={this.filterResults}
-          resetResults={this.resetResults}
-        />
         <View style={styles.switchRequests}>
           <View style={styles.buttonFlex}>
             <View style={styles.buttonWrapper}>
@@ -105,12 +87,7 @@ export default class NotificationsScreen extends React.Component {
           <ScrollView style={styles.scrollRequests}>
             {incoming.map((item, index) => {
               return (
-                <TouchableOpacity
-                  key={`${index}-view`}
-                  // onPress={() =>
-                  //   this.props.navigation.navigate("message / messaging socket oooooooooh", item)
-                  // }
-                >
+                <TouchableOpacity key={`${index}-view`}>
                   <RequestCard item={item} showIncoming={showIncoming} />
                 </TouchableOpacity>
               );
@@ -120,12 +97,7 @@ export default class NotificationsScreen extends React.Component {
           <ScrollView style={styles.scrollRequests}>
             {outgoing.map((item, index) => {
               return (
-                <TouchableOpacity
-                  key={`${index}-view`}
-                  // onPress={() =>
-                  //   this.props.navigation.navigate("IndividualItem", item)
-                  // }
-                >
+                <TouchableOpacity key={`${index}-view`}>
                   <RequestCard item={item} showIncoming={showIncoming} />
                 </TouchableOpacity>
               );

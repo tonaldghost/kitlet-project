@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import mainGreen from "../constants/Colors";
 import mainRed from "../constants/Colors";
+import tintColor from "../constants/Colors";
 
 const RequestCard = ({ item, showIncoming }) => {
   return (
@@ -26,9 +27,11 @@ const RequestCard = ({ item, showIncoming }) => {
         {showIncoming ? (
           <Text style={styles.owner}>Requested by: {item.request_user}</Text>
         ) : (
-          <Text style={styles.owner}>{item.owner}</Text>
+          <Text style={styles.owner}>From: {item.owner}</Text>
         )}
-        <Text style={styles.location}>From: {item.location}</Text>
+        {!showIncoming && (
+          <Text style={styles.location}>In: {item.location}</Text>
+        )}
         <Text style={styles.price}>
           £{item.price}
           <Text style={styles.perDay}>/day</Text>
