@@ -15,6 +15,8 @@ import tintColor from "../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
+// about to connect to api
+
 const width = Dimensions.get("window").width;
 
 export default class LetScreen extends React.Component {
