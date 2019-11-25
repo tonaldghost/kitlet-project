@@ -1,4 +1,4 @@
-const { categoryData, itemData, requestData, usersData } = require('../data/test-data');
+const { categoryData, itemData, requestData, usersData, messagesData } = require('../data/test-data');
 
 exports.seed = function (knex) {
 	return knex.migrate
@@ -14,5 +14,8 @@ exports.seed = function (knex) {
 		})
 		.then(() => {
 			return knex.insert(requestData).into('requests');
+		})
+		.then(() => {
+			return knex.insert(messagesData).into('messages');
 		});
 };

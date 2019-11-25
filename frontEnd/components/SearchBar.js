@@ -50,12 +50,14 @@ export default class SearchBar extends Component {
         : this.props.orderByLocation(false);
     });
   };
+
   sortByAvailability = () => {
     this.setState({ availabilityAsc: !this.state.availabilityAsc }, () => {
       this.state.availabilityAsc
         ? this.props.orderByAvailability(true)
         : this.props.orderByAvailability(false);
     });
+
   };
 
   render() {
@@ -87,6 +89,7 @@ export default class SearchBar extends Component {
               Location
             </Text>
             <Text style={styles.sortButtons} onPress={this.sortByAvailability}>
+
               Availablity
             </Text>
           </View>

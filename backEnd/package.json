@@ -4,13 +4,16 @@
 	"description": "Group project (inc Umayr, Aaron and Tony)",
 	"main": "index.js",
 	"scripts": {
+		"setup-dbs": "psql -f ./db/setup.sql",
 		"test": "mocha spec/app.spec.js",
-		"create-test-db": "sqlite3 ./db/kitlet_project_test.db",
 		"seed": "knex seed:run",
-		"create-dev-db": "sqlite3 ./db/kitlet_project.db",
 		"migrate-make": "knex migrate:make",
 		"migrate-latest": "knex migrate:latest",
-		"migrate-rollback": "knex migrate:rollback"
+		"migrate-rollback": "knex migrate:rollback",
+		"seed:prod": "NODE_ENV=production DATABASE_URL=$(heroku config:get DATABASE_URL) knex seed:run",
+		"migrate-latest:prod": "NODE_ENV=production DATABASE_URL=$(heroku config:get DATABASE_URL) knex migrate:latest",
+		"migrate-rollback:prod": "NODE_ENV=production DATABASE_URL=$(heroku config:get DATABASE_URL) knex migrate:rollback",
+		"start": "node listen.js"
 	},
 	"repository": {
 		"type": "git",
@@ -27,6 +30,7 @@
 		"cors": "^2.8.5",
 		"express": "^4.17.1",
 		"knex": "^0.20.2",
+		"pg": "^7.14.0",
 		"sqlite3": "^4.1.0"
 	},
 	"devDependencies": {
