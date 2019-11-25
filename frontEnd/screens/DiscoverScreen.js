@@ -8,6 +8,8 @@ import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import IndividualItemScreen from "../components/IndividualItemScreen";
 
+// about to remove this dummy data and hook to api
+
 const dummyData = [
   {
     title: "1984 Minimoog",
