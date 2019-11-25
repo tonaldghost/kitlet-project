@@ -1,5 +1,6 @@
 const axios = require("axios");
 
+
 export const postNewListing = (
   whatItem,
   loggedInUser,
@@ -22,5 +23,11 @@ export const postNewListing = (
     })
     .then(({ data: { item } }) => {
       return item;
+
+export const getAllItems = () => {
+  return axios
+    .get(`https://be-kitlet.herokuapp.com/api/items`)
+    .then(({ data }) => {
+      return data;
     });
 };

@@ -71,7 +71,7 @@ export default class IndividualItemScreen extends React.Component {
           justifyContent: "center"
         }}
       >
-        <Image style={styles.itemCardImage} source={{ uri: itemProps.img }} />
+        <Image style={styles.itemCardImage} source={{ uri: itemProps.img_url }} />
         <View style={styles.innerContent}>
           <Text style={styles.title}>{itemProps.title}</Text>
 
