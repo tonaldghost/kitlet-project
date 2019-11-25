@@ -8,7 +8,8 @@ import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import IndividualItemScreen from "../components/IndividualItemScreen";
 import * as api from "../utils/api";
-// import { unwatchFile } from "fs";
+
+// init commit
 
 class DiscoverScreen extends React.Component {
   static navigationOptions = {
