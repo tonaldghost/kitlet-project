@@ -9,7 +9,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import IndividualItemScreen from "../components/IndividualItemScreen";
 import * as api from "../utils/api";
 
-// init commit
+// preparing thumbnail generator
 
 class DiscoverScreen extends React.Component {
   static navigationOptions = {
