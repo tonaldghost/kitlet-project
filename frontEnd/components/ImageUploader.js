@@ -35,7 +35,6 @@ export default class ImageUploader extends React.Component {
   };
 
   onChooseImagePress = async () => {
-    // let result = await ImagePicker.launchCameraAsync();
     let result = await ImagePicker.launchImageLibraryAsync();
 
     if (!result.cancelled) {
@@ -52,7 +51,6 @@ export default class ImageUploader extends React.Component {
 
   takePhoto = async () => {
     let result = await ImagePicker.launchCameraAsync();
-    // let result = await ImagePicker.launchImageLibraryAsync();
 
     if (!result.cancelled) {
       this.uploadImage(result.uri, `${username}-${Date.now()}`)
