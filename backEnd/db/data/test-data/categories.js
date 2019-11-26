@@ -1,7 +1,7 @@
 module.exports = [
 	{
-		slug: 'music',
-		description: 'Musical kit'
+		slug: 'video',
+		description: 'Video kit'
 	},
 	{
 		slug: 'art',

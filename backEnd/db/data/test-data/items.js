@@ -3,7 +3,7 @@ module.exports = [
 		title: 'MIDI Keyboard',
 		owner: 'umayrs95',
 		body: 'MIDI keyboard for music production',
-		category: 'music',
+		category: 'audio',
 		img_url:
 			'https://firebasestorage.googleapis.com/v0/b/kitlet-784db.appspot.com/o/images%2Fumayrs95-1574072432159?alt=media&token=d304da10-8271-4c7b-803c-bee8307a254b',
 		is_available: true,
@@ -27,7 +27,7 @@ module.exports = [
 		title: 'Boom Mic',
 		owner: 'aaroniousbosch',
 		body: 'Boom microphone in good condition, slight wear on the boom pole',
-		category: 'music',
+		category: 'audio',
 		img_url:
 			'https://firebasestorage.googleapis.com/v0/b/kitlet-784db.appspot.com/o/images%2Faaroniousbosch-1574072895305?alt=media&token=165216b8-eaeb-4415-81b9-af0b2264d028',
 		is_available: true,
@@ -39,7 +39,7 @@ module.exports = [
 		title: 'Minimoog Synth',
 		owner: 'aaroniousbosch',
 		body: 'Minimoog synth, in great condition and sounds amazing',
-		category: 'music',
+		category: 'audio',
 		img_url:
 			'https://firebasestorage.googleapis.com/v0/b/kitlet-784db.appspot.com/o/images%2Faaroniousbosch-1574072891959?alt=media&token=834bfaae-9f63-4cd9-af1d-47e506cf630b',
 		is_available: true,
