@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import RequestCard from "../components/RequestCard";
 import tintColor from "../constants/Colors";
+import * as api from "../utils/api";
 
 // tony dev branch
 
@@ -16,44 +17,35 @@ const width = Dimensions.get("window").width;
 
 export default class NotificationsScreen extends React.Component {
   state = {
-    incoming: [
-      {
-        request_user: "umayrs95",
-        item_id: 5,
-        body:
-          "my name is umayr and I ask tony for things because he always delivers",
-        title: "some musical thing",
-        owner: "tonyboi",
-        category: "Music",
-        img_url:
-          "https://firebasestorage.googleapis.com/v0/b/kitlet-784db.appspot.com/o/images%2Fumayrs95-1574072432159?alt=media&token=d304da10-8271-4c7b-803c-bee8307a254b",
-        is_available: true,
-        price: 18,
-        location: "Guiseley"
-      }
-    ],
-    outgoing: [
-      {
-        request_user: "tonyboi",
-        item_id: 1,
-        body: "my name is tony and I like to request things.",
-        title: "umayrs musical device",
-        owner: "umayrs95",
-        category: "Music",
-        img_url:
-          "https://firebasestorage.googleapis.com/v0/b/kitlet-784db.appspot.com/o/images%2Fumayrs95-1574072424794?alt=media&token=94a065e2-bfbb-41c3-add4-0e2a9fbc82b2",
-        is_available: true,
-        price: 18,
-        location: "Bradford"
-      }
-    ],
+    incoming: [],
+    outgoing: [],
     bottomBorder: false,
-    showIncoming: true
+    showIncoming: true,
+    loggedInAs: "tonyboi"
   };
   bottomBorder = needed => {
     this.setState({ bottomBorder: needed });
   };
-
+  componentDidMount = () => {
+    this.getIncomingRequests();
+  };
+  componentDidUpdate = () => {
+    if (this.state.showIncoming) {
+      this.getIncomingRequests();
+    } else {
+      this.getOutgoingRequests();
+    }
+  };
+  getIncomingRequests = () => {
+    api.getIncoming(this.state.loggedInAs).then(incoming => {
+      this.setState({ incoming });
+    });
+  };
+  getOutgoingRequests = () => {
+    api.getOutgoing(this.state.loggedInAs).then(outgoing => {
+      this.setState({ outgoing });
+    });
+  };
   flipIncoming = () => {
     this.setState({ showIncoming: true });
   };
@@ -62,7 +54,6 @@ export default class NotificationsScreen extends React.Component {
   };
   render() {
     const { showIncoming, incoming, outgoing } = this.state;
-
     return (
       <View style={styles.container}>
         <View style={styles.switchRequests}>
@@ -76,7 +67,7 @@ export default class NotificationsScreen extends React.Component {
             </View>
             <View style={styles.buttonWrapper}>
               <Button
-                title="Ougoing"
+                title="Outgoing"
                 color={tintColor.tintColor}
                 onPress={this.flipOutgoing}
               />
