@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, Button, View, Alert, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  Button,
+  View,
+  Alert,
+  Dimensions,
+  Image
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as firebase from "firebase";
 import ApiKeys from "../constants/ApiKeys";
@@ -41,7 +48,6 @@ export default class ImageUploader extends React.Component {
       this.uploadImage(result.uri, `${username}-${Date.now()}`)
         .then(({ metadata: { fullPath } }) => {
           this.props.updateFirebaseUrl(fullPath);
-          Alert.alert("Image Added");
         })
         .catch(error => {
           Alert.alert("Error: ", error.message);
@@ -56,7 +62,6 @@ export default class ImageUploader extends React.Component {
       this.uploadImage(result.uri, `${username}-${Date.now()}`)
         .then(({ metadata: { fullPath } }) => {
           this.props.updateFirebaseUrl(fullPath);
-          Alert.alert("Image Added");
         })
         .catch(error => {
           Alert.alert("Error: ", error.message);
@@ -104,9 +109,16 @@ export default class ImageUploader extends React.Component {
       <View style={styles.container}>
         <TouchableOpacity
           onPress={this.cameraPressAlert}
-          style={styles.iconCamera}
+          style={this.props.fireBaseUrl ? styles.noBorder : styles.iconCamera}
         >
-          {cameraIcon}
+          {this.props.fireBaseUrl ? (
+            <Image
+              style={styles.itemImagePending}
+              source={{ uri: this.props.fireBaseUrl }}
+            />
+          ) : (
+            cameraIcon
+          )}
         </TouchableOpacity>
       </View>
     );
@@ -127,5 +139,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center"
+  },
+  noBorder: {
+    width: width,
+    borderRadius: 0,
+    borderStyle: "dashed",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  itemImagePending: {
+    width: 180,
+    height: 180,
+    borderRadius: 15,
+    overflow: "hidden"
   }
 });
