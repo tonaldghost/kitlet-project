@@ -6,7 +6,6 @@ import ApiKeys from "../constants/ApiKeys";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import tintColor from "../constants/Colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Asset } from "expo-asset";
 import * as ImageManipulator from "expo-image-manipulator";
 
 const width = Dimensions.get("window").width;
