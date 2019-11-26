@@ -9,8 +9,6 @@ import { createStackNavigator } from "react-navigation-stack";
 import IndividualItemScreen from "../components/IndividualItemScreen";
 import * as api from "../utils/api";
 
-// preparing thumbnail generator
-
 class DiscoverScreen extends React.Component {
   static navigationOptions = {
     header: null
@@ -84,7 +82,8 @@ class DiscoverScreen extends React.Component {
   getItemsFromApi = (filtered = false, category = null) => {
     if (filtered) {
       api.getAllItems().then(({ items }) => {
-        this.setState({ items });
+        const filteredItems = items.filter(item => item.category === category);
+        this.setState({ items: filteredItems });
       });
     } else {
       api.getAllItems().then(({ items }) => {
