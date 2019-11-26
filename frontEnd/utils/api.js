@@ -42,4 +42,29 @@ const getAllItems = () => {
     });
 };
 
-module.exports = { getAllItems, postNewListing, fetchUserItems };
+const getIncoming = username => {
+  return axios
+    .get(
+      `https://be-kitlet.herokuapp.com/api/requests/incoming?username=${username}`
+    )
+    .then(({ data: { incoming } }) => {
+      return incoming;
+    });
+};
+const getOutgoing = username => {
+  return axios
+    .get(
+      `https://be-kitlet.herokuapp.com/api/requests/outgoing?username=${username}`
+    )
+    .then(({ data: { outgoing } }) => {
+      return outgoing;
+    });
+};
+
+module.exports = {
+  getAllItems,
+  postNewListing,
+  fetchUserItems,
+  getIncoming,
+  getOutgoing
+};
