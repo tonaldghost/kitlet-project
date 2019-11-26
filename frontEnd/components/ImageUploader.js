@@ -5,7 +5,8 @@ import {
   View,
   Alert,
   Dimensions,
-  Image
+  Image,
+  ActivityIndicator
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as firebase from "firebase";
@@ -48,6 +49,7 @@ export default class ImageUploader extends React.Component {
       this.uploadImage(result.uri, `${username}-${Date.now()}`)
         .then(({ metadata: { fullPath } }) => {
           this.props.updateFirebaseUrl(fullPath);
+          this.props.imageNotLoading(true);
         })
         .catch(error => {
           Alert.alert("Error: ", error.message);
@@ -59,6 +61,7 @@ export default class ImageUploader extends React.Component {
     let result = await ImagePicker.launchCameraAsync();
 
     if (!result.cancelled) {
+      this.props.imageNotLoading(true);
       this.uploadImage(result.uri, `${username}-${Date.now()}`)
         .then(({ metadata: { fullPath } }) => {
           this.props.updateFirebaseUrl(fullPath);

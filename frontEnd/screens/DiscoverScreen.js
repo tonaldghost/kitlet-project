@@ -1,24 +1,29 @@
-import React from 'react';
-import ItemCard from '../components/ItemCard';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import SearchBar from '../components/SearchBar';
-import CategorySelector from '../components/CategorySelector';
-import { ScrollView } from 'react-native-gesture-handler';
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import IndividualItemScreen from '../components/IndividualItemScreen';
-import * as api from '../utils/api';
+import React from "react";
+import ItemCard from "../components/ItemCard";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ActivityIndicator
+} from "react-native";
+import SearchBar from "../components/SearchBar";
+import CategorySelector from "../components/CategorySelector";
+import { ScrollView } from "react-native-gesture-handler";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import tintColor from "../constants/Colors";
+import IndividualItemScreen from "../components/IndividualItemScreen";
+import * as api from "../utils/api";
 
 class DiscoverScreen extends React.Component {
-
-  
   static navigationOptions = {
     header: null
   };
   state = {
     takePicture: false,
     items: [],
-    bottomBorder: false
+    bottomBorder: false,
+    isLoading: true
   };
   orderByPrice = ascending => {
     this.setState(currentState => {
@@ -85,11 +90,11 @@ class DiscoverScreen extends React.Component {
     if (filtered) {
       api.getAllItems().then(({ items }) => {
         const filteredItems = items.filter(item => item.category === category);
-        this.setState({ items: filteredItems });
+        this.setState({ items: filteredItems, isLoading: false });
       });
     } else {
       api.getAllItems().then(({ items }) => {
-        this.setState({ items });
+        this.setState({ items, isLoading: false });
       });
     }
   };
@@ -112,6 +117,9 @@ class DiscoverScreen extends React.Component {
           resetResults={this.resetResults}
         />
         <ScrollView>
+          {this.state.isLoading && (
+            <ActivityIndicator size="large" color={tintColor.tintColor} />
+          )}
           {this.state.items.map((item, index) => {
             return (
               <TouchableOpacity
@@ -131,38 +139,37 @@ class DiscoverScreen extends React.Component {
       </View>
     );
   }
-
 }
 
 <IndividualItemScreen />;
 
 const DiscoverScreenNavigation = createStackNavigator(
-	{
-		Discover: DiscoverScreen,
-		IndividualItem: IndividualItemScreen
-	},
-	{
-		initialRouteName: 'Discover'
-	}
+  {
+    Discover: DiscoverScreen,
+    IndividualItem: IndividualItemScreen
+  },
+  {
+    initialRouteName: "Discover"
+  }
 );
 
 IndividualItemScreen.navigationOptions = {
-	title: 'Back To More Items'
+  title: "Back To More Items"
 };
 
 const DicoverContainer = createAppContainer(DiscoverScreenNavigation);
 
 const styles = StyleSheet.create({
-	container: { paddingTop: 50, paddingBottom: 168 },
-	header: { fontSize: 22 },
-	bottomPadding: { height: 36, paddingBottom: 48, marginBottom: 16 }
+  container: { paddingTop: 50, paddingBottom: 168 },
+  header: { fontSize: 22 },
+  bottomPadding: { height: 36, paddingBottom: 48, marginBottom: 16 }
 });
 
 export default class Discover extends React.Component {
-	static navigationOptions = {
-		header: null
-	};
-	render () {
-		return <DicoverContainer />;
-	}
+  static navigationOptions = {
+    header: null
+  };
+  render() {
+    return <DicoverContainer />;
+  }
 }

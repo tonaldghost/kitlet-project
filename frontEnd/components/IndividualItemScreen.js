@@ -1,33 +1,42 @@
-
-import React from 'react';
-import { StyleSheet, View, Button, Text, Image, Dimensions, ScrollView, KeyboardAvoidingView} from 'react-native';
+import React from "react";
+import {
+  StyleSheet,
+  View,
+  Button,
+  Text,
+  Image,
+  Dimensions,
+  ScrollView,
+  KeyboardAvoidingView
+} from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import mainGreen from '../constants/Colors';
-import tintColor from '../constants/Colors';
-import MapView from 'react-native-maps';
-import * as api from '../utils/api';
-import ApiKeys from '../constants/ApiKeys';
+import mainGreen from "../constants/Colors";
+import tintColor from "../constants/Colors";
+import MapView from "react-native-maps";
+import * as api from "../utils/api";
+import ApiKeys from "../constants/ApiKeys";
 
-import Icon from 'react-native-vector-icons/EvilIcons';
+import Icon from "react-native-vector-icons/EvilIcons";
 const myIcon = <Icon name="location" size={30} color={tintColor.tintColor} />;
-
 
 export default class IndividualItemScreen extends React.Component {
   state = {
-		lat: 0,
-		lng: 0
+    lat: 0,
+    lng: 0,
     requestingItem: false,
     messageBody: "",
     messageInFocus: false,
     loggedInUser: "tonyboi"
   };
-  	componentDidMount = () => {
-		const itemProps = this.props.navigation.state.params;
-		this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then((response) => {
-			const { location } = response.data.results[0].geometry;
-			this.setState({ ...location });
-		});
-	};
+  componentDidMount = () => {
+    const itemProps = this.props.navigation.state.params;
+    this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then(
+      response => {
+        const { location } = response.data.results[0].geometry;
+        this.setState({ ...location });
+      }
+    );
+  };
 
   focusOnMessage = bool => {
     this.setState({ messageInFocus: bool });
@@ -115,15 +124,16 @@ export default class IndividualItemScreen extends React.Component {
         marginBottom: this.state.messageInFocus ? 32 : 16,
         borderRadius: 5,
         paddingLeft: 8
-      }, 		map: {
-				height: 200,
-				width,
-				padding: 16
-			}
+      },
+      map: {
+        height: 200,
+        width,
+        padding: 16
+      }
     });
-	getItemLatLong = (location, apiKey) => {
-		return api.getAreaCoordinates(location, apiKey);
-	};
+    getItemLatLong = (location, apiKey) => {
+      return api.getAreaCoordinates(location, apiKey);
+    };
 
     const itemProps = this.props.navigation.state.params;
     return (
@@ -144,8 +154,6 @@ export default class IndividualItemScreen extends React.Component {
         <View style={styles.innerContent}>
           <Text style={styles.title}>{itemProps.title}</Text>
 
-
-
           <Text style={styles.price}>
             £{itemProps.price}
             <Text style={styles.perDay}>/day</Text>
@@ -160,17 +168,17 @@ export default class IndividualItemScreen extends React.Component {
             value={this.state.messageBody}
             placeholder="Include a message with your request"
           ></TextInput>
-    {this.state.lat !== 0 && (
-						<MapView
-							style={styles.map}
-							initialRegion={{
-								latitude: this.state.lat,
-								longitude: this.state.lng,
-								latitudeDelta: 0.1,
-								longitudeDelta: 0.1
-							}}
-						/>
-					)}
+          {this.state.lat !== 0 && (
+            <MapView
+              style={styles.map}
+              initialRegion={{
+                latitude: this.state.lat,
+                longitude: this.state.lng,
+                latitudeDelta: 0.1,
+                longitudeDelta: 0.1
+              }}
+            />
+          )}
           <Button
             title="Request Item"
             style={styles.request}

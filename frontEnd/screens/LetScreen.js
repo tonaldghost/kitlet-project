@@ -32,7 +32,8 @@ export default class LetScreen extends React.Component {
     loggedInUser: "tonyboi",
     fireBaseUrl: "",
     userLocation: "Pontefract",
-    nullPrompt: false
+    nullPrompt: false,
+    isLoading: false
   };
   focusOnPrice = bool => {
     this.setState({ priceInFocus: bool });
@@ -99,6 +100,9 @@ export default class LetScreen extends React.Component {
         });
     }
   };
+  imageNotLoading = bool => {
+    this.setState({ isLoading: bool });
+  };
   render() {
     const {
       whatItem,
@@ -107,7 +111,8 @@ export default class LetScreen extends React.Component {
       selectedCat,
       loggedInUser,
       fireBaseUrl,
-      nullPrompt
+      nullPrompt,
+      isLoading
     } = this.state;
     return (
       <KeyboardAvoidingView
@@ -119,6 +124,8 @@ export default class LetScreen extends React.Component {
           <ImageUploader
             updateFirebaseUrl={this.updateFirebaseUrl}
             fireBaseUrl={fireBaseUrl}
+            imageNotLoading={this.imageNotLoading}
+            isLoading={isLoading}
           />
         </View>
         <View style={styles.middle}>
