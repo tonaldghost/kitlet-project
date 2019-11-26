@@ -9,6 +9,18 @@ const fetchUserItems = username => {
     });
 };
 
+const postNewRequest = (item_id, body, request_user) => {
+  return axios
+    .post(`${baseURL}/requests`, {
+      item_id,
+      body,
+      request_user
+    })
+    .then(data => {
+      return data;
+    });
+};
+
 const postNewListing = (
   whatItem,
   loggedInUser,
@@ -66,5 +78,8 @@ module.exports = {
   postNewListing,
   fetchUserItems,
   getIncoming,
-  getOutgoing
+  getOutgoing,
+
+  postNewRequest
+
 };
