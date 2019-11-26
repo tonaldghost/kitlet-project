@@ -17,7 +17,7 @@ class ProfileScreen extends React.Component {
 		exampleProfile: {
 			username: 'tonyboi',
 			fullname: 'Tony Duchars',
-			img: 'http://static.businessinsider.com/image/4f96c4c5ecad049470000014/image.jpg',
+			img_url: 'http://static.businessinsider.com/image/4f96c4c5ecad049470000014/image.jpg',
 			location: 'Pontefract'
 		},
 		userItems: []
@@ -38,7 +38,7 @@ class ProfileScreen extends React.Component {
 			<View style={styles.container}>
 				<View style={styles.half}>
 					<View style={styles.mainProfile}>
-						<Image style={styles.profileImage} source={{ uri: img }} />
+						<Image style={styles.profileImage} source={{ uri: img_url }} />
 					</View>
 					<View style={styles.profileInfo}>
 						<Text style={styles.profileName}>{username}</Text>

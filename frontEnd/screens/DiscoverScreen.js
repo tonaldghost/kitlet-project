@@ -8,7 +8,6 @@ import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import IndividualItemScreen from "../components/IndividualItemScreen";
 import * as api from "../utils/api";
-// import { unwatchFile } from "fs";
 
 class DiscoverScreen extends React.Component {
   static navigationOptions = {
@@ -83,7 +82,8 @@ class DiscoverScreen extends React.Component {
   getItemsFromApi = (filtered = false, category = null) => {
     if (filtered) {
       api.getAllItems().then(({ items }) => {
-        this.setState({ items });
+        const filteredItems = items.filter(item => item.category === category);
+        this.setState({ items: filteredItems });
       });
     } else {
       api.getAllItems().then(({ items }) => {

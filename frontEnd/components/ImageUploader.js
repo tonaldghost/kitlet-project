@@ -6,11 +6,21 @@ import ApiKeys from "../constants/ApiKeys";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import tintColor from "../constants/Colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import * as ImageManipulator from "expo-image-manipulator";
 
 const width = Dimensions.get("window").width;
 const cameraIcon = (
   <Icon name="add-a-photo" size={36} color={tintColor.tintColor} />
 );
+
+_rotate90andFlip = async () => {
+  const manipResult = await ImageManipulator.manipulateAsync(
+    this.state.image.localUri || this.state.image.uri,
+    [{ rotate: 90 }, { flip: ImageManipulator.FlipType.Vertical }],
+    { compress: 1, format: ImageManipulator.SaveFormat.PNG }
+  );
+  this.setState({ image: manipResult });
+};
 
 if (!firebase.apps.length) {
   firebase.initializeApp(ApiKeys.FirebaseConfig);
@@ -20,11 +30,11 @@ const username = "tonyboi";
 export default class ImageUploader extends React.Component {
   static navigationOptions = {
     header: null,
-    takePicture: false
+    takePicture: false,
+    preScale: null
   };
 
   onChooseImagePress = async () => {
-    // let result = await ImagePicker.launchCameraAsync();
     let result = await ImagePicker.launchImageLibraryAsync();
 
     if (!result.cancelled) {
@@ -41,7 +51,6 @@ export default class ImageUploader extends React.Component {
 
   takePhoto = async () => {
     let result = await ImagePicker.launchCameraAsync();
-    // let result = await ImagePicker.launchImageLibraryAsync();
 
     if (!result.cancelled) {
       this.uploadImage(result.uri, `${username}-${Date.now()}`)
@@ -56,7 +65,12 @@ export default class ImageUploader extends React.Component {
   };
 
   uploadImage = async (uri, imageName) => {
-    const response = await fetch(uri);
+    const manipResult = await ImageManipulator.manipulateAsync(
+      uri,
+      [{ resize: { width: 500 } }],
+      { compress: 1, format: ImageManipulator.SaveFormat.PNG }
+    );
+    const response = await fetch(manipResult.uri);
     const blob = await response.blob();
 
     var ref = firebase
