@@ -7,42 +7,33 @@ const fetchUserItems = (username) => {
 	});
 };
 
-
 const postNewRequest = (item_id, body, request_user) => {
-  return axios
-    .post(`${baseURL}/requests`, {
-      item_id,
-      body,
-      request_user
-    })
-    .then(data => {
-      return data;
-    });
+	return axios
+		.post(`${baseURL}/requests`, {
+			item_id,
+			body,
+			request_user
+		})
+		.then((data) => {
+			return data;
+		});
 };
 
-const postNewListing = (
-  whatItem,
-  loggedInUser,
-  selectedCat,
-  describeItem,
-  price,
-  fireBaseUrl,
-  userLocation
-) => {
-  return axios
-    .post("https://be-kitlet.herokuapp.com/api/items", {
-      is_available: true,
-      title: whatItem,
-      owner: loggedInUser,
-      category: selectedCat,
-      body: describeItem,
-      price: +price,
-      img_url: fireBaseUrl,
-      location: userLocation
-    })
-    .then(({ data: { item } }) => {
-      return item;
-    });
+const postNewListing = (whatItem, loggedInUser, selectedCat, describeItem, price, fireBaseUrl, userLocation) => {
+	return axios
+		.post('https://be-kitlet.herokuapp.com/api/items', {
+			is_available: true,
+			title: whatItem,
+			owner: loggedInUser,
+			category: selectedCat,
+			body: describeItem,
+			price: +price,
+			img_url: fireBaseUrl,
+			location: userLocation
+		})
+		.then(({ data: { item } }) => {
+			return item;
+		});
 };
 
 const getAllItems = () => {
@@ -59,33 +50,44 @@ const getAreaCoordinates = (location, apiKey) => {
 		});
 };
 
-
-const getIncoming = username => {
-  return axios
-    .get(
-      `https://be-kitlet.herokuapp.com/api/requests/incoming?username=${username}`
-    )
-    .then(({ data: { incoming } }) => {
-      return incoming;
-    });
+const getIncoming = (username) => {
+	return axios
+		.get(`https://be-kitlet.herokuapp.com/api/requests/incoming?username=${username}`)
+		.then(({ data: { incoming } }) => {
+			return incoming;
+		});
 };
-const getOutgoing = username => {
-  return axios
-    .get(
-      `https://be-kitlet.herokuapp.com/api/requests/outgoing?username=${username}`
-    )
-    .then(({ data: { outgoing } }) => {
-      return outgoing;
-    });
+
+const getOutgoing = (username) => {
+	return axios
+		.get(`https://be-kitlet.herokuapp.com/api/requests/outgoing?username=${username}`)
+		.then(({ data: { outgoing } }) => {
+			return outgoing;
+		});
+};
+
+const getIncomingMessages = (username) => {
+	return axios
+		.get(`https://be-kitlet.herokuapp.com/api/messages/received/${username}`)
+		.then(({ data: { messages } }) => {
+			return messages;
+		});
+};
+
+const getSentMessages = (username) => {
+	return axios.get(`https://be-kitlet.herokuapp.com/api/messages/sent/${username}`).then(({ data: { messages } }) => {
+		return messages;
+	});
 };
 
 module.exports = {
-  getAllItems,
-  postNewListing,
-  fetchUserItems,
-  getIncoming,
-  getOutgoing,
-getAreaCoordinates,
-  postNewRequest
-
+	getAllItems,
+	postNewListing,
+	fetchUserItems,
+	getIncoming,
+	getOutgoing,
+	getAreaCoordinates,
+	postNewRequest,
+	getIncomingMessages,
+	getSentMessages
 };

@@ -17,7 +17,8 @@ class ProfileScreen extends React.Component {
 			username: 'tonyboi',
 			fullname: 'Tony Duchars',
 			img_url: 'http://static.businessinsider.com/image/4f96c4c5ecad049470000014/image.jpg',
-			location: 'Pontefract'
+			location: 'Pontefract',
+			headerShowing: true
 		},
 		userItems: []
 	};
@@ -29,6 +30,10 @@ class ProfileScreen extends React.Component {
 
 	getUserItems = (username) => {
 		return api.fetchUserItems(username);
+	};
+
+	hideHeader = () => {
+		this.setState({ headerShowing: false });
 	};
 
 	render () {
@@ -70,7 +75,7 @@ class ProfileScreen extends React.Component {
 }
 
 <IndividualItemScreen />;
-<MessagesScreen />;
+<MessagesScreen hideHeader={this.hideHeader} />;
 
 const styles = StyleSheet.create({
 	container: {
@@ -150,6 +155,10 @@ const ProfileScreenNavigation = createStackNavigator(
 
 IndividualItemScreen.navigationOptions = {
 	title: 'Back To More Items'
+};
+
+MessagesScreen.navigationOptions = {
+	title: 'Back To Profile'
 };
 
 const ProfileContainer = createAppContainer(ProfileScreenNavigation);

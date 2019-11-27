@@ -1,12 +1,19 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, TouchableOpacity, Button, Dimensions } from 'react-native';
-import RequestCard from './RequestCard';
+import { ScrollView, StyleSheet, View, TouchableOpacity, Button, Dimensions, Text } from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import MessageCard from './MessageCard';
 import tintColor from '../constants/Colors';
+import IndividualMessageScreen from '../components/IndividualMessageScreen';
 import * as api from '../utils/api';
 
 const width = Dimensions.get('window').width;
 
-export default class MessagesScreen extends React.Component {
+class MessagesScreen extends React.Component {
+	static navigationOptions = {
+		header: null
+	};
+
 	state = {
 		incoming: [],
 		sent: [],
@@ -19,39 +26,43 @@ export default class MessagesScreen extends React.Component {
 	};
 
 	componentDidMount = () => {
-		this.getIncomingRequests();
+		this.getIncomingMessages();
 	};
 
 	componentDidUpdate = () => {
 		if (this.state.showIncoming) {
-			this.getIncomingRequests();
+			this.getIncomingMessages();
 		} else {
-			this.getOutgoingRequests();
+			this.getSentMessages();
 		}
 	};
 
-	getIncomingRequests = () => {
-		api.getIncoming(this.state.loggedInAs).then((incoming) => {
+	getIncomingMessages = () => {
+		api.getIncomingMessages(this.state.loggedInAs).then((incoming) => {
 			this.setState({ incoming });
 		});
 	};
 
-	getOutgoingRequests = () => {
-		api.getOutgoing(this.state.loggedInAs).then((outgoing) => {
-			this.setState({ outgoing });
+	getSentMessages = () => {
+		api.getSentMessages(this.state.loggedInAs).then((sent) => {
+			this.setState({ sent });
 		});
 	};
 
 	flipSent = () => {
-		this.setState({ showIncoming: true });
-	};
-
-	flipIncoming = () => {
 		this.setState({ showIncoming: false });
 	};
 
+	flipIncoming = () => {
+		this.setState({ showIncoming: true });
+	};
+
+	handleMessageNavigate = () => {
+		this.props.hideHeader();
+	};
+
 	render () {
-		const { showIncoming, incoming, outgoing } = this.state;
+		const { showIncoming, incoming, sent } = this.state;
 		return (
 			<View style={styles.container}>
 				<View style={styles.switchRequests}>
@@ -68,18 +79,23 @@ export default class MessagesScreen extends React.Component {
 					<ScrollView style={styles.scrollRequests}>
 						{incoming.map((item, index) => {
 							return (
-								<TouchableOpacity key={`${index}-view`}>
-									<RequestCard item={item} showIncoming={showIncoming} />
+								<TouchableOpacity
+									key={`${index}-view`}
+									onPress={() => {
+										this.props.navigation.navigate('IndividualMessage', item);
+									}}
+								>
+									<MessageCard message={item} showIncoming={showIncoming} />
 								</TouchableOpacity>
 							);
 						})}
 					</ScrollView>
 				) : (
 					<ScrollView style={styles.scrollRequests}>
-						{outgoing.map((item, index) => {
+						{sent.map((item, index) => {
 							return (
 								<TouchableOpacity key={`${index}-view`}>
-									<RequestCard item={item} showIncoming={showIncoming} />
+									<MessageCard message={item} showIncoming={showIncoming} />
 								</TouchableOpacity>
 							);
 						})}
@@ -90,9 +106,23 @@ export default class MessagesScreen extends React.Component {
 	}
 }
 
-MessagesScreen.navigationOptions = {
-	header: null
+<IndividualMessageScreen />;
+
+const MessageScreenNavigation = createStackNavigator(
+	{
+		Messages: MessagesScreen,
+		IndividualMessage: IndividualMessageScreen
+	},
+	{
+		initialRouteName: 'Messages'
+	}
+);
+
+IndividualMessageScreen.navigationOptions = {
+	title: 'Back To Messages'
 };
+
+const MessageContainer = createAppContainer(MessageScreenNavigation);
 
 const styles = StyleSheet.create({
 	container: {
@@ -111,3 +141,12 @@ const styles = StyleSheet.create({
 	},
 	buttonWrapper: { width: width / 2 * 0.9, height: 64 }
 });
+
+export default class Messages extends React.Component {
+	static navigationOptions = {
+		header: null
+	};
+	render () {
+		return <MessageContainer />;
+	}
+}

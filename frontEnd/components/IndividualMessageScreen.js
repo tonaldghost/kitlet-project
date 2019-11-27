@@ -1,63 +1,30 @@
 import React from 'react';
-import {
-	StyleSheet,
-	View,
-	Button,
-	Text,
-	Image,
-	Dimensions,
-	Alert,
-	ScrollView,
-	KeyboardAvoidingView
-} from 'react-native';
+import { StyleSheet, View, Text, Dimensions, KeyboardAvoidingView } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import mainGreen from '../constants/Colors';
 import tintColor from '../constants/Colors';
-import MapView from 'react-native-maps';
-import * as api from '../utils/api';
-import ApiKeys from '../constants/ApiKeys';
 
 import Icon from 'react-native-vector-icons/EvilIcons';
 const myIcon = <Icon name="location" size={30} color={tintColor.tintColor} />;
 
-export default class IndividualItemScreen extends React.Component {
-	state = {
-		lat: 0,
-		lng: 0,
-		messageBody: '',
-		requestingItem: false,
-		messageInFocus: false,
-		loggedInUser: 'tonyboi'
+export default class IndividualMessageScreen extends React.Component {
+	static navigationOptions = {
+		header: null
 	};
-	componentDidMount = () => {
-		const itemProps = this.props.navigation.state.params;
-		this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then((response) => {
-			const { location } = response.data.results[0].geometry;
-			this.setState({ ...location });
-		});
+	state = {
+		messageTitle: '',
+		messageBody: '',
+		loggedInUser: 'tonyboi'
 	};
 
 	focusOnMessage = (bool) => {
 		this.setState({ messageInFocus: bool });
 	};
-	getItemLatLong = (location, apiKey) => {
-		return api.getAreaCoordinates(location, apiKey);
-	};
-	requestItem = ({ item_id }) => {
-		if (this.state.messageBody.length < 10) Alert.alert('Please provide a message for your request');
-		else {
-			api.postNewRequest(item_id, this.state.messageBody, this.state.loggedInUser).then(({ status }) => {
-				if (status === 201) {
-					Alert.alert('Your request has been successfully sent');
-				} else {
-					Alert.alert('There has been an error sending your request, please try again');
-				}
-			});
-		}
-	};
+
 	handleInput = (e) => {
 		this.setState({ messageBody: e.nativeEvent.text });
 	};
+
 	render () {
 		const width = Dimensions.get('window').width;
 		const styles = StyleSheet.create({
@@ -77,10 +44,9 @@ export default class IndividualItemScreen extends React.Component {
 				fontSize: 22
 			},
 			price: {
-				fontSize: 22,
+				fontSize: 16,
 				marginTop: 16,
-				fontWeight: '800',
-				color: mainGreen.mainGreen
+				fontWeight: '300'
 			},
 			perDay: {
 				fontSize: 22,
@@ -123,7 +89,8 @@ export default class IndividualItemScreen extends React.Component {
 				padding: 16
 			}
 		});
-		const itemProps = this.props.navigation.state.params;
+
+		const messageProps = this.props.navigation.state.params;
 		return (
 			<KeyboardAvoidingView
 				style={{
@@ -135,14 +102,10 @@ export default class IndividualItemScreen extends React.Component {
 				behavior="position"
 				enabled={this.state.messageInFocus}
 			>
-				<Image style={styles.itemCardImage} source={{ uri: itemProps.img_url }} />
 				<View style={styles.innerContent}>
-					<Text style={styles.title}>{itemProps.title}</Text>
+					<Text style={styles.title}>{messageProps.title}</Text>
 
-					<Text style={styles.price}>
-						£{itemProps.price}
-						<Text style={styles.perDay}>/day</Text>
-					</Text>
+					<Text style={styles.price}>{messageProps.body}</Text>
 				</View>
 				<View style={styles.buttonHolder}>
 					<TextInput
@@ -151,24 +114,7 @@ export default class IndividualItemScreen extends React.Component {
 						style={styles.messageBox}
 						onChange={this.handleInput}
 						value={this.state.messageBody}
-						placeholder="Include a message with your request"
-					/>
-					{this.state.lat !== 0 && (
-						<MapView
-							style={styles.map}
-							initialRegion={{
-								latitude: this.state.lat,
-								longitude: this.state.lng,
-								latitudeDelta: 0.1,
-								longitudeDelta: 0.1
-							}}
-						/>
-					)}
-					<Button
-						title="Request Item"
-						style={styles.request}
-						onPress={() => this.requestItem(itemProps)}
-						color={tintColor.tintColor}
+						placeholder="Reply to message"
 					/>
 				</View>
 			</KeyboardAvoidingView>
