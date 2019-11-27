@@ -122,6 +122,7 @@ class DiscoverScreen extends React.Component {
       this.setState({ refObjDistance: data });
     });
   };
+
   componentDidMount = () => {
     this.getItemsFromApi();
   };

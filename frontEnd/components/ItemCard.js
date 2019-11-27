@@ -3,9 +3,17 @@ import { StyleSheet, View, Text, Image } from "react-native";
 import mainGreen from "../constants/Colors";
 import mainRed from "../constants/Colors";
 import GetLocation from "../components/GetLocation";
+import { getDistance } from "geolib";
 
 const ItemCard = ({ props, refObjDistance }) => {
-  console.log(refObjDistance);
+  async function distanceKm(myPosLat, myPosLng, distLat, distLng) {
+    const distance = await getDistance(
+      { latitude: myPosLat, longitude: myPosLng },
+      { latitude: distLat, longitude: distLng }
+    );
+    console.log(Math.round(distance / 1000));
+    return Math.round(distance / 1000);
+  }
   return (
     <View style={styles.itemCardContainer}>
       <Image style={styles.itemCardImage} source={{ uri: props.img_url }} />
@@ -17,12 +25,15 @@ const ItemCard = ({ props, refObjDistance }) => {
         )}
 
         <Text style={styles.title}>{props.title}</Text>
-        <Text style={styles.location}>
-          {props.location}
-          {typeof refObjDistance === "object" && (
-            <GetLocation refObjDistance={refObjDistance} />
-          )}
-        </Text>
+        <Text style={styles.location}>{props.location}</Text>
+        {typeof refObjDistance === "object" &&
+          navigator.geolocation.getCurrentPosition(position => {
+            let myPosLat = position.coords.latitude;
+            let myPosLng = position.coords.longitude;
+            let distLat = refObjDistance.lat;
+            let distLng = refObjDistance.lng;
+            distanceKm(myPosLat, myPosLng, distLat, distLng);
+          })}
         <Text style={styles.price}>
           £{props.price}
           <Text style={styles.perDay}>/day</Text>

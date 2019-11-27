@@ -1,7 +1,6 @@
 const ApiKeys = require("../constants/ApiKeys");
 
 async function getLocationFromName(singleLocations) {
-  console.log(singleLocations);
   const promiseArr = Array.from(singleLocations).map(
     location =>
       new Promise((resolve, reject) => {
