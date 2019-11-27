@@ -23,8 +23,8 @@ export default class IndividualItemScreen extends React.Component {
   state = {
     lat: 0,
     lng: 0,
-    requestingItem: false,
     messageBody: "",
+    requestingItem: false,
     messageInFocus: false,
     loggedInUser: "tonyboi"
   };
@@ -41,7 +41,9 @@ export default class IndividualItemScreen extends React.Component {
   focusOnMessage = bool => {
     this.setState({ messageInFocus: bool });
   };
-
+  getItemLatLong = (location, apiKey) => {
+    return api.getAreaCoordinates(location, apiKey);
+  };
   requestItem = ({ item_id }) => {
     if (this.state.messageBody.length < 10)
       Alert.alert("Please provide a message for your request");
@@ -131,10 +133,6 @@ export default class IndividualItemScreen extends React.Component {
         padding: 16
       }
     });
-    getItemLatLong = (location, apiKey) => {
-      return api.getAreaCoordinates(location, apiKey);
-    };
-
     const itemProps = this.props.navigation.state.params;
     return (
       <KeyboardAvoidingView
