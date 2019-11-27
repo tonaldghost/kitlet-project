@@ -5,27 +5,22 @@ import mainRed from "../constants/Colors";
 import GetLocation from "../components/GetLocation";
 import { getDistance } from "geolib";
 
-class ItemCard extends React.Component {
+class ItemCard2 extends React.Component {
   state = {
     hasObj: false,
     refObj: {}
   };
-  async componentDidMount() {
-    do {
-      if (this.props.refObjDistance) {
-        this.setState({ refObj: this.props.refObjDistance, hasObj: true });
-      }
-    } while (!this.state.hasObj);
+  componentDidMount() {
+    const refObj = this.props.refObjDistance;
+    refObj && this.setState({ hasObj: true });
   }
 
-  async distanceKm(myPosLat, myPosLng, distLat, distLng) {
-    console.log("in func");
-    const distance = await getDistance(
+  distanceKm(myPosLat, myPosLng, distLat, distLng) {
+    const distance = getDistance(
       { latitude: myPosLat, longitude: myPosLng },
       { latitude: distLat, longitude: distLng }
     );
-    console.log(Math.round(distance / 1000));
-    return Math.round(distance / 1000);
+    this.setState({ distanceAway: Math.round(distance / 1000) });
   }
 
   render() {
@@ -48,10 +43,14 @@ class ItemCard extends React.Component {
             navigator.geolocation.getCurrentPosition(position => {
               let myPosLat = position.coords.latitude;
               let myPosLng = position.coords.longitude;
-              let distLat = refObjDistance.lat;
-              let distLng = refObjDistance.lng;
+              let distLat = this.props.refObjDistance.lat;
+              let distLng = this.props.refObjDistance.lng;
+
               this.distanceKm(myPosLat, myPosLng, distLat, distLng);
             })}
+          <Text>
+            {this.state.distanceAway && this.state.distanceAway}km away
+          </Text>
           <Text style={styles.price}>
             £{this.props.props.price}
             <Text style={styles.perDay}>/day</Text>
@@ -104,4 +103,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ItemCard;
+export default ItemCard2;

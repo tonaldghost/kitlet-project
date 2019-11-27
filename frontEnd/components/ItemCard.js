@@ -2,46 +2,63 @@ import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import mainGreen from "../constants/Colors";
 import mainRed from "../constants/Colors";
-import GetLocation from "../components/GetLocation";
 import { getDistance } from "geolib";
 
-const ItemCard = ({ props, refObjDistance }) => {
-  async function distanceKm(myPosLat, myPosLng, distLat, distLng) {
-    const distance = await getDistance(
+class ItemCard extends React.Component {
+  state = {
+    hasObj: false,
+    refObj: {}
+  };
+  componentDidMount() {
+    const refObj = this.props.refObjDistance;
+    refObj && this.setState({ hasObj: true });
+  }
+
+  distanceKm(myPosLat, myPosLng, distLat, distLng) {
+    const distance = getDistance(
       { latitude: myPosLat, longitude: myPosLng },
       { latitude: distLat, longitude: distLng }
     );
-    console.log(Math.round(distance / 1000));
-    return Math.round(distance / 1000);
+    this.setState({ distanceAway: Math.round(distance / 1000) });
   }
-  return (
-    <View style={styles.itemCardContainer}>
-      <Image style={styles.itemCardImage} source={{ uri: props.img_url }} />
-      <View style={styles.innerContent}>
-        {props.is_available ? (
-          <Text style={styles.fixedIsAvailable}>Available</Text>
-        ) : (
-          <Text style={styles.fixedIsNotAvailable}>Not Available</Text>
-        )}
 
-        <Text style={styles.title}>{props.title}</Text>
-        <Text style={styles.location}>{props.location}</Text>
-        {typeof refObjDistance === "object" &&
-          navigator.geolocation.getCurrentPosition(position => {
-            let myPosLat = position.coords.latitude;
-            let myPosLng = position.coords.longitude;
-            let distLat = refObjDistance.lat;
-            let distLng = refObjDistance.lng;
-            distanceKm(myPosLat, myPosLng, distLat, distLng);
-          })}
-        <Text style={styles.price}>
-          £{props.price}
-          <Text style={styles.perDay}>/day</Text>
-        </Text>
+  render() {
+    return (
+      <View style={styles.itemCardContainer}>
+        <Image
+          style={styles.itemCardImage}
+          source={{ uri: this.props.props.img_url }}
+        />
+        <View style={styles.innerContent}>
+          {this.props.props.is_available ? (
+            <Text style={styles.fixedIsAvailable}>Available</Text>
+          ) : (
+            <Text style={styles.fixedIsNotAvailable}>Not Available</Text>
+          )}
+
+          <Text style={styles.title}>{this.props.props.title}</Text>
+          <Text style={styles.location}>{this.props.props.location}</Text>
+          {this.state.hasObj &&
+            navigator.geolocation.getCurrentPosition(position => {
+              let myPosLat = position.coords.latitude;
+              let myPosLng = position.coords.longitude;
+              let distLat = this.props.refObjDistance.lat;
+              let distLng = this.props.refObjDistance.lng;
+
+              this.distanceKm(myPosLat, myPosLng, distLat, distLng);
+            })}
+          {this.state.distanceAway && (
+            <Text>{this.state.distanceAway + "km away"}</Text>
+          )}
+          <Text style={styles.price}>
+            £{this.props.props.price}
+            <Text style={styles.perDay}>/day</Text>
+          </Text>
+        </View>
       </View>
-    </View>
-  );
-};
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   title: { fontSize: 22 },
