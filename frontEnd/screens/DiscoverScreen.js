@@ -15,6 +15,8 @@ import tintColor from "../constants/Colors";
 import IndividualItemScreen from "../components/IndividualItemScreen";
 import * as api from "../utils/api";
 
+// init branch
+
 class DiscoverScreen extends React.Component {
   static navigationOptions = {
     header: null
