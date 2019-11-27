@@ -9,6 +9,8 @@ import { createStackNavigator } from "react-navigation-stack";
 import IndividualItemScreen from "../components/IndividualItemScreen";
 import { getLocationFromName } from "../components/GetLocationFromName";
 
+// jesus is our lord and saviour
+
 const dummyData = [
   {
     title: "1984 Minimoog",
