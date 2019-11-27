@@ -20,6 +20,8 @@ import ApiKeys from "../constants/ApiKeys";
 import Icon from "react-native-vector-icons/EvilIcons";
 const myIcon = <Icon name="location" size={30} color={tintColor.tintColor} />;
 
+// tony not be able to request my own item!
+
 export default class IndividualItemScreen extends React.Component {
   state = {
     lat: 0,
