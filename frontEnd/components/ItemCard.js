@@ -2,8 +2,10 @@ import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import mainGreen from "../constants/Colors";
 import mainRed from "../constants/Colors";
+import GetLocation from "../components/GetLocation";
 
-const ItemCard = ({ props }) => {
+const ItemCard = ({ props, refObjDistance }) => {
+  console.log(refObjDistance);
   return (
     <View style={styles.itemCardContainer}>
       <Image style={styles.itemCardImage} source={{ uri: props.img_url }} />
@@ -15,7 +17,12 @@ const ItemCard = ({ props }) => {
         )}
 
         <Text style={styles.title}>{props.title}</Text>
-        <Text style={styles.location}>{props.location}</Text>
+        <Text style={styles.location}>
+          {props.location}
+          {typeof refObjDistance === "object" && (
+            <GetLocation refObjDistance={refObjDistance} />
+          )}
+        </Text>
         <Text style={styles.price}>
           £{props.price}
           <Text style={styles.perDay}>/day</Text>

@@ -14,8 +14,9 @@ import { createStackNavigator } from "react-navigation-stack";
 import tintColor from "../constants/Colors";
 import IndividualItemScreen from "../components/IndividualItemScreen";
 import * as api from "../utils/api";
+import { getLocationFromName } from "../components/GetLocationFromName";
 
-// preparing final geolocation
+// preparing final geolocation hopefully
 
 class DiscoverScreen extends React.Component {
   static navigationOptions = {
@@ -25,7 +26,8 @@ class DiscoverScreen extends React.Component {
     takePicture: false,
     items: [],
     bottomBorder: false,
-    isLoading: true
+    isLoading: true,
+    refObjDistance: {}
   };
   orderByPrice = ascending => {
     this.setState(currentState => {
@@ -90,15 +92,35 @@ class DiscoverScreen extends React.Component {
   };
   getItemsFromApi = (filtered = false, category = null) => {
     if (filtered) {
-      api.getAllItems().then(({ items }) => {
-        const filteredItems = items.filter(item => item.category === category);
-        this.setState({ items: filteredItems, isLoading: false });
-      });
+      api
+        .getAllItems()
+        .then(({ items }) => {
+          const filteredItems = items.filter(
+            item => item.category === category
+          );
+          this.setState({ items: filteredItems, isLoading: false });
+        })
+        .then(() => {
+          this.getLocationRequest();
+        });
     } else {
-      api.getAllItems().then(({ items }) => {
-        this.setState({ items, isLoading: false });
-      });
+      api
+        .getAllItems()
+        .then(({ items }) => {
+          this.setState({ items, isLoading: false });
+        })
+        .then(() => {
+          this.getLocationRequest();
+        });
     }
+  };
+  getLocationRequest = () => {
+    const justLocations = [];
+    this.state.items.map(item => justLocations.push(item.location));
+    const singleLocations = new Set(justLocations);
+    getLocationFromName(singleLocations).then(data => {
+      this.setState({ refObjDistance: data });
+    });
   };
   componentDidMount = () => {
     this.getItemsFromApi();
@@ -130,7 +152,11 @@ class DiscoverScreen extends React.Component {
                   this.props.navigation.navigate("IndividualItem", item)
                 }
               >
-                <ItemCard key={index} props={item} />
+                <ItemCard
+                  key={index}
+                  props={item}
+                  refObjDistance={this.state.refObjDistance[item.location]}
+                />
               </TouchableOpacity>
             );
           })}
