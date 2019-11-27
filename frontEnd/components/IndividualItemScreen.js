@@ -30,13 +30,23 @@ export default class IndividualItemScreen extends React.Component {
     loggedInUser: "tonyboi"
   };
   componentDidMount = () => {
-    const itemProps = this.props.navigation.state.params;
-    this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then(
-      response => {
-        const { location } = response.data.results[0].geometry;
-        this.setState({ ...location });
-      }
-    );
+    if (this.props.navigation.state.params.editable) {
+      const itemProps = this.props.navigation.state.params.item;
+      this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then(
+        response => {
+          const { location } = response.data.results[0].geometry;
+          this.setState({ ...location });
+        }
+      );
+    } else {
+      const itemProps = this.props.navigation.state.params;
+      this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then(
+        response => {
+          const { location } = response.data.results[0].geometry;
+          this.setState({ ...location });
+        }
+      );
+    }
   };
 
   focusOnMessage = bool => {
@@ -145,7 +155,9 @@ export default class IndividualItemScreen extends React.Component {
         fontSize: 14
       }
     });
-    const itemProps = this.props.navigation.state.params;
+    const itemProps = this.props.navigation.state.params.editable
+      ? this.props.navigation.state.params.item
+      : this.props.navigation.state.params;
     return (
       <KeyboardAvoidingView
         style={{

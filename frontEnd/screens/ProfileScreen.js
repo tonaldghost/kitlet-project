@@ -68,7 +68,10 @@ class ProfileScreen extends React.Component {
               <TouchableOpacity
                 key={`${index}-view`}
                 onPress={() =>
-                  this.props.navigation.navigate("IndividualItem", item)
+                  this.props.navigation.navigate("IndividualItem", {
+                    item,
+                    editable: true
+                  })
                 }
               >
                 <ItemCard key={index} props={item} />
@@ -145,7 +148,6 @@ const styles = StyleSheet.create({
 });
 
 ProfileScreen.navigationOptions = {
-  title: "KITLET",
   header: null
 };
 
