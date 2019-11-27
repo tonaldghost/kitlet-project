@@ -18,6 +18,7 @@ import ApiKeys from "../constants/ApiKeys";
 
 import Icon from "react-native-vector-icons/EvilIcons";
 const myIcon = <Icon name="location" size={30} color={tintColor.tintColor} />;
+
 export default class IndividualItemScreen extends React.Component {
   state = {
     lat: 0,
@@ -132,7 +133,6 @@ export default class IndividualItemScreen extends React.Component {
         padding: 16
       }
     });
-
     const itemProps = this.props.navigation.state.params;
     return (
       <KeyboardAvoidingView

@@ -5,7 +5,8 @@ import {
   View,
   TouchableOpacity,
   Button,
-  Dimensions
+  Dimensions,
+  ActivityIndicator
 } from "react-native";
 import RequestCard from "../components/RequestCard";
 import tintColor from "../constants/Colors";
@@ -21,7 +22,8 @@ export default class NotificationsScreen extends React.Component {
     outgoing: [],
     bottomBorder: false,
     showIncoming: true,
-    loggedInAs: "tonyboi"
+    loggedInAs: "tonyboi",
+    isLoading: true
   };
   bottomBorder = needed => {
     this.setState({ bottomBorder: needed });
@@ -38,19 +40,19 @@ export default class NotificationsScreen extends React.Component {
   };
   getIncomingRequests = () => {
     api.getIncoming(this.state.loggedInAs).then(incoming => {
-      this.setState({ incoming });
+      this.setState({ incoming, isLoading: false });
     });
   };
   getOutgoingRequests = () => {
     api.getOutgoing(this.state.loggedInAs).then(outgoing => {
-      this.setState({ outgoing });
+      this.setState({ outgoing, isLoading: false });
     });
   };
   flipIncoming = () => {
     this.setState({ showIncoming: true });
   };
   flipOutgoing = () => {
-    this.setState({ showIncoming: false });
+    this.setState({ showIncoming: false, isLoading: true });
   };
   render() {
     const { showIncoming, incoming, outgoing } = this.state;
@@ -74,6 +76,9 @@ export default class NotificationsScreen extends React.Component {
             </View>
           </View>
         </View>
+        {this.state.isLoading && (
+          <ActivityIndicator size="large" color={tintColor.tintColor} />
+        )}
         {showIncoming ? (
           <ScrollView style={styles.scrollRequests}>
             {incoming.map((item, index) => {
