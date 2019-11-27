@@ -15,7 +15,7 @@ import ItemCard from "../components/ItemCard";
 import IndividualItemScreen from "../components/IndividualItemScreen";
 import * as api from "../utils/api";
 
-// backup
+// aloowing to patch profile items
 
 const width = Dimensions.get("window").width;
 
