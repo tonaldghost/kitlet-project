@@ -1,12 +1,13 @@
-const axios = require('axios');
-const baseURL = 'https://be-kitlet.herokuapp.com/api';
+const axios = require("axios");
+const baseURL = "https://be-kitlet.herokuapp.com/api";
 
-const fetchUserItems = (username) => {
-	return axios.get(`${baseURL}/users/${username}/items`).then(({ data: { items } }) => {
-		return items;
-	});
+const fetchUserItems = username => {
+  return axios
+    .get(`${baseURL}/users/${username}/items`)
+    .then(({ data: { items } }) => {
+      return items;
+    });
 };
-
 
 const postNewRequest = (item_id, body, request_user) => {
   return axios
@@ -46,19 +47,22 @@ const postNewListing = (
 };
 
 const getAllItems = () => {
-	return axios.get(`https://be-kitlet.herokuapp.com/api/items`).then(({ data }) => {
-		return data;
-	});
+  return axios
+    .get(`https://be-kitlet.herokuapp.com/api/items`)
+    .then(({ data }) => {
+      return data;
+    });
 };
 
 const getAreaCoordinates = (location, apiKey) => {
-	return axios
-		.get(`https://maps.googleapis.com/maps/api/geocode/json?&address=${location}&key=${apiKey}`)
-		.then((response) => {
-			return response;
-		});
+  return axios
+    .get(
+      `https://maps.googleapis.com/maps/api/geocode/json?&address=${location}&key=${apiKey}`
+    )
+    .then(response => {
+      return response;
+    });
 };
-
 
 const getIncoming = username => {
   return axios
@@ -85,7 +89,6 @@ module.exports = {
   fetchUserItems,
   getIncoming,
   getOutgoing,
-getAreaCoordinates,
+  getAreaCoordinates,
   postNewRequest
-
 };

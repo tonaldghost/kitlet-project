@@ -73,11 +73,18 @@ export default class IndividualItemScreen extends React.Component {
     const width = Dimensions.get("window").width;
     const styles = StyleSheet.create({
       container: { paddingTop: 50, paddingBottom: 62 },
-      itemCardImage: { flex: 2, width, height: 128, margin: 32 },
+      itemCardImage: {
+        flex: 2,
+        width,
+        height: 72,
+        marginLeft: 32,
+        marginRight: 32
+      },
       innerContent: {
         flex: 2,
         width,
-        margin: 32,
+        marginLeft: 32,
+        marginRight: 32,
         paddingLeft: 16,
         paddingRight: 16
       },
@@ -90,6 +97,7 @@ export default class IndividualItemScreen extends React.Component {
       price: {
         fontSize: 22,
         marginTop: 16,
+        marginBottom: 16,
         fontWeight: "800",
         color: mainGreen.mainGreen
       },
@@ -111,7 +119,7 @@ export default class IndividualItemScreen extends React.Component {
         backgroundColor: "#333",
         paddingBottom: 32
       },
-      title: { fontSize: 32 },
+      title: { fontSize: 32, marginTop: 16 },
       header: { fontSize: 22 },
       buttonHolder: {
         marginLeft: 48,
@@ -121,7 +129,7 @@ export default class IndividualItemScreen extends React.Component {
         justifyContent: "center"
       },
       messageBox: {
-        height: 64,
+        height: 32,
         borderColor: "#ddd",
         borderWidth: 1,
         marginBottom: this.state.messageInFocus ? 32 : 16,
@@ -130,8 +138,11 @@ export default class IndividualItemScreen extends React.Component {
       },
       map: {
         height: 200,
-        width,
+        width: width - 32,
         padding: 16
+      },
+      description: {
+        fontSize: 14
       }
     });
     const itemProps = this.props.navigation.state.params;
@@ -152,21 +163,11 @@ export default class IndividualItemScreen extends React.Component {
         />
         <View style={styles.innerContent}>
           <Text style={styles.title}>{itemProps.title}</Text>
-
+          <Text style={styles.description}>{itemProps.body}</Text>
           <Text style={styles.price}>
             £{itemProps.price}
             <Text style={styles.perDay}>/day</Text>
           </Text>
-        </View>
-        <View style={styles.buttonHolder}>
-          <TextInput
-            onFocus={() => this.focusOnMessage(true)}
-            onBlur={() => this.focusOnMessage(false)}
-            style={styles.messageBox}
-            onChange={this.handleInput}
-            value={this.state.messageBody}
-            placeholder="Include a message with your request"
-          ></TextInput>
           {this.state.lat !== 0 && (
             <MapView
               style={styles.map}
@@ -178,6 +179,16 @@ export default class IndividualItemScreen extends React.Component {
               }}
             />
           )}
+        </View>
+        <View style={styles.buttonHolder}>
+          <TextInput
+            onFocus={() => this.focusOnMessage(true)}
+            onBlur={() => this.focusOnMessage(false)}
+            style={styles.messageBox}
+            onChange={this.handleInput}
+            value={this.state.messageBody}
+            placeholder="Include a message with your request"
+          ></TextInput>
           <Button
             title="Request Item"
             style={styles.request}
