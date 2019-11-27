@@ -49,7 +49,7 @@ export default class ImageUploader extends React.Component {
       this.uploadImage(result.uri, `${username}-${Date.now()}`)
         .then(({ metadata: { fullPath } }) => {
           this.props.updateFirebaseUrl(fullPath);
-          this.props.imageNotLoading(true);
+          this.props.imageNotLoading(false);
         })
         .catch(error => {
           Alert.alert("Error: ", error.message);
@@ -65,6 +65,7 @@ export default class ImageUploader extends React.Component {
       this.uploadImage(result.uri, `${username}-${Date.now()}`)
         .then(({ metadata: { fullPath } }) => {
           this.props.updateFirebaseUrl(fullPath);
+          this.props.imageNotLoading(false);
         })
         .catch(error => {
           Alert.alert("Error: ", error.message);
@@ -73,6 +74,7 @@ export default class ImageUploader extends React.Component {
   };
 
   uploadImage = async (uri, imageName) => {
+    this.props.imageNotLoading(true);
     const manipResult = await ImageManipulator.manipulateAsync(
       uri,
       [{ resize: { width: 500 } }],
@@ -109,27 +111,46 @@ export default class ImageUploader extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <TouchableOpacity
-          onPress={this.cameraPressAlert}
-          style={this.props.fireBaseUrl ? styles.noBorder : styles.iconCamera}
-        >
-          {this.props.fireBaseUrl ? (
-            <Image
-              style={styles.itemImagePending}
-              source={{ uri: this.props.fireBaseUrl }}
-            />
-          ) : (
-            cameraIcon
-          )}
-        </TouchableOpacity>
+      <View
+        style={this.props.fireBaseUrl ? styles.containerImg : styles.container}
+      >
+        {this.props.isLoading ? (
+          <ActivityIndicator
+            style={styles.loader}
+            size="large"
+            color={tintColor.tintColor}
+          />
+        ) : (
+          <TouchableOpacity
+            onPress={this.cameraPressAlert}
+            style={this.props.fireBaseUrl ? styles.noBorder : styles.iconCamera}
+          >
+            {this.props.fireBaseUrl ? (
+              <Image
+                style={styles.itemImagePending}
+                source={{ uri: this.props.fireBaseUrl }}
+              />
+            ) : (
+              cameraIcon
+            )}
+          </TouchableOpacity>
+        )}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingTop: 32, alignItems: "center" },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    paddingTop: 32
+  },
+  containerImg: {
+    flex: 1,
+    alignItems: "center",
+    paddingTop: 0
+  },
   buttons: { width },
   iconCamera: {
     borderColor: "grey",
@@ -153,9 +174,9 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   itemImagePending: {
-    width: 180,
-    height: 180,
-    borderRadius: 15,
+    width: width,
+    height: 176,
+    borderRadius: 5,
     overflow: "hidden"
   }
 });
