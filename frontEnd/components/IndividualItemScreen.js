@@ -7,15 +7,15 @@ import {
   Image,
   Dimensions,
   Alert,
-  ScrollView,
   KeyboardAvoidingView
 } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import mainGreen from "../constants/Colors";
 import tintColor from "../constants/Colors";
 import MapView from "react-native-maps";
 import * as api from "../utils/api";
 import ApiKeys from "../constants/ApiKeys";
+import { Ionicons } from "@expo/vector-icons";
 
 import Icon from "react-native-vector-icons/EvilIcons";
 const myIcon = <Icon name="location" size={30} color={tintColor.tintColor} />;
@@ -27,7 +27,10 @@ export default class IndividualItemScreen extends React.Component {
     messageBody: "",
     requestingItem: false,
     messageInFocus: false,
-    loggedInUser: "tonyboi"
+    loggedInUser: "tonyboi",
+    canEdit: false,
+    editingScreen: false,
+    isLoading: true
   };
   componentDidMount = () => {
     if (this.props.navigation.state.params.editable) {
@@ -35,7 +38,7 @@ export default class IndividualItemScreen extends React.Component {
       this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then(
         response => {
           const { location } = response.data.results[0].geometry;
-          this.setState({ ...location });
+          this.setState({ ...location, canEdit: true, isLoading: false });
         }
       );
     } else {
@@ -43,7 +46,7 @@ export default class IndividualItemScreen extends React.Component {
       this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then(
         response => {
           const { location } = response.data.results[0].geometry;
-          this.setState({ ...location });
+          this.setState({ ...location, isLoading: false });
         }
       );
     }
@@ -153,7 +156,13 @@ export default class IndividualItemScreen extends React.Component {
       },
       description: {
         fontSize: 14
-      }
+      },
+      editButtonContainer: {
+        textAlign: "right",
+        alignSelf: "flex-end",
+        marginTop: -24
+      },
+      editButton: { textAlign: "center" }
     });
     const itemProps = this.props.navigation.state.params.editable
       ? this.props.navigation.state.params.item
@@ -164,7 +173,8 @@ export default class IndividualItemScreen extends React.Component {
           flex: 1,
           alignItems: "center",
           display: "flex",
-          justifyContent: "center"
+          justifyContent: "center",
+          opacity: this.state.isLoading ? 0 : 1
         }}
         behavior="position"
         enabled={this.state.messageInFocus}
@@ -175,6 +185,12 @@ export default class IndividualItemScreen extends React.Component {
         />
         <View style={styles.innerContent}>
           <Text style={styles.title}>{itemProps.title}</Text>
+          {this.state.canEdit && (
+            <TouchableOpacity style={styles.editButtonContainer}>
+              <Ionicons name="ios-build" size={16} style={styles.editButton} />
+              <Text>EDIT </Text>
+            </TouchableOpacity>
+          )}
           <Text style={styles.description}>{itemProps.body}</Text>
           <Text style={styles.price}>
             £{itemProps.price}
@@ -192,22 +208,24 @@ export default class IndividualItemScreen extends React.Component {
             />
           )}
         </View>
-        <View style={styles.buttonHolder}>
-          <TextInput
-            onFocus={() => this.focusOnMessage(true)}
-            onBlur={() => this.focusOnMessage(false)}
-            style={styles.messageBox}
-            onChange={this.handleInput}
-            value={this.state.messageBody}
-            placeholder="Include a message with your request"
-          ></TextInput>
-          <Button
-            title="Request Item"
-            style={styles.request}
-            onPress={() => this.requestItem(itemProps)}
-            color={tintColor.tintColor}
-          />
-        </View>
+        {!this.state.canEdit && (
+          <View style={styles.buttonHolder}>
+            <TextInput
+              onFocus={() => this.focusOnMessage(true)}
+              onBlur={() => this.focusOnMessage(false)}
+              style={styles.messageBox}
+              onChange={this.handleInput}
+              value={this.state.messageBody}
+              placeholder="Include a message with your request"
+            ></TextInput>
+            <Button
+              title="Request Item"
+              style={styles.request}
+              onPress={() => this.requestItem(itemProps)}
+              color={tintColor.tintColor}
+            />
+          </View>
+        )}
       </KeyboardAvoidingView>
     );
   }
