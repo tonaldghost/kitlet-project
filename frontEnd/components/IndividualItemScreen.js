@@ -17,9 +17,6 @@ import * as api from "../utils/api";
 import ApiKeys from "../constants/ApiKeys";
 import { Ionicons } from "@expo/vector-icons";
 
-import Icon from "react-native-vector-icons/EvilIcons";
-const myIcon = <Icon name="location" size={30} color={tintColor.tintColor} />;
-
 export default class IndividualItemScreen extends React.Component {
   state = {
     lat: 0,
@@ -30,7 +27,13 @@ export default class IndividualItemScreen extends React.Component {
     loggedInUser: "tonyboi",
     canEdit: false,
     editingScreen: false,
-    isLoading: true
+    isLoading: true,
+    updatedTitle: "",
+    updatedBody: "",
+    updatedPrice: ""
+  };
+  editItem = () => {
+    this.setState({ editingScreen: true });
   };
   componentDidMount = () => {
     if (this.props.navigation.state.params.editable) {
@@ -162,7 +165,12 @@ export default class IndividualItemScreen extends React.Component {
         alignSelf: "flex-end",
         marginTop: -24
       },
-      editButton: { textAlign: "center" }
+      editButton: { textAlign: "center" },
+      priceChangeHolder: {
+        display: "flex",
+        flexDirection: "row"
+      },
+      addLeft: { paddingLeft: 8 }
     });
     const itemProps = this.props.navigation.state.params.editable
       ? this.props.navigation.state.params.item
@@ -184,19 +192,71 @@ export default class IndividualItemScreen extends React.Component {
           source={{ uri: itemProps.img_url }}
         />
         <View style={styles.innerContent}>
-          <Text style={styles.title}>{itemProps.title}</Text>
+          {!this.state.editingScreen ? (
+            <Text style={styles.title}>{itemProps.title}</Text>
+          ) : (
+            <TextInput
+              style={styles.title}
+              placeholder={"Change Title"}
+              onFocus={() => this.focusOnMessage(true)}
+              onBlur={() => this.focusOnMessage(false)}
+            ></TextInput>
+          )}
           {this.state.canEdit && (
-            <TouchableOpacity style={styles.editButtonContainer}>
-              <Ionicons name="ios-build" size={16} style={styles.editButton} />
-              <Text>EDIT </Text>
+            <TouchableOpacity
+              onPress={this.editItem}
+              style={styles.editButtonContainer}
+            >
+              {!this.state.editingScreen ? (
+                <>
+                  <Ionicons
+                    name="ios-build"
+                    size={16}
+                    style={styles.editButton}
+                  />
+                  <Text>EDIT</Text>
+                </>
+              ) : (
+                <>
+                  <Ionicons
+                    name="ios-build"
+                    size={16}
+                    style={styles.editButton}
+                  />
+                  <Text>Cancel</Text>
+                </>
+              )}
             </TouchableOpacity>
           )}
-          <Text style={styles.description}>{itemProps.body}</Text>
-          <Text style={styles.price}>
-            £{itemProps.price}
-            <Text style={styles.perDay}>/day</Text>
-          </Text>
-          {this.state.lat !== 0 && (
+          {!this.state.editingScreen ? (
+            <Text style={styles.description}>{itemProps.body}</Text>
+          ) : (
+            <TextInput
+              placeholder={"Change description"}
+              style={styles.description}
+              onFocus={() => this.focusOnMessage(true)}
+              onBlur={() => this.focusOnMessage(false)}
+            ></TextInput>
+          )}
+          {!this.state.editingScreen ? (
+            <Text style={styles.price}>
+              £{itemProps.price}
+              <Text style={styles.perDay}>/day</Text>
+            </Text>
+          ) : (
+            <>
+              <View style={styles.priceChangeHolder}>
+                <Text style={styles.price}>£</Text>
+                <TextInput
+                  onFocus={() => this.focusOnMessage(true)}
+                  onBlur={() => this.focusOnMessage(false)}
+                  placeholder={"Change Price Per Day"}
+                  style={(styles.price, styles.addLeft)}
+                ></TextInput>
+              </View>
+            </>
+          )}
+          {this.state.lat !== 0 && !this.state.canEdit && (
             <MapView
               style={styles.map}
               initialRegion={{
