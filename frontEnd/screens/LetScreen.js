@@ -301,15 +301,17 @@ const styles = StyleSheet.create({
     flex: 3,
     width,
     alignItems: "center",
-    borderBottomWidth: 1,
-    borderColor: "#eee"
+    borderColor: "#eee",
+    paddingBottom: 16
   },
   middle: {
     flex: 2.5,
     width,
     alignItems: "center",
+    borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderColor: "#eee"
+    borderColor: "#eee",
+    paddingTop: 16
   },
   categoryDrop: {
     paddingBottom: 16,
