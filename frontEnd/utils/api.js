@@ -80,6 +80,14 @@ const getSentMessages = (username) => {
 	});
 };
 
+const sendNewMessage = (sent_from, sent_to, title, body) => {
+	return axios
+		.post('https://be-kitlet.herokuapp.com/api/messages', { sent_from, sent_to, body, title: `RE: ${title}` })
+		.then(({ data: { message } }) => {
+			return message[0];
+		});
+};
+
 module.exports = {
 	getAllItems,
 	postNewListing,
@@ -89,5 +97,6 @@ module.exports = {
 	getAreaCoordinates,
 	postNewRequest,
 	getIncomingMessages,
-	getSentMessages
+	getSentMessages,
+	sendNewMessage
 };

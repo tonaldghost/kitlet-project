@@ -43,11 +43,11 @@ class ProfileScreen extends React.Component {
 				<View style={styles.half}>
 					<View style={styles.mainProfile}>
 						<Image style={styles.profileImage} source={{ uri: img_url }} />
-						<TouchableOpacity onPress={() => this.props.navigation.navigate('Messages')}>
-							<Text>Messages</Text>
-						</TouchableOpacity>
 					</View>
 					<View style={styles.profileInfo}>
+						<TouchableOpacity onPress={() => this.props.navigation.navigate('Messages')}>
+							<Text style={styles.messages}>Messages</Text>
+						</TouchableOpacity>
 						<Text style={styles.profileName}>{username}</Text>
 						<Text style={styles.profileRating}>Stars...</Text>
 					</View>
@@ -126,6 +126,11 @@ const styles = StyleSheet.create({
 	profileRating: {
 		color: 'white',
 		fontSize: 24,
+		textAlign: 'center'
+	},
+	messages: {
+		color: 'white',
+		fontSize: 18,
 		textAlign: 'center'
 	},
 	profileInfo: { color: 'white', fontSize: 24, textAlign: 'center' },

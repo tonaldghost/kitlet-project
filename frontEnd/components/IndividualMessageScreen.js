@@ -1,10 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, Text, Dimensions, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, View, Text, Dimensions, KeyboardAvoidingView, Button, Alert } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import mainGreen from '../constants/Colors';
 import tintColor from '../constants/Colors';
-
 import Icon from 'react-native-vector-icons/EvilIcons';
+import ApiKeys from '../constants/ApiKeys';
+import * as api from '../utils/api';
+
 const myIcon = <Icon name="location" size={30} color={tintColor.tintColor} />;
 
 export default class IndividualMessageScreen extends React.Component {
@@ -25,42 +27,30 @@ export default class IndividualMessageScreen extends React.Component {
 		this.setState({ messageBody: e.nativeEvent.text });
 	};
 
+	sendMessage = () => {
+		const messageProps = this.props.navigation.state.params;
+		return api
+			.sendNewMessage(this.state.loggedInUser, messageProps.sent_from, messageProps.title, this.state.messageBody)
+			.then((message) => {
+				if (message.hasOwnProperty('body')) {
+					Alert.alert('Message sent successfully');
+				} else {
+					Alert.alert('There was an issue when sending your message, please try again');
+				}
+			});
+	};
+
 	render () {
 		const width = Dimensions.get('window').width;
 		const styles = StyleSheet.create({
 			container: { paddingTop: 50, paddingBottom: 62 },
-			itemCardImage: { flex: 2, width, height: 128, margin: 32 },
+			// itemCardImage: { flex: 2, width, height: 128, margin: 32 },
 			innerContent: {
 				flex: 2,
 				width,
 				margin: 32,
 				paddingLeft: 16,
 				paddingRight: 16
-			},
-			fixedIsAvailable: {
-				position: 'absolute',
-				right: 16,
-				color: mainGreen.mainGreen,
-				fontSize: 22
-			},
-			price: {
-				fontSize: 16,
-				marginTop: 16,
-				fontWeight: '300'
-			},
-			perDay: {
-				fontSize: 22,
-				marginTop: 16,
-				fontWeight: '400',
-				color: 'black'
-			},
-			location: {
-				marginTop: 16,
-				marginBottom: 16,
-				alignItems: 'center',
-				display: 'flex',
-				flexDirection: 'row',
-				marginLeft: -8
 			},
 			request: {
 				backgroundColor: '#333',
@@ -83,10 +73,11 @@ export default class IndividualMessageScreen extends React.Component {
 				borderRadius: 5,
 				paddingLeft: 8
 			},
-			map: {
-				height: 200,
-				width,
-				padding: 16
+			buttonFlex: {
+				display: 'flex',
+				flex: 1,
+				flexDirection: 'row',
+				justifyContent: 'space-around'
 			}
 		});
 
@@ -104,7 +95,6 @@ export default class IndividualMessageScreen extends React.Component {
 			>
 				<View style={styles.innerContent}>
 					<Text style={styles.title}>{messageProps.title}</Text>
-
 					<Text style={styles.price}>{messageProps.body}</Text>
 				</View>
 				<View style={styles.buttonHolder}>
@@ -116,6 +106,7 @@ export default class IndividualMessageScreen extends React.Component {
 						value={this.state.messageBody}
 						placeholder="Reply to message"
 					/>
+					<Button title="Send Message" style={styles.buttonFlex} onPress={() => this.sendMessage()} />
 				</View>
 			</KeyboardAvoidingView>
 		);
