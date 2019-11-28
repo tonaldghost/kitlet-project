@@ -2,9 +2,10 @@ import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import mainGreen from "../constants/Colors";
 import mainRed from "../constants/Colors";
+import GetLocation from "../components/GetLocation";
 import { getDistance } from "geolib";
 
-class ItemCard extends React.Component {
+class ItemCard2 extends React.Component {
   state = {
     hasObj: false,
     refObj: {}
@@ -47,9 +48,9 @@ class ItemCard extends React.Component {
 
               this.distanceKm(myPosLat, myPosLng, distLat, distLng);
             })}
-          {this.state.distanceAway && (
-            <Text>{this.state.distanceAway + "km away"}</Text>
-          )}
+          <Text>
+            {this.state.distanceAway && this.state.distanceAway}km away
+          </Text>
           <Text style={styles.price}>
             £{this.props.props.price}
             <Text style={styles.perDay}>/day</Text>
@@ -102,4 +103,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ItemCard;
+export default ItemCard2;

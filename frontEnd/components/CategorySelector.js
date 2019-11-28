@@ -6,7 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 const width = Dimensions.get("window").width;
-const categories = ["audio", "video", "art", "tech"];
+
 export default class SearchBar extends Component {
   state = { activeCategory: "" };
   toggleCategory = category => {
@@ -20,7 +20,6 @@ export default class SearchBar extends Component {
       });
     }
   };
-
   render() {
     return (
       <>
