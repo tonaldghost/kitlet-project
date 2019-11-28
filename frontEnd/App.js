@@ -16,8 +16,6 @@ console.warn = message => {
   }
 };
 
-// testing post-merge
-
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 

@@ -17,6 +17,7 @@ import IndividualItemScreen from '../components/IndividualItemScreen';
 import MessagesScreen from '../components/MessagesScreen';
 import * as api from '../utils/api';
 
+
 const width = Dimensions.get('window').width;
 
 
@@ -58,7 +59,10 @@ class ProfileScreen extends React.Component {
 							<Text style={styles.messages}>Messages</Text>
 						</TouchableOpacity>
 						<Text style={styles.profileName}>{username}</Text>
-						<Text style={styles.profileRating}>Stars...</Text>
+     <Image
+              style={styles.stars}
+              source={require("../assets/images/tonyStars.png")}
+            />
 					</View>
 					<View style={styles.Info}>
 						<Text style={styles.profileLocation}>
@@ -89,12 +93,18 @@ class ProfileScreen extends React.Component {
 <MessagesScreen hideHeader={this.hideHeader} />;
 
 const styles = StyleSheet.create({
+
+
 	container: {
 		flex: 1,
 		flexDirection: 'column',
 		alignItems: 'center',
 		justifyContent: 'center'
-	},
+	},  stars: {
+    marginTop: 40,
+    height: 30,
+    width: 188
+  },
 	half: {
 		flex: 1,
 		backgroundColor: tintColor.tintColor,
@@ -152,6 +162,7 @@ const styles = StyleSheet.create({
 		width,
 		textAlign: 'center'
 	}
+
 });
 
 ProfileScreen.navigationOptions = {

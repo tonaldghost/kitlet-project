@@ -17,6 +17,10 @@ const config = Platform.select({
   default: {}
 });
 
+//
+//
+// DISCOVERY
+
 const DiscoverStack = createStackNavigator(
   {
     Discover: DiscoverScreen
@@ -39,6 +43,10 @@ DiscoverStack.navigationOptions = {
 };
 
 DiscoverStack.path = "";
+
+//
+//
+// LET SCREEN
 
 const LetStack = createStackNavigator(
   {
@@ -63,6 +71,10 @@ LetStack.navigationOptions = {
 
 LetStack.path = "";
 
+//
+//
+// PROFILE
+
 const ProfileStack = createStackNavigator(
   {
     Profile: ProfileScreen
@@ -82,6 +94,10 @@ ProfileStack.navigationOptions = {
 
 ProfileStack.path = "";
 
+//
+//
+// NOTIFICATIONS
+
 const NotificationsStack = createStackNavigator(
   {
     Notifications: NotificationsScreen
@@ -100,6 +116,10 @@ NotificationsStack.navigationOptions = {
 };
 
 NotificationsStack.path = "";
+
+//
+//
+// FINAL TAB
 
 const tabNavigator = createBottomTabNavigator(
   {

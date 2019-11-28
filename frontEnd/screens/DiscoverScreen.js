@@ -14,7 +14,9 @@ import { createStackNavigator } from "react-navigation-stack";
 import tintColor from "../constants/Colors";
 import IndividualItemScreen from "../components/IndividualItemScreen";
 import * as api from "../utils/api";
+import LoginScreen from "./LoginScreen";
 import { getLocationFromName } from "../components/GetLocationFromName";
+
 
 // preparing final geolocation hopefully
 
@@ -26,7 +28,8 @@ class DiscoverScreen extends React.Component {
     takePicture: false,
     items: [],
     bottomBorder: false,
-    isLoading: true
+    isLoading: true,
+    loggedIn: false
   };
   orderByPrice = ascending => {
     this.setState(currentState => {
@@ -127,6 +130,8 @@ class DiscoverScreen extends React.Component {
   componentDidMount = () => {
     this.getItemsFromApi();
   };
+
+
   componentDidUpdate(prevState, prevProps) {
     // console.log("updating component");
     // this.resetDistanceObject();
@@ -134,9 +139,13 @@ class DiscoverScreen extends React.Component {
     //   this.setState({ refObjDistance: null });
     // }
   }
-
+  login = () => {
+    this.setState({ loggedIn: true });
+  };
   render() {
     return (
+<>  {!this.state.loggedIn && <LoginScreen loggedIn={this.login} />}
+        {this.state.loggedIn && (
       <View style={styles.container}>
         <SearchBar
           bottomBorder={this.bottomBorder}
@@ -177,7 +186,10 @@ class DiscoverScreen extends React.Component {
             <View style={styles.bottomPadding}></View>
           )}
         </ScrollView>
-      </View>
+      </View>)}
+</>
+
+
     );
   }
 }
