@@ -205,7 +205,7 @@ export default class IndividualItemScreen extends React.Component {
         paddingLeft: 8
       },
       map: {
-        height: 200,
+        height: 150,
         width: width - 32,
         padding: 16
       },

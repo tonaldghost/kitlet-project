@@ -13,8 +13,8 @@ const width = Dimensions.get("window").width;
 
 export default class LoginScreen extends React.Component {
   state = {
-    username: "",
-    password: ""
+    username: "tonyboi",
+    password: "thisIsAPassword"
   };
   handleInput = (key, e) => {
     this.setState({ [key]: e });
