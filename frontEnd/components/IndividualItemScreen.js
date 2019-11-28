@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   StyleSheet,
   View,
@@ -16,8 +16,6 @@ import MapView from "react-native-maps";
 import * as api from "../utils/api";
 import ApiKeys from "../constants/ApiKeys";
 import { Ionicons } from "@expo/vector-icons";
-
-// tony not be able to request my own item!
 
 export default class IndividualItemScreen extends React.Component {
   state = {
@@ -51,15 +49,15 @@ export default class IndividualItemScreen extends React.Component {
   componentDidMount = () => {
     if (this.props.navigation.state.params.editable) {
       const itemProps = this.props.navigation.state.params.item;
-          if (this.state.loggedInUser === itemProps.owner) {
-      this.setState({ buttonDisabled: true });
-    }
-    this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then(
-      response => {
-        const { location } = response.data.results[0].geometry;
-        this.setState({ ...location });
+      if (this.state.loggedInUser === itemProps.owner) {
+        this.setState({ buttonDisabled: true });
       }
-    );
+      this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then(
+        response => {
+          const { location } = response.data.results[0].geometry;
+          this.setState({ ...location });
+        }
+      );
       this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then(
         response => {
           const { location } = response.data.results[0].geometry;
@@ -68,15 +66,15 @@ export default class IndividualItemScreen extends React.Component {
       );
     } else {
       const itemProps = this.props.navigation.state.params;
-          if (this.state.loggedInUser === itemProps.owner) {
-      this.setState({ buttonDisabled: true });
-    }
-    this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then(
-      response => {
-        const { location } = response.data.results[0].geometry;
-        this.setState({ ...location });
+      if (this.state.loggedInUser === itemProps.owner) {
+        this.setState({ buttonDisabled: true });
       }
-    );
+      this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then(
+        response => {
+          const { location } = response.data.results[0].geometry;
+          this.setState({ ...location });
+        }
+      );
       this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then(
         response => {
           const { location } = response.data.results[0].geometry;
@@ -84,7 +82,6 @@ export default class IndividualItemScreen extends React.Component {
         }
       );
     }
-    
   };
 
   focusOnMessage = bool => {
@@ -210,7 +207,8 @@ export default class IndividualItemScreen extends React.Component {
         padding: 16
       },
       description: {
-        fontSize: 14
+        fontSize: 14,
+        padding: 0
       },
       editButtonContainer: {
         textAlign: "right",
@@ -343,7 +341,6 @@ export default class IndividualItemScreen extends React.Component {
           )}
         </View>
 
-
         {!this.state.canEdit && (
           <View style={styles.buttonHolder}>
             <TextInput
@@ -361,7 +358,7 @@ export default class IndividualItemScreen extends React.Component {
               style={styles.request}
               onPress={() => this.requestItem(itemProps)}
               color={tintColor.tintColor}
-            disabled={this.state.buttonDisabled}
+              disabled={this.state.buttonDisabled}
             />
           </View>
         )}
@@ -379,7 +376,6 @@ export default class IndividualItemScreen extends React.Component {
             )}
           </View>
         )}
-        
       </KeyboardAvoidingView>
     );
   }

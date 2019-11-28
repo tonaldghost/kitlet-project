@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import mainGreen from '../constants/Colors';
 import mainRed from '../constants/Colors';
-import tintColor from '../constants/Colors';
 
 const MessageCard = ({ message, showIncoming }) => {
 	return (
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
 	owner: { fontSize: 16 },
 	MessageCardContainer: {
 		display: 'flex',
-		minHeight: 160,
+		minHeight: 120,
 		marginLeft: 16,
 		marginRight: 16,
 		width: 'auto',

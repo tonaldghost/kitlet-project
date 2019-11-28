@@ -18,8 +18,6 @@ import { Ionicons } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import * as api from "../utils/api";
 
-// adding nicer response when data inputted and o success
-
 const width = Dimensions.get("window").width;
 
 export default class LetScreen extends React.Component {
@@ -108,8 +106,6 @@ export default class LetScreen extends React.Component {
       whatItem,
       describeItem,
       price,
-      selectedCat,
-      loggedInUser,
       fireBaseUrl,
       nullPrompt,
       isLoading

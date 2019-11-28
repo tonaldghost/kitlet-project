@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   itemImagePending: {
     width: width,
-    height: 176,
+    height: 232,
     borderRadius: 5,
     overflow: "hidden"
   }
