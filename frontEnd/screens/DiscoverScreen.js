@@ -17,9 +17,6 @@ import * as api from "../utils/api";
 import LoginScreen from "./LoginScreen";
 import { getLocationFromName } from "../components/GetLocationFromName";
 
-
-// preparing final geolocation hopefully
-
 class DiscoverScreen extends React.Component {
   static navigationOptions = {
     header: null
@@ -131,7 +128,6 @@ class DiscoverScreen extends React.Component {
     this.getItemsFromApi();
   };
 
-
   componentDidUpdate(prevState, prevProps) {
     // console.log("updating component");
     // this.resetDistanceObject();
@@ -144,52 +140,54 @@ class DiscoverScreen extends React.Component {
   };
   render() {
     return (
-<>  {!this.state.loggedIn && <LoginScreen loggedIn={this.login} />}
+      <>
+        {!this.state.loggedIn && <LoginScreen loggedIn={this.login} />}
         {this.state.loggedIn && (
-      <View style={styles.container}>
-        <SearchBar
-          bottomBorder={this.bottomBorder}
-          orderByPrice={this.orderByPrice}
-          orderByLocation={this.orderByLocation}
-          orderByAvailability={this.orderByAvailability}
-          filterResults={this.filterResults}
-          resetResults={this.resetResults}
-        />
-        <CategorySelector
-          sortByCategory={this.sortByCategory}
-          resetResults={this.resetResults}
-        />
-        <ScrollView>
-          {this.state.isLoading && (
-            <ActivityIndicator size="large" color={tintColor.tintColor} />
-          )}
-          {this.state.items.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={`${index}-view`}
-                onPress={() =>
-                  this.props.navigation.navigate("IndividualItem", item)
-                }
-              >
-                {this.state.refObjDistance && (
-                  <ItemCard
-                    key={index}
-                    props={item}
-                    resetDistanceObject={this.resetDistanceObject}
-                    refObjDistance={this.state.refObjDistance[item.location]}
-                  />
-                )}
-              </TouchableOpacity>
-            );
-          })}
-          {this.state.bottomBorder && (
-            <View style={styles.bottomPadding}></View>
-          )}
-        </ScrollView>
-      </View>)}
-</>
-
-
+          <View style={styles.container}>
+            <SearchBar
+              bottomBorder={this.bottomBorder}
+              orderByPrice={this.orderByPrice}
+              orderByLocation={this.orderByLocation}
+              orderByAvailability={this.orderByAvailability}
+              filterResults={this.filterResults}
+              resetResults={this.resetResults}
+            />
+            <CategorySelector
+              sortByCategory={this.sortByCategory}
+              resetResults={this.resetResults}
+            />
+            <ScrollView>
+              {this.state.isLoading && (
+                <ActivityIndicator size="large" color={tintColor.tintColor} />
+              )}
+              {this.state.items.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    key={`${index}-view`}
+                    onPress={() =>
+                      this.props.navigation.navigate("IndividualItem", item)
+                    }
+                  >
+                    {this.state.refObjDistance && (
+                      <ItemCard
+                        key={index}
+                        props={item}
+                        resetDistanceObject={this.resetDistanceObject}
+                        refObjDistance={
+                          this.state.refObjDistance[item.location]
+                        }
+                      />
+                    )}
+                  </TouchableOpacity>
+                );
+              })}
+              {this.state.bottomBorder && (
+                <View style={styles.bottomPadding}></View>
+              )}
+            </ScrollView>
+          </View>
+        )}
+      </>
     );
   }
 }
