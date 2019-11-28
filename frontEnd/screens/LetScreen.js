@@ -84,7 +84,7 @@ export default class LetScreen extends React.Component {
           userLocation
         )
         .then(() => {
-          Alert.alert("Successfully added your lsiting on KitLet");
+          Alert.alert("Successfully added your listing on KitLet");
         })
         .then(() => {
           this.setState({

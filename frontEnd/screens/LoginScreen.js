@@ -25,8 +25,12 @@ export default class LoginScreen extends React.Component {
         <View style={styles.top}></View>
         <View style={styles.middle}>
           <Image
-            source={require("../assets/images/kitletLogo.png")}
-            style={{ width: width * 0.9 }}
+            source={require("../assets/images/KitletLogoBlanks.png")}
+            style={{
+              transform: [{ scaleX: 0.35 }, { scaleY: 0.35 }],
+              marginBottom: -64,
+              marginTop: -56
+            }}
           />
         </View>
         <View style={styles.loginArea}>
