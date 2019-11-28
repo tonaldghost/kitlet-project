@@ -14,8 +14,9 @@ import { createStackNavigator } from "react-navigation-stack";
 import tintColor from "../constants/Colors";
 import IndividualItemScreen from "../components/IndividualItemScreen";
 import * as api from "../utils/api";
+import { getLocationFromName } from "../components/GetLocationFromName";
 
-// init branch
+// preparing final geolocation hopefully
 
 class DiscoverScreen extends React.Component {
   static navigationOptions = {
@@ -90,19 +91,50 @@ class DiscoverScreen extends React.Component {
   };
   getItemsFromApi = (filtered = false, category = null) => {
     if (filtered) {
-      api.getAllItems().then(({ items }) => {
-        const filteredItems = items.filter(item => item.category === category);
-        this.setState({ items: filteredItems, isLoading: false });
-      });
+      api
+        .getAllItems()
+        .then(({ items }) => {
+          const filteredItems = items.filter(
+            item => item.category === category
+          );
+          this.setState({ items: filteredItems, isLoading: false });
+        })
+        .then(() => {
+          this.getLocationRequest();
+        });
     } else {
-      api.getAllItems().then(({ items }) => {
-        this.setState({ items, isLoading: false });
-      });
+      api
+        .getAllItems()
+        .then(({ items }) => {
+          this.setState({ items, isLoading: false });
+        })
+        .then(() => {
+          this.getLocationRequest();
+        });
     }
+  };
+  getLocationRequest = () => {
+    const justLocations = [];
+    this.state.items.map(item => justLocations.push(item.location));
+    const singleLocations = new Set(justLocations);
+    getLocationFromName(singleLocations).then(data => {
+      this.setState({ refObjDistance: data });
+    });
+  };
+  resetDistanceObject = () => {
+    this.setState({ refObjDistance: null });
   };
   componentDidMount = () => {
     this.getItemsFromApi();
   };
+  componentDidUpdate(prevState, prevProps) {
+    // console.log("updating component");
+    // this.resetDistanceObject();
+    // if (this.state.refObjDistance!==) {
+    //   this.setState({ refObjDistance: null });
+    // }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -130,7 +162,14 @@ class DiscoverScreen extends React.Component {
                   this.props.navigation.navigate("IndividualItem", item)
                 }
               >
-                <ItemCard key={index} props={item} />
+                {this.state.refObjDistance && (
+                  <ItemCard
+                    key={index}
+                    props={item}
+                    resetDistanceObject={this.resetDistanceObject}
+                    refObjDistance={this.state.refObjDistance[item.location]}
+                  />
+                )}
               </TouchableOpacity>
             );
           })}
