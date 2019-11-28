@@ -29,10 +29,14 @@ export default class IndividualItemScreen extends React.Component {
     messageBody: "",
     requestingItem: false,
     messageInFocus: false,
-    loggedInUser: "tonyboi"
+    loggedInUser: "tonyboi",
+    buttonDisabled: false
   };
   componentDidMount = () => {
     const itemProps = this.props.navigation.state.params;
+    if (this.state.loggedInUser === itemProps.owner) {
+      this.setState({ buttonDisabled: true });
+    }
     this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then(
       response => {
         const { location } = response.data.results[0].geometry;
@@ -196,6 +200,7 @@ export default class IndividualItemScreen extends React.Component {
             style={styles.request}
             onPress={() => this.requestItem(itemProps)}
             color={tintColor.tintColor}
+            disabled={this.state.buttonDisabled}
           />
         </View>
       </KeyboardAvoidingView>

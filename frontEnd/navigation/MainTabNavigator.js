@@ -11,11 +11,16 @@ import DiscoverScreen from "../screens/DiscoverScreen";
 import NotificationsScreen from "../screens/NotificationsScreen";
 import LetScreen from "../screens/LetScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import LoginScreen from "../screens/LoginScreen";
 
 const config = Platform.select({
   web: { headerMode: "screen" },
   default: {}
 });
+
+//
+//
+// DISCOVERY
 
 const DiscoverStack = createStackNavigator(
   {
@@ -40,6 +45,10 @@ DiscoverStack.navigationOptions = {
 
 DiscoverStack.path = "";
 
+//
+//
+// LET SCREEN
+
 const LetStack = createStackNavigator(
   {
     Let: LetScreen
@@ -63,6 +72,10 @@ LetStack.navigationOptions = {
 
 LetStack.path = "";
 
+//
+//
+// PROFILE
+
 const ProfileStack = createStackNavigator(
   {
     Profile: ProfileScreen
@@ -81,6 +94,10 @@ ProfileStack.navigationOptions = {
 };
 
 ProfileStack.path = "";
+
+//
+//
+// NOTIFICATIONS
 
 const NotificationsStack = createStackNavigator(
   {
@@ -101,12 +118,44 @@ NotificationsStack.navigationOptions = {
 
 NotificationsStack.path = "";
 
+//
+//
+// LOGIN
+
+const LoginStack = createStackNavigator(
+  {
+    Login: LoginScreen
+  },
+  config
+);
+
+LoginStack.navigationOptions = {
+  tabBarLabel: "Login",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === "ios"
+          ? `ios-home${focused ? "" : "-outline"}`
+          : "md-home"
+      }
+    />
+  )
+};
+
+LoginStack.path = "";
+
+//
+//
+// FINAL TAB
+
 const tabNavigator = createBottomTabNavigator(
   {
     DiscoverStack,
     LetStack,
     ProfileStack,
-    NotificationsStack
+    NotificationsStack,
+    LoginStack
   },
   {
     tabBarOptions: {
