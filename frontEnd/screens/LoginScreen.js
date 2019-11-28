@@ -1,13 +1,20 @@
 import React from "react";
-import { View, Dimensions, StyleSheet, Button, TextInput } from "react-native";
+import {
+  View,
+  Dimensions,
+  Image,
+  StyleSheet,
+  Button,
+  TextInput
+} from "react-native";
 import tintColor from "../constants/Colors";
 
 const width = Dimensions.get("window").width;
 
 export default class LoginScreen extends React.Component {
   state = {
-    username: "tonyboi",
-    password: "iloveKitlet"
+    username: "",
+    password: ""
   };
   handleInput = (key, e) => {
     this.setState({ [key]: e });
@@ -16,6 +23,12 @@ export default class LoginScreen extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.top}></View>
+        <View style={styles.middle}>
+          <Image
+            source={require("../assets/images/kitletLogo.png")}
+            style={{ width: width * 0.9 }}
+          />
+        </View>
         <View style={styles.loginArea}>
           <TextInput
             style={styles.inputBox}
@@ -56,7 +69,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   top: {
-    flex: 2
+    flex: 1
   },
   loginArea: {
     flex: 2,
@@ -83,5 +96,13 @@ const styles = StyleSheet.create({
     width: width / 2,
     marginTop: 16
   },
-  buttonWrapper: { width: (width / 2) * 0.9, height: 64 }
+  buttonWrapper: { width: (width / 2) * 0.9, height: 64 },
+  middle: {
+    width,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 32,
+    marginTop: 120
+  }
 });
