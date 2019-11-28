@@ -15,8 +15,6 @@ import ItemCard from "../components/ItemCard";
 import IndividualItemScreen from "../components/IndividualItemScreen";
 import * as api from "../utils/api";
 
-// backup
-
 const width = Dimensions.get("window").width;
 
 class ProfileScreen extends React.Component {
@@ -51,7 +49,10 @@ class ProfileScreen extends React.Component {
           </View>
           <View style={styles.profileInfo}>
             <Text style={styles.profileName}>{username}</Text>
-            <Text style={styles.profileRating}>Stars...</Text>
+            <Image
+              style={styles.stars}
+              source={require("../assets/images/tonyStars.png")}
+            />
           </View>
           <View style={styles.Info}>
             <Text style={styles.profileLocation}>
@@ -89,6 +90,11 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center"
+  },
+  stars: {
+    marginTop: 40,
+    height: 30,
+    width: 188
   },
   half: {
     flex: 1,

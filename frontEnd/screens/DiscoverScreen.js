@@ -14,6 +14,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import tintColor from "../constants/Colors";
 import IndividualItemScreen from "../components/IndividualItemScreen";
 import * as api from "../utils/api";
+import LoginScreen from "./LoginScreen";
 
 // init branch
 
@@ -25,7 +26,8 @@ class DiscoverScreen extends React.Component {
     takePicture: false,
     items: [],
     bottomBorder: false,
-    isLoading: true
+    isLoading: true,
+    loggedIn: false
   };
   orderByPrice = ascending => {
     this.setState(currentState => {
@@ -103,42 +105,50 @@ class DiscoverScreen extends React.Component {
   componentDidMount = () => {
     this.getItemsFromApi();
   };
+  login = () => {
+    this.setState({ loggedIn: true });
+  };
   render() {
     return (
-      <View style={styles.container}>
-        <SearchBar
-          bottomBorder={this.bottomBorder}
-          orderByPrice={this.orderByPrice}
-          orderByLocation={this.orderByLocation}
-          orderByAvailability={this.orderByAvailability}
-          filterResults={this.filterResults}
-          resetResults={this.resetResults}
-        />
-        <CategorySelector
-          sortByCategory={this.sortByCategory}
-          resetResults={this.resetResults}
-        />
-        <ScrollView>
-          {this.state.isLoading && (
-            <ActivityIndicator size="large" color={tintColor.tintColor} />
-          )}
-          {this.state.items.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={`${index}-view`}
-                onPress={() =>
-                  this.props.navigation.navigate("IndividualItem", item)
-                }
-              >
-                <ItemCard key={index} props={item} />
-              </TouchableOpacity>
-            );
-          })}
-          {this.state.bottomBorder && (
-            <View style={styles.bottomPadding}></View>
-          )}
-        </ScrollView>
-      </View>
+      <>
+        {!this.state.loggedIn && <LoginScreen loggedIn={this.login} />}
+        {this.state.loggedIn && (
+          <View style={styles.container}>
+            <SearchBar
+              bottomBorder={this.bottomBorder}
+              orderByPrice={this.orderByPrice}
+              orderByLocation={this.orderByLocation}
+              orderByAvailability={this.orderByAvailability}
+              filterResults={this.filterResults}
+              resetResults={this.resetResults}
+            />
+            <CategorySelector
+              sortByCategory={this.sortByCategory}
+              resetResults={this.resetResults}
+            />
+            <ScrollView>
+              {this.state.isLoading && (
+                <ActivityIndicator size="large" color={tintColor.tintColor} />
+              )}
+              {this.state.items.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    key={`${index}-view`}
+                    onPress={() =>
+                      this.props.navigation.navigate("IndividualItem", item)
+                    }
+                  >
+                    <ItemCard key={index} props={item} />
+                  </TouchableOpacity>
+                );
+              })}
+              {this.state.bottomBorder && (
+                <View style={styles.bottomPadding}></View>
+              )}
+            </ScrollView>
+          </View>
+        )}
+      </>
     );
   }
 }

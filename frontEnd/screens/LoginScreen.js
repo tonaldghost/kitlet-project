@@ -1,18 +1,6 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  Button,
-  TextInput
-} from "react-native";
-import RequestCard from "../components/RequestCard";
+import { View, Dimensions, StyleSheet, Button, TextInput } from "react-native";
 import tintColor from "../constants/Colors";
-import * as api from "../utils/api";
-import { Constants, Svg } from "expo";
-
-// tony big Loading
 
 const width = Dimensions.get("window").width;
 
@@ -25,7 +13,6 @@ export default class LoginScreen extends React.Component {
     this.setState({ [key]: e });
   };
   render() {
-    const { showIncoming, incoming, outgoing } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.top}></View>
@@ -47,7 +34,7 @@ export default class LoginScreen extends React.Component {
             <Button
               title="Login"
               style={styles.request}
-              // onPress={() => {}} navigate to discoverScreen
+              onPress={this.props.loggedIn}
               color={tintColor.tintColor}
             />
           </View>
@@ -82,7 +69,7 @@ const styles = StyleSheet.create({
   },
   inputBox: {
     height: 32,
-    width: width / 2.2,
+    width: width / 2,
     borderColor: "#ddd",
     borderWidth: 1,
     borderRadius: 8,
@@ -94,7 +81,7 @@ const styles = StyleSheet.create({
   },
   btnWrapper: {
     width: width / 2,
-    marginTop: 6
+    marginTop: 16
   },
   buttonWrapper: { width: (width / 2) * 0.9, height: 64 }
 });
