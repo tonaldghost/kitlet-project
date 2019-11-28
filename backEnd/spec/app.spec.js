@@ -13,6 +13,14 @@ beforeEach(() => {
 });
 
 describe('/api', () => {
+	describe('GET', () => {
+		it('Serves a json representation of all endpoints on the api', () => {
+			return request(app).get('/api').expect(200).then(({ body }) => {
+				expect(body['GET /api/categories'].description).to.equal('serves an array of all categories');
+				expect(body['GET /api/messages/sent/:username'].description).to.equal('gets an array of messages sent by user');
+			});
+		});
+	});
 	describe('/items', () => {
 		describe('GET RESOLVED', () => {
 			it('Status: 200 and returns all items', () => {
@@ -50,7 +58,7 @@ describe('/api', () => {
 						title: 'Drumpad',
 						owner: 'umayrs95',
 						body: 'my new music thing up for grabs guys - only $10!',
-						category: 'Music',
+						category: 'audio',
 						img_url: 'hhtp:fakeimg',
 						is_available: true,
 						price: 10,
@@ -75,7 +83,7 @@ describe('/api', () => {
 						title: 32,
 						owner: 'umayrs95',
 						body: 'Item',
-						category: 'Music',
+						category: 'audio',
 						img_url: 2,
 						is_available: true,
 						price: 10,

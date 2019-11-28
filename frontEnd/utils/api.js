@@ -10,16 +10,17 @@ const fetchUserItems = username => {
 };
 
 const postNewRequest = (item_id, body, request_user) => {
-  return axios
-    .post(`${baseURL}/requests`, {
-      item_id,
-      body,
-      request_user
-    })
-    .then(data => {
-      return data;
-    });
+	return axios
+		.post(`${baseURL}/requests`, {
+			item_id,
+			body,
+			request_user
+		})
+		.then((data) => {
+			return data;
+		});
 };
+
 
 const patchItem = ({ item_id, body, price, title }) => {
   return axios
@@ -80,32 +81,59 @@ const getAreaCoordinates = (location, apiKey) => {
     });
 };
 
-const getIncoming = username => {
-  return axios
-    .get(
-      `https://be-kitlet.herokuapp.com/api/requests/incoming?username=${username}`
-    )
-    .then(({ data: { incoming } }) => {
-      return incoming;
-    });
+
+const getIncoming = (username) => {
+	return axios
+		.get(`https://be-kitlet.herokuapp.com/api/requests/incoming?username=${username}`)
+		.then(({ data: { incoming } }) => {
+			return incoming;
+		});
 };
-const getOutgoing = username => {
-  return axios
-    .get(
-      `https://be-kitlet.herokuapp.com/api/requests/outgoing?username=${username}`
-    )
-    .then(({ data: { outgoing } }) => {
-      return outgoing;
-    });
+
+const getOutgoing = (username) => {
+	return axios
+		.get(`https://be-kitlet.herokuapp.com/api/requests/outgoing?username=${username}`)
+		.then(({ data: { outgoing } }) => {
+			return outgoing;
+		});
+
+  
+};
+
+const getIncomingMessages = (username) => {
+	return axios
+		.get(`https://be-kitlet.herokuapp.com/api/messages/received/${username}`)
+		.then(({ data: { messages } }) => {
+			return messages;
+		});
+};
+
+
+const getSentMessages = (username) => {
+	return axios.get(`https://be-kitlet.herokuapp.com/api/messages/sent/${username}`).then(({ data: { messages } }) => {
+		return messages;
+	});
+};
+
+const sendNewMessage = (sent_from, sent_to, title, body) => {
+	return axios
+		.post('https://be-kitlet.herokuapp.com/api/messages', { sent_from, sent_to, body, title: `RE: ${title}` })
+		.then(({ data: { message } }) => {
+			return message[0];
+		});
 };
 
 module.exports = {
-  getAllItems,
-  postNewListing,
-  fetchUserItems,
-  getIncoming,
-  getOutgoing,
-  getAreaCoordinates,
-  postNewRequest,
-  patchItem
+	getAllItems,
+	postNewListing,
+	fetchUserItems,
+	getIncoming,
+	getOutgoing,
+	getAreaCoordinates,
+	postNewRequest,
+	getIncomingMessages,
+	getSentMessages,
+	sendNewMessage, patchItem
+
+  
 };
