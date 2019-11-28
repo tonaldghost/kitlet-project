@@ -1,5 +1,13 @@
+
 import React from 'react';
-import { StyleSheet, View, Text, Image, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Dimensions,
+  ActivityIndicator
+} from "react-native";
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -10,6 +18,7 @@ import MessagesScreen from '../components/MessagesScreen';
 import * as api from '../utils/api';
 
 const width = Dimensions.get('window').width;
+
 
 class ProfileScreen extends React.Component {
 	state = {
@@ -62,7 +71,7 @@ class ProfileScreen extends React.Component {
 						return (
 							<TouchableOpacity
 								key={`${index}-view`}
-								onPress={() => this.props.navigation.navigate('IndividualItem', item)}
+								onPress={() => this.props.navigation.navigate('IndividualItem', {item, editable:true})}
 							>
 								<ItemCard key={index} props={item} />
 							</TouchableOpacity>
@@ -72,6 +81,8 @@ class ProfileScreen extends React.Component {
 			</View>
 		);
 	}
+
+
 }
 
 <IndividualItemScreen />;
@@ -144,7 +155,7 @@ const styles = StyleSheet.create({
 });
 
 ProfileScreen.navigationOptions = {
-	header: null
+header: null
 };
 
 const ProfileScreenNavigation = createStackNavigator(

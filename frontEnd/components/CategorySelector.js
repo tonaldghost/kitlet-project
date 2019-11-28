@@ -6,14 +6,20 @@ import { Ionicons } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 const width = Dimensions.get("window").width;
+
 export default class SearchBar extends Component {
   state = { activeCategory: "" };
   toggleCategory = category => {
-    this.setState({ activeCategory: category }, () => {
-      this.props.resetResults(true, category);
-    });
+    if (this.state.activeCategory === category) {
+      this.setState({ activeCategory: "" }, () => {
+        this.props.resetResults();
+      });
+    } else {
+      this.setState({ activeCategory: category }, () => {
+        this.props.resetResults(true, category);
+      });
+    }
   };
-
   render() {
     return (
       <>

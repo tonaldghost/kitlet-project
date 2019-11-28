@@ -4,7 +4,7 @@ import RequestCard from '../components/RequestCard';
 import tintColor from '../constants/Colors';
 import * as api from '../utils/api';
 
-const width = Dimensions.get('window').width;
+const width = Dimensions.get("window").width;
 
 export default class NotificationsScreen extends React.Component {
 	state = {
