@@ -114,6 +114,7 @@ const MessageScreenNavigation = createStackNavigator(
 		IndividualMessage: IndividualMessageScreen
 	},
 	{
+		headerMode: 'none',
 		initialRouteName: 'Messages'
 	}
 );

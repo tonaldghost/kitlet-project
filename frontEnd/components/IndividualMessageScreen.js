@@ -16,11 +16,18 @@ export default class IndividualMessageScreen extends React.Component {
 	state = {
 		messageTitle: '',
 		messageBody: '',
-		loggedInUser: 'tonyboi'
+		loggedInUser: 'tonyboi',
+		messageInFocus: false
+	};
+
+	componentDidMount = () => {
+		// console.log(this.state);
 	};
 
 	focusOnMessage = (bool) => {
-		this.setState({ messageInFocus: bool });
+		this.setState({ messageInFocus: bool }, () => {
+			// console.log(this.state.messageInFocus);
+		});
 	};
 
 	handleInput = (e) => {
@@ -69,7 +76,7 @@ export default class IndividualMessageScreen extends React.Component {
 				height: 64,
 				borderColor: '#ddd',
 				borderWidth: 1,
-				marginBottom: this.state.messageInFocus ? 32 : 16,
+				marginBottom: this.state.messageInFocus ? 128 : 16,
 				borderRadius: 5,
 				paddingLeft: 8
 			},

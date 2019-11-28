@@ -45,7 +45,7 @@ class ProfileScreen extends React.Component {
 						<Image style={styles.profileImage} source={{ uri: img_url }} />
 					</View>
 					<View style={styles.profileInfo}>
-						<TouchableOpacity onPress={() => this.props.navigation.navigate('Messages')}>
+						<TouchableOpacity onPress={() => this.props.navigation.navigate('Messages', this.hideHeader)}>
 							<Text style={styles.messages}>Messages</Text>
 						</TouchableOpacity>
 						<Text style={styles.profileName}>{username}</Text>

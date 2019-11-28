@@ -30,6 +30,7 @@ export default class IndividualItemScreen extends React.Component {
 		loggedInUser: 'tonyboi'
 	};
 	componentDidMount = () => {
+		console.log(this.props.navigation.state);
 		const itemProps = this.props.navigation.state.params;
 		this.getItemLatLong(itemProps.location, ApiKeys.geoCoding.apiKey).then((response) => {
 			const { location } = response.data.results[0].geometry;
