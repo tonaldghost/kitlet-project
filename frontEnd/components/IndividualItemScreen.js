@@ -28,12 +28,22 @@ export default class IndividualItemScreen extends React.Component {
     canEdit: false,
     editingScreen: false,
     isLoading: true,
-    updatedTitle: "",
-    updatedBody: "",
-    updatedPrice: ""
+    updatedTitle: this.props.navigation.state.params.editable
+      ? this.props.navigation.state.params.item.title
+      : "",
+    updatedBody: this.props.navigation.state.params.editable
+      ? this.props.navigation.state.params.item.body
+      : "",
+    updatedPrice: this.props.navigation.state.params.editable
+      ? this.props.navigation.state.params.item.price.toString()
+      : ""
   };
   editItem = () => {
-    this.setState({ editingScreen: true });
+    this.setState(currentState => {
+      return {
+        editingScreen: !currentState.editingScreen
+      };
+    });
   };
   componentDidMount = () => {
     if (this.props.navigation.state.params.editable) {
@@ -82,8 +92,28 @@ export default class IndividualItemScreen extends React.Component {
         });
     }
   };
-  handleInput = e => {
-    this.setState({ messageBody: e.nativeEvent.text });
+  updateItem = ({ item_id }) => {
+    api
+      .patchItem({
+        item_id,
+        title: this.state.updatedTitle,
+        body: this.state.updatedBody,
+        price: +this.state.updatedPrice
+      })
+      .then(({ status }) => {
+        if (status === 202) {
+          Alert.alert("Item has been successfully updated");
+        } else if (status === 401) {
+          Alert.alert(
+            "Sorry, can't update an item that is currently being let."
+          );
+        } else {
+          Alert.alert("Sorry, we have encountered an error. Please try again");
+        }
+      });
+  };
+  handleInput = (text, toChange) => {
+    this.setState({ [toChange]: text });
   };
   render() {
     const width = Dimensions.get("window").width;
@@ -163,14 +193,22 @@ export default class IndividualItemScreen extends React.Component {
       editButtonContainer: {
         textAlign: "right",
         alignSelf: "flex-end",
-        marginTop: -24
+        display: "flex",
+        flexDirection: "row",
+        marginTop: 16,
+        alignItems: "center"
       },
-      editButton: { textAlign: "center" },
+      editButton: { textAlign: "center", marginRight: 4 },
       priceChangeHolder: {
         display: "flex",
         flexDirection: "row"
       },
-      addLeft: { paddingLeft: 8 }
+      addLeft: { paddingLeft: 8 },
+      editPrompt: { fontSize: 22 },
+      hideUnlessUpdating: {
+        opacity: this.state.editingScreen ? 1 : 0
+      },
+      buttonPadding: { height: 32 }
     });
     const itemProps = this.props.navigation.state.params.editable
       ? this.props.navigation.state.params.item
@@ -192,16 +230,6 @@ export default class IndividualItemScreen extends React.Component {
           source={{ uri: itemProps.img_url }}
         />
         <View style={styles.innerContent}>
-          {!this.state.editingScreen ? (
-            <Text style={styles.title}>{itemProps.title}</Text>
-          ) : (
-            <TextInput
-              style={styles.title}
-              placeholder={"Change Title"}
-              onFocus={() => this.focusOnMessage(true)}
-              onBlur={() => this.focusOnMessage(false)}
-            ></TextInput>
-          )}
           {this.state.canEdit && (
             <TouchableOpacity
               onPress={this.editItem}
@@ -214,7 +242,7 @@ export default class IndividualItemScreen extends React.Component {
                     size={16}
                     style={styles.editButton}
                   />
-                  <Text>EDIT</Text>
+                  <Text style={styles.editPrompt}>Edit</Text>
                 </>
               ) : (
                 <>
@@ -223,17 +251,36 @@ export default class IndividualItemScreen extends React.Component {
                     size={16}
                     style={styles.editButton}
                   />
-                  <Text>Cancel</Text>
+                  <Text style={styles.editPrompt}>Cancel</Text>
                 </>
               )}
             </TouchableOpacity>
           )}
+          {!this.state.editingScreen ? (
+            <Text style={styles.title}>{itemProps.title}</Text>
+          ) : (
+            <TextInput
+              style={styles.title}
+              placeholder={"Change Title"}
+              onFocus={() => this.focusOnMessage(true)}
+              value={this.state.updatedTitle}
+              onBlur={() => this.focusOnMessage(false)}
+              onChange={e =>
+                this.handleInput(e.nativeEvent.text, "updatedTitle")
+              }
+            ></TextInput>
+          )}
+
           {!this.state.editingScreen ? (
             <Text style={styles.description}>{itemProps.body}</Text>
           ) : (
             <TextInput
               placeholder={"Change description"}
               style={styles.description}
+              value={this.state.updatedBody}
+              onChange={e =>
+                this.handleInput(e.nativeEvent.text, "updatedBody")
+              }
               onFocus={() => this.focusOnMessage(true)}
               onBlur={() => this.focusOnMessage(false)}
             ></TextInput>
@@ -252,6 +299,11 @@ export default class IndividualItemScreen extends React.Component {
                   onBlur={() => this.focusOnMessage(false)}
                   placeholder={"Change Price Per Day"}
                   style={(styles.price, styles.addLeft)}
+                  value={this.state.updatedPrice}
+                  keyboardType="numeric"
+                  onChange={e =>
+                    this.handleInput(e.nativeEvent.text, "updatedPrice")
+                  }
                 ></TextInput>
               </View>
             </>
@@ -274,7 +326,9 @@ export default class IndividualItemScreen extends React.Component {
               onFocus={() => this.focusOnMessage(true)}
               onBlur={() => this.focusOnMessage(false)}
               style={styles.messageBox}
-              onChange={this.handleInput}
+              onChange={e =>
+                this.handleInput(e.nativeEvent.text, "messageBody")
+              }
               value={this.state.messageBody}
               placeholder="Include a message with your request"
             ></TextInput>
@@ -284,6 +338,20 @@ export default class IndividualItemScreen extends React.Component {
               onPress={() => this.requestItem(itemProps)}
               color={tintColor.tintColor}
             />
+          </View>
+        )}
+        {this.state.canEdit && (
+          <View style={styles.buttonHolder}>
+            {this.state.editingScreen ? (
+              <Button
+                title="Update Item"
+                opacity={this.state.editingScreen ? 1 : 0}
+                onPress={() => this.updateItem(itemProps)}
+                color={tintColor.tintColor}
+              />
+            ) : (
+              <View style={styles.buttonPadding}></View>
+            )}
           </View>
         )}
       </KeyboardAvoidingView>
