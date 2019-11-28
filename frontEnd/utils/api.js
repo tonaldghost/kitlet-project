@@ -21,6 +21,22 @@ const postNewRequest = (item_id, body, request_user) => {
     });
 };
 
+const patchItem = ({ item_id, body, price, title }) => {
+  return axios
+    .patch(`${baseURL}/items/${item_id}`, {
+      item_id,
+      body,
+      price,
+      title
+    })
+    .then(data => {
+      return data;
+    })
+    .catch(() => {
+      return { status: 401 };
+    });
+};
+
 const postNewListing = (
   whatItem,
   loggedInUser,
@@ -90,5 +106,6 @@ module.exports = {
   getIncoming,
   getOutgoing,
   getAreaCoordinates,
-  postNewRequest
+  postNewRequest,
+  patchItem
 };

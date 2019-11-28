@@ -14,9 +14,6 @@ import tintColor from "../constants/Colors";
 import ItemCard from "../components/ItemCard";
 import IndividualItemScreen from "../components/IndividualItemScreen";
 import * as api from "../utils/api";
-
-// backup
-
 const width = Dimensions.get("window").width;
 
 class ProfileScreen extends React.Component {
@@ -68,7 +65,10 @@ class ProfileScreen extends React.Component {
               <TouchableOpacity
                 key={`${index}-view`}
                 onPress={() =>
-                  this.props.navigation.navigate("IndividualItem", item)
+                  this.props.navigation.navigate("IndividualItem", {
+                    item,
+                    editable: true
+                  })
                 }
               >
                 <ItemCard key={index} props={item} />
@@ -145,7 +145,6 @@ const styles = StyleSheet.create({
 });
 
 ProfileScreen.navigationOptions = {
-  title: "KITLET",
   header: null
 };
 
